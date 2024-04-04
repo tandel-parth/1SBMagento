@@ -1,0 +1,10 @@
+<config>
+  <modules>
+    <Xyz_Test>
+      <active>true</active>
+      <codePool>local</codePool>
+      <depends>
+            </depends>
+    </Xyz_Test>
+  </modules>
+</config>

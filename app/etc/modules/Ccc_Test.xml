@@ -1,0 +1,10 @@
+<config>
+  <modules>
+    <Ccc_Test>
+      <active>true</active>
+      <codePool>local</codePool>
+      <depends>
+            </depends>
+    </Ccc_Test>
+  </modules>
+</config>
