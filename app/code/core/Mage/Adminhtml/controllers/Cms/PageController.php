@@ -79,24 +79,24 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->_title($this->__('CMS'))
-             ->_title($this->__('Pages'))
-             ->_title($this->__('Manage Content'));
-
+        ->_title($this->__('Pages'))
+        ->_title($this->__('Manage Content'));
+        
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
         $model = Mage::getModel('cms/page');
-
+        
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(
                     Mage::helper('cms')->__('This page no longer exists.'));
-                $this->_redirect('*/*/');
-                return;
+                    $this->_redirect('*/*/');
+                    return;
+                }
             }
-        }
-
+            
         $this->_title($model->getId() ? $model->getTitle() : $this->__('New Page'));
 
         // 3. Set entered data if was error when we do save
@@ -104,19 +104,19 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         if (! empty($data)) {
             $model->setData($data);
         }
-
+        
         // 4. Register model to use later in blocks
         Mage::register('cms_page', $model);
-
+        
         // 5. Build edit form
         $this->_initAction()
-            ->_addBreadcrumb(
-                $id ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'),
-                $id ? Mage::helper('cms')->__('Edit Page')
-                    : Mage::helper('cms')->__('New Page'));
-
-        $this->renderLayout();
+        ->_addBreadcrumb(
+            $id ? Mage::helper('cms')->__('Edit Page')
+            : Mage::helper('cms')->__('New Page'),
+            $id ? Mage::helper('cms')->__('Edit Page')
+            : Mage::helper('cms')->__('New Page'));
+            
+            $this->renderLayout();
     }
 
     /**

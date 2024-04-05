@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <config>
     <menu>
         <ccc_banner translate="title" module="banner">
@@ -13,6 +12,5 @@
                 </banner_items>
             </children>
         </ccc_banner>
-        </menu>
-
+    </menu>
 </config>

@@ -8,4 +8,7 @@ class Ccc_Banner_Adminhtml_Banner_IndexController extends Mage_Adminhtml_Control
         $this->_title($this->__("Manage Banners"));
         $this->renderLayout();
     }
+    public function saveAction(){
+        echo 123;
+    }
 }

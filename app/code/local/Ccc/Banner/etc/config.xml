@@ -55,6 +55,7 @@
                 </connection>
             </banner_setup>
         </resources>
+        
         <helpers>
                  <banner>
                       <class>Ccc_Banner_Helper</class>
