@@ -16,6 +16,8 @@ class Ccc_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
         // echo 12;
         $this->loadLayout();
         $this->_title($this->__("Manage Banners"));
+        $this->_initAction()
+            ->_addBreadcrumb( Mage::helper('banner')->__('Banner'),Mage::helper('banner')->__('Manage Banner'));
         $this->renderLayout();
     }
     public function newAction(){
@@ -63,12 +65,53 @@ class Ccc_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
     {
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
+
             $data = $this->_filterPostData($data);
             //init model and set data
             $model = Mage::getModel('ccc_banner/banner');
 
             if ($id = $this->getRequest()->getParam('banner_id')) {
                 $model->load($id);
+            }
+            // Image upload handling
+            try {
+                if (!empty($_FILES['banner_image']['name'])) {
+                    $uploader = new Varien_File_Uploader('banner_image');
+                    $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+                    $uploader->setAllowRenameFiles(true);
+                    $uploader->setFilesDispersion(false);
+                    $path = Mage::getBaseDir('media') . DS . 'banner' . DS;
+                    $uploader->save($path, $_FILES['banner_image']['name']);
+
+                    // Delete old image if exists
+                    $oldImage = $model->getData('banner_image');
+                    if (!empty($oldImage)) {
+                        $oldImagePath = Mage::getBaseDir('media') . DS . $oldImage;
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                        }
+                    }
+
+                    $data['banner_image'] =  $uploader->getUploadedFileName();
+                    echo $oldImage;
+                } elseif (isset($data['banner_image']['delete']) && $data['banner_image']['delete'] == 1) {
+                    // Delete the old image
+                    $oldImage = $model->getData('banner_image');
+                    if (!empty($oldImage)) {
+                        $oldImagePath = Mage::getBaseDir('media') . DS . $oldImage;
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                        }
+                    }
+
+                    $data['banner_image'] = ''; // Empty the image field if delete checkbox is checked
+                } else {
+                    unset($data['banner_image']); // Unset the image data if no new image uploaded and not deleting existing one
+                }
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirect('*/*/edit', array('banner_id' => $this->getRequest()->getParam('banner_id')));
+                return;
             }
 
             $model->setData($data);
@@ -114,6 +157,99 @@ class Ccc_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
         }
         $this->_redirect('*/*/');
     }
+
+    public function deleteAction()
+    {
+        // check if we know what should be deleted
+        if ($id = $this->getRequest()->getParam('banner_id')) {
+            $title = "";
+            try {
+                // init model and delete
+                $model = Mage::getModel('ccc_banner/banner');
+                $model->load($id);
+                $title = $model->getTitle();
+                $model->delete();
+                // display success message
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('banner')->__('The page has been deleted.')
+                );
+                // go to grid
+                Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
+                $this->_redirect('*/*/');
+                return;
+
+            } catch (Exception $e) {
+                Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
+                // display error message
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                // go back to edit form
+                $this->_redirect('*/*/edit', array('banner_id' => $id));
+                return;
+            }
+        }
+        // display error message
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('banner')->__('Unable to find a page to delete.'));
+        // go to grid
+        $this->_redirect('*/*/');
+    }
+    public function massDeleteAction()
+    {
+        $bannerIds = $this->getRequest()->getParam('banner_id');
+        if (!is_array($bannerIds)) {
+            $this->_getSession()->addError($this->__('Please select banner(s).'));
+        } else {
+            if (!empty($bannerIds)) {
+                try {
+                    foreach ($bannerIds as $bannerId) {
+                        $banner = Mage::getSingleton('banner/banner')->load($bannerId);
+                        // Mage::dispatchEvent('banner_controller_banner_delete', array('banner' => $banner));
+                        $banner->delete();
+                    }
+                    $this->_getSession()->addSuccess(
+                        $this->__('Total of %d record(s) have been deleted.', count($bannerIds))
+                    );
+                } catch (Exception $e) {
+                    $this->_getSession()->addError($e->getMessage());
+                }
+            }
+        }
+        $this->_redirect('*/*/index');
+    }
+
+    public function massStatusAction()
+    {
+        $bannerIds = $this->getRequest()->getParam('banner_id');
+        $status = $this->getRequest()->getParam('status');
+
+        if (!is_array($bannerIds)) {
+            $bannerIds = array($bannerIds);
+        }
+
+        try {
+            foreach ($bannerIds as $bannerId) {
+                $banner = Mage::getModel('ccc_banner/banner')->load($bannerId);
+                // Check if the status is different than the one being set
+                if ($banner->getStatus() != $status) {
+                    $banner->setStatus($status)->save();
+                }
+            }
+            // Use appropriate success message based on the status changed
+            if ($status == 1) {
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d record(s) have been enabled.', count($bannerIds))
+                );
+            } else {
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d record(s) have been disabled.', count($bannerIds))
+                );
+            }
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+
+        $this->_redirect('*/*/index');
+    }
+
     protected function _filterPostData($data)
     {
         $data = $this->_filterDates($data, array('custom_theme_from', 'custom_theme_to'));
