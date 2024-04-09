@@ -1,16 +1,34 @@
 <?php
 class Ccc_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    // protected function _prepareCollection()
+    // {
+    //     $collection = Mage::getModel('ccc_banner/banner')->getCollection()->setOrder('banner_id');
+
+    //     $this->setCollection($collection);
+    //     return parent::_prepareCollection();
+    // }
     protected function _prepareCollection()
     {
-        if (Mage::getSingleton('admin/session')->isAllowed('ccc_banner/show_all')) {
-            $collection = Mage::getModel('ccc_banner/banner')->getCollection();
-        } else {
-            $collection = Mage::getModel('ccc_banner/banner')->getCollection()->setOrder('banner_id', 'DESC')->setPageSize(5);
+        $collection = Mage::getModel('ccc_banner/banner')->getCollection();
+        if (!Mage::getSingleton('admin/session')->isAllowed('ccc_banner/show_all')) {
+            $collection->setOrder('banner_id', 'DESC');
+            $collection->getSelect()->limit(5);
         }
         $this->setCollection($collection);
+        $this->getCollection()->load();
         return parent::_prepareCollection();
     }
+    // protected function _preparePage()
+    // {
+    //     if (Mage::getSingleton('admin/session')->isAllowed('ccc_banner/show_all')) {
+    //         $this->getCollection()->setPageSize((int) $this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
+    //         $this->getCollection()->setCurPage((int) $this->getParam($this->getVarNamePage(), $this->_defaultPage));
+    //     } else {
+    //         $this->getCollection()->setPageSize(5)->setOrder('banner_id', 'DESC');
+    //         $this->getCollection()->setCurPage(1);
+    //     }
+    // }
 
     protected function _prepareColumns()
     {
