@@ -132,18 +132,18 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         if (is_null($parent)) {
             $parent = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode('menu');
         }
-
+        
         $parentArr = array();
         $sortOrder = 0;
         foreach ($parent->children() as $childName => $child) {
             if (1 == $child->disabled) {
                 continue;
             }
-
             $aclResource = 'admin/' . ($child->resource ? (string)$child->resource : $path . $childName);
             if (!$this->_checkAcl($aclResource) || !$this->_isEnabledModuleOutput($child)) {
                 continue;
             }
+
 
             if ($child->depends && !$this->_checkDepends($child->depends)) {
                 continue;
@@ -161,14 +161,15 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
                 $menuArr['url'] = '#';
                 $menuArr['click'] = 'return false';
             }
-
+            
             $menuArr['active'] = ($this->getActive()==$path.$childName)
-                || (strpos($this->getActive(), $path.$childName.'/')===0);
-
+            || (strpos($this->getActive(), $path.$childName.'/')===0);
+            
             $menuArr['level'] = $level;
-
+            
             if ($child->children) {
                 $menuArr['children'] = $this->_buildMenuArray($child->children, $path.$childName.'/', $level+1);
+                
             }
             $parentArr[$childName] = $menuArr;
 

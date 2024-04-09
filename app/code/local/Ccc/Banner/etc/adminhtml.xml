@@ -1,16 +1,79 @@
-<?xml version="1.0"?>
 <config>
     <menu>
         <ccc_banner translate="title" module="banner">
             <title>Banner</title>
             <sort_order>100</sort_order>
             <children>
-                <banner_items translate="title" module="banner">
+                <index translate="title" module="banner">
                     <title>Manage Banners</title>
                     <action>adminhtml/banner/index</action>
                     <sort_order>10</sort_order>
-                </banner_items>
+                </index>
             </children>
         </ccc_banner>
     </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <ccc_banner translate="title" module="banner">
+                        <title>Banner</title>
+                        <sort_order>70</sort_order>
+                        <children>
+                            <index translate="title">
+                                <title>Show Banner</title>
+                                <sort_order>0</sort_order>
+                            </index>
+                            <new translate="title">
+                                <title>new Pages</title>
+                                <sort_order>0</sort_order>
+                            </new>
+                            <edit translate="title">
+                                <title>Edit Pages</title>
+                                <sort_order>0</sort_order>
+                            </edit>
+                            <save translate="title">
+                                <title>Save Pages</title>
+                                <sort_order>0</sort_order>
+                            </save>
+                            <delete translate="title">
+                                <title>Delete Page</title>
+                                <sort_order>10</sort_order>
+                            </delete>
+                            <collumn>
+                                <title>Banner collumn</title>
+                                <sort_order>70</sort_order>
+                                <children>
+                                    <banner_id translate="title">
+                                        <title>Banner Id</title>
+                                        <sort_order>10</sort_order>
+                                    </banner_id>
+                                    <banner_name translate="title">
+                                        <title>Banner Name</title>
+                                        <sort_order>10</sort_order>
+                                    </banner_name>
+                                    <banner_image translate="title">
+                                        <title>Banner Image</title>
+                                        <sort_order>10</sort_order>
+                                    </banner_image>
+                                    <status translate="title">
+                                        <title>Status</title>
+                                        <sort_order>10</sort_order>
+                                    </status>
+                                    <show_on translate="title">
+                                        <title>ShowOn</title>
+                                        <sort_order>10</sort_order>
+                                    </show_on>
+                                </children>
+                            </collumn>
+                            <show_all translate="title">
+                                <title>Show All data</title>
+                                <sort_order>10</sort_order>
+                            </show_all>
+                        </children>
+                    </ccc_banner>
+                </children>
+            </admin>
+        </resources>
+    </acl>
 </config>
