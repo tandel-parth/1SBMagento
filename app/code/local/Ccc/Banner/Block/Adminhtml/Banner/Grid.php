@@ -33,65 +33,56 @@ class Ccc_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareColumns()
     {
         // Add columns for the grid
-        if (Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/banner_id')) {
-            $this->addColumn(
-                'banner_id',
+        $collumn = array(
+            'banner_id' =>
                 array(
                     'header' => Mage::helper('banner')->__('Banner ID'),
                     'align' => 'right',
                     'width' => '50px',
                     'index' => 'banner_id',
-                )
-            );
-        }
-        if (Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/banner_name')) {
-            $this->addColumn(
-                'banner_name',
+                    'is_allowed' => Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/banner_id'),
+                ),
+
+            'banner_name' =>
                 array(
                     'header' => Mage::helper('banner')->__('Banner Name'),
                     'align' => 'left',
                     'index' => 'banner_name',
-                )
-            );
-        }
-        if (Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/banner_image')) {
-            $this->addColumn(
-                'banner_image',
+                    'is_allowed' => Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/banner_name'),
+                ),
+
+            'banner_image' =>
                 array(
                     'header' => Mage::helper('banner')->__('Banner Image'),
                     'align' => 'center',
                     'index' => 'banner_image',
+                    'is_allowed' => Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/banner_image'),
                     'renderer' => 'Ccc_Banner_Block_Adminhtml_Banner_Grid_Renderer_Image', // Use custom renderer for image column
-                )
-            );
-        }
-        // $this->addColumn('banner_image', array(
-        //     'header'    => Mage::helper('banner')->__('Banner Image'),
-        //     'align'     =>'left',
-        //     'index'     => 'banner_image',
-        // ));
-        if (Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/status')) {
-            $this->addColumn(
-                'status',
+                ),
+
+            'status' =>
                 array(
                     'header' => Mage::helper('banner')->__('Banner Status'),
                     'align' => 'left',
                     'index' => 'status',
-                )
-            );
-        }
-        if (Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/show_on')) {
-            $this->addColumn(
-                'show_on',
+                    'is_allowed' => Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/status'),
+                ),
+
+            'show_on' =>
                 array(
                     'header' => Mage::helper('banner')->__('Banner Show On'),
                     'align' => 'left',
                     'index' => 'show_on',
+                    'is_allowed' => Mage::getSingleton('admin/session')->isAllowed('ccc_banner/collumn/show_on'),
                 )
-            );
-        }
+        );
 
-        // Add more columns as needed
+
+        foreach ($collumn as $collumnName => $collumnKey) {
+            if ($collumnKey['is_allowed'] == true) {
+                $this->addColumn($collumnName, $collumnKey);
+            }
+        }
 
         return parent::_prepareColumns();
     }

@@ -37,9 +37,9 @@ class Ccc_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
 
     public function indexAction()
     {
-        // echo 12;
         $this->loadLayout();
         $this->_title($this->__("Manage Banners"));
+        // var_dump(Mage::getStoreConfig('banner/general'));
         $this->_initAction();
         $this->renderLayout();
     }
