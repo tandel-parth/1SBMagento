@@ -1,0 +1,20 @@
+<!-- <h1>1</h1> -->
+<!-- <select name="is_active" id="enabled_disabled" class="no-changes">
+        <option hidden>-----select-----</option>
+        <option value="1">Enabled</option>
+        <option value="2">Disabled</option>
+    </select> -->
+
+<input type="text" name="status" id="enabled_disabled" value="" class="input-text no-changes" />
+
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
+<div>
+    <?php echo $this->getGridHtml() ?>
+</div>

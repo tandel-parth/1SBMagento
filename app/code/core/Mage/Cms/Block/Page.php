@@ -44,8 +44,8 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
                 $page = Mage::getModel('cms/page')
-                    ->setStoreId(Mage::app()->getStore()->getId())
-                    ->load($this->getPageId(), 'identifier');
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($this->getPageId(), 'identifier');
             } else {
                 $page = Mage::getSingleton('cms/page');
             }
@@ -119,9 +119,10 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
     {
         /* @var $helper Mage_Cms_Helper_Data */
         $helper = Mage::helper('cms');
-        $processor = $helper->getPageTemplateProcessor();
+        $processor = $helper->getPageTemplateProcessor();   
         $html = $processor->filter($this->getPage()->getContent());
         $html = $this->getMessagesBlock()->toHtml() . $html;
+        // echo $html;
         return $html;
     }
 }

@@ -2,14 +2,17 @@
 <layout version="0.1.0">
     <adminhtml_banner_index>
         <reference name="content">
-            <block type="banner/adminhtml_banner" name="banner" />
+            <block type="banner/adminhtml_banner" name="banner" template="banner/grid/container.phtml" />
+            <reference name="head">
+                <action method="addJs">
+                    <script>banner/grid.js</script>
+                </action>
+            </reference>
         </reference>
     </adminhtml_banner_index>
-
     <adminhtml_banner_new>
         <update handle="adminhtml_banner_edit" />
     </adminhtml_banner_new>
-
     <adminhtml_banner_edit>
         <update handle="editor" />
         <reference name="content">
@@ -18,5 +21,4 @@
         <reference name="left">
         </reference>
     </adminhtml_banner_edit>
-
 </layout>

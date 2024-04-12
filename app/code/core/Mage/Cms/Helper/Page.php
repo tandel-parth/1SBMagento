@@ -64,54 +64,60 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     {
 
         $page = Mage::getSingleton('cms/page');
+        
         if (!is_null($pageId) && $pageId!==$page->getId()) {
+           
             $delimeterPosition = strrpos($pageId, '|');
             if ($delimeterPosition) {
                 $pageId = substr($pageId, 0, $delimeterPosition);
             }
-
+            
             $page->setStoreId(Mage::app()->getStore()->getId());
             if (!$page->load($pageId)) {
                 return false;
             }
         }
-
+        
         if (!$page->getId()) {
             return false;
         }
-
+        
         $inRange = Mage::app()->getLocale()
-            ->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
-
+        ->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
+        
         if ($page->getCustomTheme()) {
             if ($inRange) {
                 list($package, $theme) = explode('/', $page->getCustomTheme());
                 Mage::getSingleton('core/design_package')
-                    ->setPackageName($package)
-                    ->setTheme($theme);
+                ->setPackageName($package)
+                ->setTheme($theme);
             }
         }
-
+        
         $action->getLayout()->getUpdate()
-            ->addHandle('default')
-            ->addHandle('cms_page');
-
+        ->addHandle('default')
+        ->addHandle('cms_page');
+        
         $action->addActionLayoutHandles();
         if ($page->getRootTemplate()) {
             $handle = ($page->getCustomRootTemplate()
-                        && $page->getCustomRootTemplate() != 'empty'
-                        && $inRange) ? $page->getCustomRootTemplate() : $page->getRootTemplate();
+            && $page->getCustomRootTemplate() != 'empty'
+            && $inRange) ? $page->getCustomRootTemplate() : $page->getRootTemplate();
+            
             $action->getLayout()->helper('page/layout')->applyHandle($handle);
+            
         }
-
+        
+        // print_r($action);
+        // die();
         Mage::dispatchEvent('cms_page_render', array('page' => $page, 'controller_action' => $action));
-
+        
         $action->loadLayoutUpdates();
         $layoutUpdate = ($page->getCustomLayoutUpdateXml() && $inRange)
             ? $page->getCustomLayoutUpdateXml() : $page->getLayoutUpdateXml();
         $action->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         $action->generateLayoutXml()->generateLayoutBlocks();
-
+        
         $contentHeadingBlock = $action->getLayout()->getBlock('page_content_heading');
         if ($contentHeadingBlock) {
             $contentHeading = $this->escapeHtml($page->getContentHeading());
@@ -120,9 +126,9 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 
         if ($page->getRootTemplate()) {
             $action->getLayout()->helper('page/layout')
-                ->applyTemplate($page->getRootTemplate());
+            ->applyTemplate($page->getRootTemplate());
         }
-
+        
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
         $messageBlock = $action->getLayout()->getMessagesBlock();
         foreach (array('catalog/session', 'checkout/session', 'customer/session') as $storageType) {
@@ -132,9 +138,11 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
                 $messageBlock->addMessages($storage->getMessages(true));
             }
         }
-
+        
         if ($renderLayout) {
+            // echo "<pre>";
             $action->renderLayout();
+            // print_r($action);
         }
 
         return true;

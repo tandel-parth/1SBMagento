@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Ccc_Repricer>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ccc_Repricer>
+    </modules>
+</config>

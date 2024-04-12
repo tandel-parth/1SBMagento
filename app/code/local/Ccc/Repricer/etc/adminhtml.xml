@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <repricer translate="title" module="repricer">
+                    <title>Repricer</title>
+                    <children>
+                        <index translate="title" module="repricer">
+                            <title>Manage Competitors</title>
+                            <action>adminhtml/managecompetitors/index</action>
+                        </index>
+                    </children>
+                </repricer>`
+            </children>
+        </catalog>
+    </menu>
+</config>

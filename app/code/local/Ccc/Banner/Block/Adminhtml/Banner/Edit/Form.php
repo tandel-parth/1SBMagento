@@ -84,7 +84,7 @@ class Ccc_Banner_Block_Adminhtml_Banner_Edit_Form extends Mage_Adminhtml_Block_W
                 'required' => true,
                 'options' => array(
                     '1' => Mage::helper('banner')->__('Enabled'),
-                    '0' => Mage::helper('banner')->__('Disabled'),
+                    '2' => Mage::helper('banner')->__('Disabled'),
                 ),
             )
         );

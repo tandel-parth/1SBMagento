@@ -31,7 +31,7 @@
                 <class>Ccc_Banner_Block</class>
             </banner>
         </blocks>
-           <models>
+        <models>
             <ccc_banner>
                 <class>Ccc_Banner_Model</class>
                 <resourceModel>ccc_banner_resource</resourceModel>
@@ -41,7 +41,7 @@
                 <entities>
                     <banner>
                         <table>ccc_banner</table>
-                    </banner>   
+                    </banner>
                 </entities>
             </ccc_banner_resource>
         </models>
@@ -55,15 +55,10 @@
                 </connection>
             </banner_setup>
         </resources>
-        
         <helpers>
-                 <banner>
-                      <class>Ccc_Banner_Helper</class>
-                </banner>
+            <banner>
+                <class>Ccc_Banner_Helper</class>
+            </banner>
         </helpers>
     </global>
-
 </config>
-
-
-

@@ -147,6 +147,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      * @param string $name
      * @return Mage_Page_Block_Html_Head
      */
+    public function removeJs($name){
+        $this->removeItem('js', $name);
+        return $this;
+    }
     public function removeItem($type, $name)
     {
         unset($this->_data['items'][$type.'/'.$name]);

@@ -7,11 +7,18 @@
 		<update handle="banner_master" />
 	</catalog_category_layered>
 	<cms_index_index>
-		<update handle="banner_master" />
-		<reference name="bannerslider">
-			<action method="setDisplay">
-				<display>0</display>
-			</action>
+		<!-- <update handle="banner_master" /> -->
+		<reference name="footer">
+			<block type="footer" name="footer" >
+				<action method="setTemplate">
+					<template>bannerslider/footer.phtml</template>
+				</action>
+				<block type="bannerslider/bannerslider" name="bannerslider_footer" as="footer" template="bannerslider/bannerslider.phtml">
+					<action method="setDisplay">
+						<display>0</display>
+					</action>
+				</block>
+			</block>
 		</reference>
 	</cms_index_index>
 	<banner_master>

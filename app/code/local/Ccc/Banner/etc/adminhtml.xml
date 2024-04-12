@@ -11,7 +11,7 @@
                 </index>
             </children>
         </ccc_banner>
-        <!-- <system>
+        <catalog>
             <children>
                 <banner translate="title" module="banner">
                     <title>Banner</title>
@@ -19,7 +19,7 @@
                     <sort_order>105</sort_order>
                 </banner>`
             </children>
-         </system> -->
+         </catalog>
     </menu>
     <acl>
         <resources>
