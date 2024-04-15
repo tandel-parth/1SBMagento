@@ -41,7 +41,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
-        $this->setType('text');
+        $this->setType('date');
         $this->setExtType('textfield');
         if (isset($attributes['value'])) {
             $this->setValue($attributes['value']);

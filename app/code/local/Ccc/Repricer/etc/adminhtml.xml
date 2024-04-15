@@ -6,12 +6,16 @@
                 <repricer translate="title" module="repricer">
                     <title>Repricer</title>
                     <children>
-                        <index translate="title" module="repricer">
+                        <competitors translate="title" module="repricer">
                             <title>Manage Competitors</title>
-                            <action>adminhtml/managecompetitors/index</action>
-                        </index>
+                            <action>adminhtml/competitors/index</action>
+                        </competitors>
+                        <repricer translate="title" module="repricer">
+                            <title>Manage Repricer</title>
+                            <action>adminhtml/repricer/index</action>
+                        </repricer>
                     </children>
-                </repricer>`
+                </repricer>
             </children>
         </catalog>
     </menu>

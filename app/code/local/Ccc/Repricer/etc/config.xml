@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Ccc_Repricer>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Ccc_Repricer>
     </modules>
     <admin>
@@ -31,19 +31,19 @@
                 <class>Ccc_Repricer_Block</class>
             </repricer>
         </blocks>
-         <models>
+        <models>
             <ccc_repricer>
                 <class>Ccc_Repricer_Model</class>
-                <resourceModel>ccc_repricer_resource</resourceModel>
+                <resourceModel>repricer_resource</resourceModel>
             </ccc_repricer>
-            <ccc_repricer_resource>
+            <repricer_resource>
                 <class>Ccc_Repricer_Model_Resource</class>
                 <entities>
-                    <repricer>
-                        <table>repricer</table>
-                    </repricer>
+                    <competitors>
+                        <table>ccc_repricer_competitor</table>
+                    </competitors>
                 </entities>
-            </ccc_repricer_resource>
+            </repricer_resource>
         </models>
         <resources>
             <repricer_setup>

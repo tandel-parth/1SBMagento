@@ -161,3 +161,8 @@
 2024-04-11T11:44:24+00:00 CRIT (2): Not valid template file:adminhtml\base\default\template\bannerslider/grid/container.phtml
 2024-04-11T11:44:31+00:00 CRIT (2): Not valid template file:adminhtml\base\default\template\bannerslider/grid/container.phtml
 2024-04-12T06:24:08+00:00 CRIT (2): Not valid template file:adminhtml\base\default\template\banner/container.phtml
+2024-04-14T11:18:35+00:00 DEBUG (7): Date field added successfully
+2024-04-14T11:18:35+00:00 DEBUG (7): M/d/yyyy
+2024-04-14T11:19:24+00:00 DEBUG (7): Date field added successfully
+2024-04-14T11:19:24+00:00 DEBUG (7): M/d/yyyy
+2024-04-14T11:19:45+00:00 DEBUG (7): Date field added successfully

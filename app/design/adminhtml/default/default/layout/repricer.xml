@@ -1,8 +1,16 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-    <adminhtml_managecompetitors_index>
+    <adminhtml_competitors_index>
         <reference name="content">
-            <block type="repricer/adminhtml_repricer" name="repricer"/>
+            <block type="repricer/adminhtml_competitors" name="competitors" />
         </reference>
-    </adminhtml_managecompetitors_index>
+    </adminhtml_competitors_index>
+    <adminhtml_competitors_new>
+        <update handle="adminhtml_competitors_edit" />
+    </adminhtml_competitors_new>
+    <adminhtml_competitors_edit>
+        <reference name="content">
+            <block type="repricer/adminhtml_competitors_edit" name="competitors_edit" />
+        </reference>
+    </adminhtml_competitors_edit>
 </layout>
