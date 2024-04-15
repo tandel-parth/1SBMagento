@@ -57,7 +57,7 @@ $table = $installer->getConnection()
     ), 'competitor url')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable' => false,
-        'default' => '0',
+        'default' => '2',
     ), 'competitor Status')
     ->addColumn('filename', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
     ), 'Competitor File Name')

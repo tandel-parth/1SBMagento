@@ -64,12 +64,13 @@ class Ccc_Repricer_Block_Adminhtml_Competitors_Edit_Form extends Mage_Adminhtml_
                 'title' => Mage::helper('repricer')->__('Status'),
                 'name' => 'status',
                 'required' => true,
-                'options' => array(
-                    '1' => Mage::helper('repricer')->__('Enabled'),
-                    '2' => Mage::helper('repricer')->__('Disabled'),
-                ),
+                'options' => Mage::getSingleton('ccc_repricer/status')->getOptionArray(),
             )
         );
+
+        if (!$isEdit) {
+            $model->setData('status',Mage::getSingleton('ccc_repricer/status')::STATUS_DEFUALT);
+        }
 
         $fieldset->addField(
             'filename',

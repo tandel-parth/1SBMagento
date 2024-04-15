@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Ccc_Repricer>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
         </Ccc_Repricer>
     </modules>
     <admin>
@@ -42,6 +42,9 @@
                     <competitors>
                         <table>ccc_repricer_competitor</table>
                     </competitors>
+                    <matching>
+                        <table>ccc_repricer_matching</table>
+                    </matching>
                 </entities>
             </repricer_resource>
         </models>

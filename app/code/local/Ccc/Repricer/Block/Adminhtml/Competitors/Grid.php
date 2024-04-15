@@ -42,6 +42,8 @@ class Ccc_Repricer_Block_Adminhtml_Competitors_Grid extends Mage_Adminhtml_Block
                     'header' => Mage::helper('repricer')->__('Competitor Status'),
                     'align' => 'left',
                     'index' => 'status',
+                    'type' => 'options',
+                    'options' => Mage::getSingleton('ccc_repricer/status')->getOptionArray(),
                 ),
 
             'filename' =>
@@ -55,16 +57,17 @@ class Ccc_Repricer_Block_Adminhtml_Competitors_Grid extends Mage_Adminhtml_Block
                 array(
                     'header' => Mage::helper('repricer')->__('Competitor Created Date'),
                     'align' => 'left',
+                    'type' => 'datetime',
                     'index' => 'created_date',
-                    // 'type' => 'datetime',
-                    // 'renderer' => 'repricer/adminhtml_competitors_grid_renderer_datetime',
+                    'renderer' => 'repricer/adminhtml_competitors_grid_renderer_datetime',
+
                 ),
                 'updated_date' =>
                 array(
                     'header' => Mage::helper('repricer')->__('Competitor Updated Date'),
                     'align' => 'left',
+                    'type' => 'datetime',
                     'index' => 'updated_date',
-                    // 'type' => 'datetime',
                     'renderer' => 'repricer/adminhtml_competitors_grid_renderer_datetime',
                 )
         );

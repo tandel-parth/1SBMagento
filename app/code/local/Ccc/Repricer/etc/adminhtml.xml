@@ -12,7 +12,7 @@
                         </competitors>
                         <repricer translate="title" module="repricer">
                             <title>Manage Repricer</title>
-                            <action>adminhtml/repricer/index</action>
+                            <action>adminhtml/matching/index</action>
                         </repricer>
                     </children>
                 </repricer>
