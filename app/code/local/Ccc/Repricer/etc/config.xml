@@ -64,4 +64,24 @@
             </repricer>
         </helpers>
     </global>
+    <crontab>
+        <jobs>
+            <repricer_corn>
+                <schedule>
+                    <cron_expr>*/10    </cron_expr>
+                </schedule>
+                <run>
+                    <model>ccc_repricer/observer::setStatus</model>
+                </run>
+            </repricer_corn>
+            <bro>
+                <schedule>
+                    <cron_expr>*/10    </cron_expr>
+                </schedule>
+                <run>
+                    <model>ccc_repricer/observer::hello</model>
+                </run>
+            </bro>
+        </jobs>
+    </crontab>
 </config>

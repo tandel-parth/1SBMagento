@@ -35,22 +35,22 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
             );
         }
         $fieldset->addField(
-            'product_id',
+            'product_name',
             'text',
             array(
-                'name' => 'product_id',
-                'label' => Mage::helper('repricer')->__('Product Id'),
-                'title' => Mage::helper('repricer')->__('Product Id'),
+                'name' => 'product_name',
+                'label' => Mage::helper('repricer')->__('Product Name'),
+                'title' => Mage::helper('repricer')->__('Product Name'),
                 'required' => true,
             )
         );
         $fieldset->addField(
-            'competitor_id',
+            'competitor_name',
             'text',
             array(
-                'name' => 'competitor_id',
-                'label' => Mage::helper('repricer')->__('Competitor Id'),
-                'title' => Mage::helper('repricer')->__('Competitor Id'),
+                'name' => 'competitor_name',
+                'label' => Mage::helper('repricer')->__('Competitor Name'),
+                'title' => Mage::helper('repricer')->__('Competitor Name'),
                 'required' => true,
             )
         );

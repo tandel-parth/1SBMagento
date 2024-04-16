@@ -166,3 +166,45 @@
 2024-04-14T11:19:24+00:00 DEBUG (7): Date field added successfully
 2024-04-14T11:19:24+00:00 DEBUG (7): M/d/yyyy
 2024-04-14T11:19:45+00:00 DEBUG (7): Date field added successfully
+2024-04-16T08:56:20+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T08:56:27+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T08:57:01+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T08:57:08+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T08:57:13+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T08:57:15+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T08:59:06+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T08:59:58+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:00:01+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:00:20+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:07+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:08+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:09+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:09+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:11+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:14+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:17+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:19+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:20+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:21+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-04-16T09:04:21+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
+ INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
