@@ -66,22 +66,22 @@
     </global>
     <crontab>
         <jobs>
-            <repricer_corn>
+            <product_corn>
                 <schedule>
-                    <cron_expr>*/10    </cron_expr>
+                    <cron_expr>*/10 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>ccc_repricer/observer::setStatus</model>
+                    <model>ccc_repricer/observer::setProductData</model>
                 </run>
-            </repricer_corn>
-            <bro>
+            </product_corn>
+            <competitor_corn>
                 <schedule>
-                    <cron_expr>*/10    </cron_expr>
+                    <cron_expr>*/10 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>ccc_repricer/observer::hello</model>
+                    <model>ccc_repricer/observer::setCompetitorData</model>
                 </run>
-            </bro>
+            </competitor_corn>
         </jobs>
     </crontab>
 </config>

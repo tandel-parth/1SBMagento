@@ -3,48 +3,59 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
 {
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalog/product')->getCollection();
+        $collection = Mage::getModel('ccc_repricer/matching')->getCollection();
 
-        $collection->addAttributeToSelect('name', 'outer');
-        $collection->addAttributeToFilter('status', 1);
         // Add a limit to the number of products fetched
         // $collection->setPageSize(50); // Adjust the limit as needed
         $collection->getSelect()
             ->join(
                 array('cpev' => Mage::getSingleton('core/resource')->getTableName('ccc_repricer/competitors')),
-                '',
+                'cpev.competitor_id = main_table.competitor_id',
                 ['']
             );
-
         // Add additional join
         $collection->getSelect()
             ->join(
-                array('map' => Mage::getSingleton('core/resource')->getTableName('ccc_repricer/matching')),
-                'map.product_id = e.entity_id && map.competitor_id = cpev.competitor_id',
+                array('pro' => Mage::getSingleton('core/resource')->getTableName('catalog/product')),
+                'main_table.product_id = pro.entity_id',
                 ['']
             );
-
+        $collection->getSelect()
+            ->join(
+                array('et' => Mage::getSingleton('core/resource')->getTableName('eav_attribute')),
+                'et.entity_type_id = pro.entity_type_id && et.attribute_code = "name"',
+                ['']
+            );
+        $collection->getSelect()
+            ->join(
+                array('at' => Mage::getSingleton('core/resource')->getTableName('catalog_product_entity_varchar')),
+                'at.attribute_id = et.attribute_id AND product_id = at.entity_id AND at.store_id = 0',
+                ['']
+            );
+        $collection->getSelect()
+            ->join(
+                array('sta' => Mage::getSingleton('core/resource')->getTableName('catalog_product_entity_int')),
+                'sta.entity_id = pro.entity_id AND sta.attribute_id = 96 AND sta.value = 1 AND sta.store_id = 0',
+                ['']
+            );
         // Reset columns and set your desired columns
         $columns = [
-            'product_id' => 'e.entity_id',
-            'product_name' => 'at_name.value',
-            'competitor_id' => 'cpev.competitor_id',
+            'product_id' => 'product_id',
+            'entity_type_id' => 'pro.entity_type_id',
+            'attribute_id' => 'et.attribute_id',
+            'product_name' => 'at.value',
+            'competitor_id' => 'competitor_id',
             'competitor_name' => 'cpev.name',
-            'repricer_id' => 'map.repricer_id',
-            'competitor_url' => 'map.competitor_url',
-            'competitor_sku' => 'map.competitor_url',
-            'competitor_price' => 'map.competitor_price',
-            'reason' => 'map.reason',
-            'updated_date' => 'map.updated_date',
+            'repricer_id' => 'repricer_id',
+            'competitor_url' => 'competitor_url',
+            'competitor_sku' => 'competitor_sku',
+            'competitor_price' => 'competitor_price',
+            'reason' => 'reason',
+            'updated_date' => 'updated_date',
         ];
 
-        $select = $collection->getSelect();
-        $select
-            ->reset(Zend_Db_Select::COLUMNS)
+        $select = $collection->getSelect()->order('repricer_id ASC')->reset(Zend_Db_Select::COLUMNS)
             ->columns($columns);
-        // echo "<pre>";
-        // print_r($collection->getData());
-        // die();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -65,23 +76,21 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'header' => Mage::helper('repricer')->__('Product Name'),
                     'align' => 'left',
                     'index' => 'product_name',
+                    'filter_condition_callback' => array($this, '_filterProductName'),
                 ),
             'competitor_name' =>
                 array(
                     'header' => Mage::helper('repricer')->__('Competitor Name'),
                     'align' => 'left',
                     'index' => 'competitor_name',
+                    'filter_condition_callback' => array($this, '_filterCompetitorName'),
                 ),
-
             'competitor_url' =>
                 array(
                     'header' => Mage::helper('repricer')->__('Competitor URL'),
                     'align' => 'left',
                     'index' => 'competitor_url',
                 ),
-
-
-
             'competitor_sku' =>
                 array(
                     'header' => Mage::helper('repricer')->__('Competitor Product SKU'),
@@ -127,5 +136,26 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('repricer_id' => $row->getId()));
+    }
+    protected function _filterProductName($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return $this;
+        }
+
+        $this->getCollection()->getSelect()->where("at.value LIKE ?", "%$value%");
+
+        return $this;
+    }
+
+    protected function _filterCompetitorName($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return $this;
+        }
+
+        $this->getCollection()->getSelect()->where("cpev.name LIKE ?", "%$value%");
+
+        return $this;
     }
 }

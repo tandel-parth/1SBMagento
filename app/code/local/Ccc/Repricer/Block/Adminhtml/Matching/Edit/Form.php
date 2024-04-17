@@ -35,12 +35,32 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
             );
         }
         $fieldset->addField(
+            'product_id',
+            'hidden',
+            array(
+                'name' => 'product_id',
+                'label' => Mage::helper('repricer')->__('Product Id'),
+                'title' => Mage::helper('repricer')->__('Product Id'),
+                'required' => true,
+            )
+        );
+        $fieldset->addField(
             'product_name',
             'text',
             array(
                 'name' => 'product_name',
                 'label' => Mage::helper('repricer')->__('Product Name'),
                 'title' => Mage::helper('repricer')->__('Product Name'),
+                'required' => true,
+            )
+        );
+        $fieldset->addField(
+            'competitor_id',
+            'hidden',
+            array(
+                'name' => 'competitor_id',
+                'label' => Mage::helper('repricer')->__('Competitor Id'),
+                'title' => Mage::helper('repricer')->__('Competitor Id'),
                 'required' => true,
             )
         );
@@ -102,8 +122,13 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 ),
             )
         );
+        $data = $model->getData();
+        $product = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('name')->addAttributeToFilter('entity_id', $data['product_id'])->getFirstItem();
+        $competitor = Mage::getModel('ccc_repricer/competitors')->getCollection()->addFieldToFilter('competitor_id', $data['competitor_id'])->getFirstItem();
 
+        $mainData = array('repricer_id' => $data['repricer_id'], 'product_id' => $data['product_id'], 'product_name' => $product->getName(), 'competitor_id' => $data['competitor_id'], 'competitor_name' => $competitor->getName(), 'competitor_url' => $data['competitor_url'], 'competitor_price' => $data['competitor_price'], 'competitor_sku' => $data['competitor_sku']);
         $form->setValues($model->getData());
+        $form->setValues($mainData);
         $form->setUseContainer(true);
         $this->setForm($form);
 

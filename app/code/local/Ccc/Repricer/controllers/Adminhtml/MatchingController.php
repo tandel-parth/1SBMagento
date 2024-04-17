@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controller_Action
 {
@@ -12,8 +12,9 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
         ;
         return $this;
     }
-    public function indexAction(){
-       
+    public function indexAction()
+    {
+
         $this->_title($this->__("Manage repricer"));
         $this->_initAction();
         $this->renderLayout();
@@ -78,12 +79,12 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
                 $this->_redirect('*/*/edit', array('repricer_id' => $model->getId(), '_current' => true));
                 return;
             }
-            
+
             // try to save it
             try {
                 // save the data
                 $model->save();
-                
+
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('repricer')->__('The page has been saved.')
@@ -98,7 +99,7 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
-                
+
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
@@ -107,7 +108,7 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
                     Mage::helper('repricer')->__('An error occurred while saving the page.')
                 );
             }
-            
+
             $this->_getSession()->setFormData($data);
             $this->_redirect('*/*/edit', array('repricer_id' => $this->getRequest()->getParam('repricer_id')));
             return;
