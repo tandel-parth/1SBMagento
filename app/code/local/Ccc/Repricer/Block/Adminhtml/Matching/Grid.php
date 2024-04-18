@@ -22,7 +22,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
             );
         $collection->getSelect()
             ->join(
-                array('et' => Mage::getSingleton('core/resource')->getTableName('eav_attribute')),
+                array('et' => Mage::getSingleton('core/resource')->getTableName('eav/attribute')),
                 'et.entity_type_id = pro.entity_type_id && et.attribute_code = "name"',
                 ['']
             );
@@ -83,7 +83,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'header' => Mage::helper('repricer')->__('Competitor Name'),
                     'align' => 'left',
                     'index' => 'competitor_name',
-                    'filter_condition_callback' => array($this, '_filterCompetitorName'),
+                    'filindexter_condition_callback' => array($this, '_filterCompetitorName'),
                 ),
             'competitor_url' =>
                 array(
@@ -109,13 +109,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'align' => 'left',
                     'index' => 'reason',
                     'type' => 'options',
-                    'options' => array(
-                        '0' => 'no match',
-                        '1' => 'active',
-                        '2' => 'out of stock',
-                        '3' => 'not available',
-                        '4' => 'rong match'
-                    ),
+                    'options' => Mage::getModel('ccc_repricer/matching')->getReason(),
                 ),
             'updated_date' =>
                 array(
@@ -126,6 +120,10 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'renderer' => 'repricer/adminhtml_matching_grid_renderer_datetime',
                 )
         );
+
+
+        $this->addExportType('*/*/exportCsv', Mage::helper('repricer')->__('CSV'));
+        $this->addExportType('*/*/exportXml', Mage::helper('repricer')->__('XML'));
 
         foreach ($collumn as $collumnName => $collumnKey) {
             $this->addColumn($collumnName, $collumnKey);
@@ -158,4 +156,77 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
 
         return $this;
     }
+    public function getCsv()
+    {
+        // Get the collection without pagination
+        $collection = Mage::getModel('ccc_repricer/matching')->getCollection();
+        $collection->getSelect()->reset(Zend_Db_Select::LIMIT_COUNT);
+        $collection->getSelect()->reset(Zend_Db_Select::LIMIT_OFFSET);
+
+        // Modify the SQL query to include the competitor name from the joined table
+        $select = $collection->getSelect();
+        $select->joinLeft(
+            array('rc' => Mage::getSingleton('core/resource')->getTableName('ccc_repricer/competitors')),
+            'rc.competitor_id = main_table.competitor_id',
+            array('competitor_name' => 'rc.name')
+        );
+
+        $data = [];
+        $columns = $this->_getExportColumns();
+
+        // Add header row
+        $header = [];
+        foreach ($columns as $column) {
+            // Adjust the header labels as needed
+            switch ($column) {
+                case 'repricer_id':
+                    $header[] = $this->__('Repricer ID');
+                    break;
+                case 'product_id':
+                    $header[] = $this->__('Product ID');
+                    break;
+                case 'competitor_name':
+                    $header[] = $this->__('Competitor Name');
+                    break;
+                case 'competitor_url':
+                    $header[] = $this->__('Competitor URL');
+                    break;
+                case 'competitor_sku':
+                    $header[] = $this->__('Competitor SKU');
+                    break;
+                case 'competitor_price':
+                    $header[] = $this->__('Competitor Price');
+                    break;
+            }
+        }
+        $data[] = $header;
+
+        // Add data rows
+        foreach ($collection as $item) {
+            $row = [];
+            foreach ($columns as $column) {
+                // Get data from the modified SQL query
+                if ($column === 'competitor_name') {
+                    $row[] = $item->getCompetitorName();
+                } else {
+                    $row[] = $item->getData($column);
+                }
+            }
+            $data[] = $row;
+        }
+
+        // Generate CSV content
+        $csv = '';
+        foreach ($data as $row) {
+            $csv .= '"' . implode('","', $row) . '"' . "\n";
+        }
+        return $csv;
+    }
+
+    protected function _getExportColumns()
+    {
+        return ['product_id', 'competitor_name', 'competitor_url', 'competitor_sku'];
+    }
 }
+
+?>

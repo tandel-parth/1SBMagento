@@ -82,6 +82,22 @@
                     <model>ccc_repricer/observer::setCompetitorData</model>
                 </run>
             </competitor_corn>
+            <download_corn>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ccc_repricer/observer::downloadCsv</model>
+                </run>
+            </download_corn>
+            <upload_corn>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ccc_repricer/observer::uploadCsv</model>
+                </run>
+            </upload_corn>
         </jobs>
     </crontab>
 </config>

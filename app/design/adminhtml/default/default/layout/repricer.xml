@@ -24,6 +24,11 @@
     <adminhtml_matching_edit>
         <reference name="content">
             <block type="repricer/adminhtml_matching_edit" name="matching_edit" />
+            <reference name="head">
+                <action method="addJs">
+                    <script>repricer/form.js</script>
+                </action>
+            </reference>
         </reference>
     </adminhtml_matching_edit>
 </layout>

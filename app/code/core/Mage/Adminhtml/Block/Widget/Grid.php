@@ -525,30 +525,30 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $dir      = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
             $filter   = $this->getParam($this->getVarNameFilter(), null);
 
-            // if (is_null($filter)) {
-            //     $filter = $this->_defaultFilter;
-            // }
+            if (is_null($filter)) {
+                $filter = $this->_defaultFilter;
+            }
 
-            // if (is_string($filter)) {
-            //     $data = $this->helper('adminhtml')->prepareFilterString($filter);
-            //     $this->_setFilterValues($data);
-            // }
-            // else if ($filter && is_array($filter)) {
-            //     $this->_setFilterValues($filter);
-            // }
-            // else if(0 !== sizeof($this->_defaultFilter)) {
-            //     $this->_setFilterValues($this->_defaultFilter);
-            // }
+            if (is_string($filter)) {
+                $data = $this->helper('adminhtml')->prepareFilterString($filter);
+                $this->_setFilterValues($data);
+            }
+            else if ($filter && is_array($filter)) {
+                $this->_setFilterValues($filter);
+            }
+            else if(0 !== sizeof($this->_defaultFilter)) {
+                $this->_setFilterValues($this->_defaultFilter);
+            }
 
-            // if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
-            //     $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
-            //     $this->_columns[$columnId]->setDir($dir);
-            //     $this->_setCollectionOrder($this->_columns[$columnId]);
-            // }
+            if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
+                $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
+                $this->_columns[$columnId]->setDir($dir);
+                $this->_setCollectionOrder($this->_columns[$columnId]);
+            }
 
             if (!$this->_isExport) {
-                // $this->getCollection()->load();
-                // $this->_afterLoadCollection();
+                $this->getCollection()->load();
+                $this->_afterLoadCollection();
             }
         }
 

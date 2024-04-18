@@ -51,6 +51,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'name' => 'product_name',
                 'label' => Mage::helper('repricer')->__('Product Name'),
                 'title' => Mage::helper('repricer')->__('Product Name'),
+                'readonly' => true,
                 'required' => true,
             )
         );
@@ -71,6 +72,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'name' => 'competitor_name',
                 'label' => Mage::helper('repricer')->__('Competitor Name'),
                 'title' => Mage::helper('repricer')->__('Competitor Name'),
+                'readonly' => true,
                 'required' => true,
             )
         );
@@ -81,6 +83,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'name' => 'competitor_url',
                 'label' => Mage::helper('repricer')->__('Competitor URL'),
                 'title' => Mage::helper('repricer')->__('Competitor URL'),
+                'id' => 'competitor_url',
                 'required' => true,
             )
         );
@@ -91,6 +94,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'name' => 'competitor_sku',
                 'label' => Mage::helper('repricer')->__('Competitor SKU'),
                 'title' => Mage::helper('repricer')->__('Competitor SKU'),
+                'id' => 'competitor_sku',
                 'required' => true,
             )
         );
@@ -101,6 +105,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'name' => 'competitor_price',
                 'label' => Mage::helper('repricer')->__('Competitor Price'),
                 'title' => Mage::helper('repricer')->__('Competitor Price'),
+                'id' => 'competitor_price',
                 'required' => true,
             )
         );
@@ -112,23 +117,20 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'label' => Mage::helper('repricer')->__('reason'),
                 'title' => Mage::helper('repricer')->__('reason'),
                 'name' => 'reason',
+                'id' => 'reason',
                 'required' => true,
-                'options' => array(
-                    '0' => 'no match',
-                    '1' => 'active',
-                    '2' => 'out of stock',
-                    '3' => 'not available',
-                    '4' => 'rong match'
-                ),
+                'options' => $model->getReason(),
             )
         );
+        
         $data = $model->getData();
-        $product = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('name')->addAttributeToFilter('entity_id', $data['product_id'])->getFirstItem();
-        $competitor = Mage::getModel('ccc_repricer/competitors')->getCollection()->addFieldToFilter('competitor_id', $data['competitor_id'])->getFirstItem();
+        $product = Mage::getModel('catalog/product')->load($data['product_id']);
+        $competitor = Mage::getModel('ccc_repricer/competitors')->load($data['competitor_id']);
 
-        $mainData = array('repricer_id' => $data['repricer_id'], 'product_id' => $data['product_id'], 'product_name' => $product->getName(), 'competitor_id' => $data['competitor_id'], 'competitor_name' => $competitor->getName(), 'competitor_url' => $data['competitor_url'], 'competitor_price' => $data['competitor_price'], 'competitor_sku' => $data['competitor_sku']);
+        $mainData = array('product_name' => $product->getName(), 'competitor_name' => $competitor->getName(), );
+
         $form->setValues($model->getData());
-        $form->setValues($mainData);
+        $form->addValues($mainData);
         $form->setUseContainer(true);
         $this->setForm($form);
 
