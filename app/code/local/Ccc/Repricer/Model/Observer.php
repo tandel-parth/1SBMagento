@@ -70,6 +70,55 @@ class Ccc_Repricer_Model_Observer
             echo "No data to save.";
         }
     }
+    public function uploadCsv()
+    {
+        $dataArray = Mage::getModel('ccc_repricer/matching')->getCollectionData()->getData();
+        foreach ($dataArray as &$item) {
+            unset($item['entity_type_id']);
+            unset($item['attribute_id']);
+            unset($item['competitor_id']);
+            unset($item['repricer_id']);
+            unset($item['reason']);
+            unset($item['updated_date']);
+        }
+
+        $competitorData = array();
+        $matchingCompetitorName = [];
+
+        foreach ($dataArray as $data) {
+            $competitorName = $data['competitor_name'];
+            if (!in_array($competitorName, $matchingCompetitorName)) {
+                $matchingCompetitorName[] = $competitorName;
+            }
+
+            if (!isset($competitorData[$competitorName])) {
+                $competitorData[$competitorName] = array();
+            }
+
+            $competitorData[$competitorName][] = $data;
+        }
+
+        $filePaths = [];
+
+        foreach ($matchingCompetitorName as $competitorName) {
+            $dataArray = $competitorData[$competitorName];
+            $csv = '';
+            $headerRow = array_keys($dataArray[0]);
+            $csv .= implode(',', $headerRow) . "\n";
+            foreach ($dataArray as $row) {
+                $csvRow = array();
+                foreach ($row as $value) {
+                    $value = str_replace('"', '""', $value);
+                    $csvRow[] = '"' . $value . '"';
+                }
+                $csv .= implode(',', $csvRow) . "\n";
+            }
+            $filePath = Mage::getBaseDir('var') . DS . 'report' . DS . 'cmonitor' . DS . 'upload' . DS . $competitorName . '_upload_' . time() . '.csv';
+            file_put_contents($filePath, $csv);
+            $filePaths[] = $filePath;
+        }
+        return $filePaths;
+    }
     public function downloadCsv()
     {
         $folderPath = Mage::getBaseDir('var') . DS . 'report' . DS . 'cmonitor' . DS . 'download';
@@ -79,11 +128,37 @@ class Ccc_Repricer_Model_Observer
         $files = glob($folderPath . DIRECTORY_SEPARATOR . '*_pending.csv');
 
         foreach ($files as $file) {
-            $fileModificationTime = filemtime($file);
-            $parsedData = $this->_parseCsv($file);
-            foreach ($parsedData as $row) {
-                
-                $model = Mage::getModel('ccc_repricer/matching')->setData($row)->save();
+            $row = 0;
+            $parsedData = [];
+            $header = [];
+            if (($handle = fopen($file, 'r')) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                    if (!$row) {
+                        // First row contains headers
+                        foreach ($data as &$item) {
+                            $item = str_replace(' ', '_', strtolower($item));
+                        }
+                        $header = $data;
+                        $row++;
+                        continue;
+                    }
+
+                    // Combine headers with data for current row
+                    $rowData = array_combine($header, $data);
+
+                    // Check if the record with the same competitor_name and competitor_sku exists in the database
+                    $model = Mage::getModel('ccc_repricer/matching');
+                    $existingRecord = $model->getCollectionData()
+                        ->addFieldToFilter('name', $rowData['competitor_name'])
+                        ->addFieldToFilter('competitor_sku', $rowData['competitor_sku'])->getData();
+                    // Update the existing record
+                    foreach ($existingRecord as $record) {
+                        $data = array_merge($record, $rowData);
+                        $model->setData($data);
+                        $model->save();
+                    }
+                }
+                fclose($handle);
             }
             if ($model) {
                 $oldName = $file;
@@ -105,30 +180,4 @@ class Ccc_Repricer_Model_Observer
             }
         }
     }
-    protected function _parseCsv($csvFile)
-    {
-        $row = 0;
-        $parsedData = [];
-        $header = [];
-
-        if (($handle = fopen($csvFile, 'r')) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
-                if (!$row) {
-                    // First row contains headers
-                    foreach ($data as &$item) {
-                        $item = str_replace(' ', '_', strtolower($item));
-                    }
-                    $header = $data;
-                    $row++;
-                    continue;
-                }
-
-                // Combine headers with data for current row
-                $parsedData[] = array_combine($header, $data);
-            }
-            fclose($handle);
-        }
-        return $parsedData;
-    }
-
 }
