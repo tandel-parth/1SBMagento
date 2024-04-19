@@ -57,24 +57,6 @@ class Ccc_Repricer_Model_Matching extends Mage_Core_Model_Abstract
                 'sta.entity_id = pro.entity_id AND sta.attribute_id = 96 AND sta.value = 1 AND sta.store_id = 0',
                 ['']
             );
-        // Reset columns and set your desired columns
-        $columns = [
-            'product_id' => 'product_id',
-            'entity_type_id' => 'pro.entity_type_id',
-            'attribute_id' => 'et.attribute_id',
-            'product_name' => 'at.value',
-            'competitor_id' => 'competitor_id',
-            'competitor_name' => 'cpev.name',
-            'repricer_id' => 'repricer_id',
-            'competitor_url' => 'competitor_url',
-            'competitor_sku' => 'competitor_sku',
-            'competitor_price' => 'competitor_price',
-            'reason' => 'reason',
-            'updated_date' => 'updated_date',
-        ];
-
-        $collection->getSelect()->order('repricer_id ASC')->reset(Zend_Db_Select::COLUMNS)
-            ->columns($columns);
         return $collection;
     }
     public function getReason()

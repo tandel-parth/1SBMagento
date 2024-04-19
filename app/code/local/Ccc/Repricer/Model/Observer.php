@@ -72,15 +72,17 @@ class Ccc_Repricer_Model_Observer
     }
     public function uploadCsv()
     {
-        $dataArray = Mage::getModel('ccc_repricer/matching')->getCollectionData()->getData();
-        foreach ($dataArray as &$item) {
-            unset($item['entity_type_id']);
-            unset($item['attribute_id']);
-            unset($item['competitor_id']);
-            unset($item['repricer_id']);
-            unset($item['reason']);
-            unset($item['updated_date']);
-        }
+        $collection = Mage::getModel('ccc_repricer/matching')->getCollectionData();
+        $columns = [
+            'product_id' => 'product_id',
+            'product_sku' => 'pro.sku',
+            'competitor_name' => 'cpev.name',
+            'competitor_url' => 'competitor_url',
+            'competitor_sku' => 'competitor_sku',
+        ];
+        $collection->getSelect()->order('repricer_id ASC')->reset(Zend_Db_Select::COLUMNS)
+            ->columns($columns);
+        $dataArray = $collection->getData();
 
         $competitorData = array();
         $matchingCompetitorName = [];
@@ -122,14 +124,11 @@ class Ccc_Repricer_Model_Observer
     public function downloadCsv()
     {
         $folderPath = Mage::getBaseDir('var') . DS . 'report' . DS . 'cmonitor' . DS . 'download';
-        // Get the current timestamp
-        $currentTime = time();
         // Scan the folder for CSV files added in the last 24 hours
         $files = glob($folderPath . DIRECTORY_SEPARATOR . '*_pending.csv');
 
         foreach ($files as $file) {
             $row = 0;
-            $parsedData = [];
             $header = [];
             if (($handle = fopen($file, 'r')) !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
@@ -145,11 +144,18 @@ class Ccc_Repricer_Model_Observer
 
                     // Combine headers with data for current row
                     $rowData = array_combine($header, $data);
-
                     // Check if the record with the same competitor_name and competitor_sku exists in the database
                     $model = Mage::getModel('ccc_repricer/matching');
-                    $existingRecord = $model->getCollectionData()
-                        ->addFieldToFilter('name', $rowData['competitor_name'])
+                    $collection = $model->getCollectionData();
+                    $columns = [
+                        'product_id' => 'product_id',
+                        'competitor_id' => 'competitor_id',
+                        'repricer_id' => 'repricer_id',
+                    ];
+                    $collection->getSelect()->order('repricer_id ASC')->reset(Zend_Db_Select::COLUMNS)
+                        ->columns($columns);
+
+                    $existingRecord = $collection->addFieldToFilter('name', $rowData['competitor_name'])
                         ->addFieldToFilter('competitor_sku', $rowData['competitor_sku'])->getData();
                     // Update the existing record
                     foreach ($existingRecord as $record) {
@@ -164,15 +170,10 @@ class Ccc_Repricer_Model_Observer
                 $oldName = $file;
                 $newName = str_replace("_pending", "_completed_" . time(), $oldName);
                 if (file_exists($oldName)) {
-                    if (copy($oldName, $newName)) {
-                        // If copy is successful, delete the original file
-                        if (unlink($oldName)) {
-                            echo "File renamed successfully.";
-                        } else {
-                            echo "Error deleting original file.";
-                        }
+                    if (rename($oldName, $newName)) {
+                        echo "File renamed successfully.";
                     } else {
-                        echo "Error copying file.";
+                        echo "Error rename file.";
                     }
                 } else {
                     echo "File not found: " . $oldName;

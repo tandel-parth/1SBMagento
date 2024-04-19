@@ -4,6 +4,22 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('ccc_repricer/matching')->getCollectionData();
+        $columns = [
+            'product_id' => 'product_id',
+            'entity_type_id' => 'pro.entity_type_id',
+            'attribute_id' => 'et.attribute_id',
+            'product_name' => 'at.value',
+            'competitor_id' => 'competitor_id',
+            'competitor_name' => 'cpev.name',
+            'repricer_id' => 'repricer_id',
+            'competitor_url' => 'competitor_url',
+            'competitor_sku' => 'competitor_sku',
+            'competitor_price' => 'competitor_price',
+            'reason' => 'reason',
+            'updated_date' => 'updated_date',
+        ];
+        $collection->getSelect()->order('repricer_id ASC')->reset(Zend_Db_Select::COLUMNS)
+            ->columns($columns);
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
