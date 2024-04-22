@@ -59,7 +59,17 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
+
             $data = $this->_filterPostData($data);
+            if (!empty($data["competitor_url"]) && !empty($data["competitor_sku"])) {
+                if (!empty($data["competitor_price"]) && $data["competitor_price"] > 0) {
+                    $data["reason"] = 1;
+                } else {
+                    $data["reason"] = 3;
+                }
+            } else {
+                $data["reason"] = 0;
+            }
 
             $model = Mage::getModel('ccc_repricer/matching');
 

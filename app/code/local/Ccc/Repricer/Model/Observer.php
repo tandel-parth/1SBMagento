@@ -4,72 +4,52 @@ class Ccc_Repricer_Model_Observer
 {
 
     const TIME_SPAN = 24 * 3600;
-    public function setCompetitorData()
+    public function setNewData()
     {
-        $timestamp = time();
-        $sqlTimestamp = date('Y-m-d H:i:s', $timestamp);
-        $pdata = [];
-        $data = (Mage::getModel('ccc_repricer/competitors')->getCollection());
-        foreach ($data as $_data) {
-            $difference = strtotime($sqlTimestamp) - strtotime($_data->getCreatedAt());
-            if ($difference <= Ccc_Repricer_Model_Observer::TIME_SPAN) {
-                $productdata = Mage::getModel('catalog/product')->getCollection();
-                $productdata->addAttributeToSelect(['name', 'status']);
-                $productdata->addAttributeToFilter('status', 1);
-                echo "<pre>";
-                foreach ($productdata as $_product) {
-                    // Initialize $pdata for each product
-                    $pdata[] = [
-                        'competitor_id' => $_data->getCompetitorId(),
-                        'product_id' => $_product->getId(),
-                    ];
-                }
+        $tmp = [];
+        $competitorIds = Mage::getModel('ccc_repricer/competitors')
+            ->getCollection()
+            ->getAllIds();
+
+        $data = [];
+        foreach ($competitorIds as $_competitorId) {
+            $collection = Mage::getModel('catalog/product')
+                ->getCollection();
+            $collection->getSelect()
+                ->columns('e.entity_id')
+                ->joinLeft(
+                    ['CRM' => 'ccc_repricer_matching'],
+                    "e.entity_id = CRM.product_id AND CRM.competitor_id = {$_competitorId}",
+                    ['competitor_id']
+                )
+                ->where('CRM.competitor_id IS NULL')
+            ;
+            $columns = [
+                'product_id' => 'e.entity_id',
+            ];
+            $collection->getSelect()->order('product_id ASC')->reset(Zend_Db_Select::COLUMNS)
+                ->columns($columns);
+            foreach ($collection->getData() as $_data) {
+                $_data['competitor_id'] = $_competitorId;
+                $data[] = $_data;
+            }
+            $tmp[$_competitorId] = $collection->getColumnValues('product_id');
+            if (!is_null($tmp[$_competitorId]) && !empty($tmp[$_competitorId])) {
+                print_r($tmp[$_competitorId]);
             }
         }
-        if (!empty($pdata)) {
-            $matchingModel = Mage::getModel('ccc_repricer/matching');
-            foreach ($pdata as $data) {
-                $matchingModel->setData($data);
-                $matchingModel->save();
-            }
+        if (!is_null($data) && !empty($data)) {
+            $model = Mage::getSingleton('core/resource')->getConnection('core_write');
+            $tableName = Mage::getSingleton('core/resource')->getTableName('ccc_repricer/matching');
+            $result = $model->insertMultiple($tableName, $data);
+        }
+        if ($result) {
+            echo "$result Rows Inserted successfully.";
         } else {
-            echo "No data to save.";
+            echo "There is no new Product Id and Competitor Id...";
         }
     }
 
-    public function setProductData()
-    {
-        $timestamp = time();
-        $sqlTimestamp = date('Y-m-d H:i:s', $timestamp);
-        $pdata = [];
-        $data = (Mage::getModel('catalog/product')->getCollection());
-        $data->addAttributeToSelect(['name', 'status']);
-        $data->addAttributeToFilter('status', 1);
-        foreach ($data as $_product) {
-            $difference = strtotime($sqlTimestamp) - strtotime($_product->getCreatedAt());
-            if ($difference <= Ccc_Repricer_Model_Observer::TIME_SPAN) {
-                $cdata = Mage::getModel('ccc_repricer/competitors')->getCollection();
-                foreach ($cdata as $_data) {
-                    $timediff = strtotime($sqlTimestamp) - strtotime($_data->getCreatedAt());
-                    if ($timediff >= Ccc_Repricer_Model_Observer::TIME_SPAN) {
-                        $pdata[] = [
-                            'competitor_id' => $_data->getCompetitorId(),
-                            'product_id' => $_product->getId(),
-                        ];
-                    }
-                }
-            }
-        }
-        if (!empty($pdata)) {
-            $matchingModel = Mage::getModel('rccc_epricer/matching');
-            foreach ($pdata as $data) {
-                $matchingModel->setData($data);
-                $matchingModel->save();
-            }
-        } else {
-            echo "No data to save.";
-        }
-    }
     public function uploadCsv()
     {
         $collection = Mage::getModel('ccc_repricer/matching')->getCollectionData();
@@ -93,12 +73,12 @@ class Ccc_Repricer_Model_Observer
                 $matchingCompetitorName[] = $competitorName;
             }
 
-            if (!isset($competitorData[$competitorName])) {
-                $competitorData[$competitorName] = array();
-            }
+            // if (!isset($competitorData[$competitorName])) {
+            //     $competitorData[$competitorName] = array();
+            // }
 
             $competitorData[$competitorName][] = $data;
-        }
+        } 
 
         $filePaths = [];
 
@@ -107,13 +87,16 @@ class Ccc_Repricer_Model_Observer
             $csv = '';
             $headerRow = array_keys($dataArray[0]);
             $csv .= implode(',', $headerRow) . "\n";
-            foreach ($dataArray as $row) {
+            foreach ($dataArray as $index => $row) {
                 $csvRow = array();
                 foreach ($row as $value) {
                     $value = str_replace('"', '""', $value);
                     $csvRow[] = '"' . $value . '"';
                 }
-                $csv .= implode(',', $csvRow) . "\n";
+                $csv .= implode(',', $csvRow);
+                if ($index < count($dataArray) - 1) { // Check if not the last row
+                    $csv .= "\n"; // Add newline character if not the last row
+                }
             }
             $filePath = Mage::getBaseDir('var') . DS . 'report' . DS . 'cmonitor' . DS . 'upload' . DS . $competitorName . '_upload_' . time() . '.csv';
             file_put_contents($filePath, $csv);
@@ -131,6 +114,7 @@ class Ccc_Repricer_Model_Observer
             $row = 0;
             $header = [];
             if (($handle = fopen($file, 'r')) !== FALSE) {
+                $mainData = [];
                 while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
                     if (!$row) {
                         // First row contains headers
@@ -141,32 +125,45 @@ class Ccc_Repricer_Model_Observer
                         $row++;
                         continue;
                     }
-
                     // Combine headers with data for current row
                     $rowData = array_combine($header, $data);
-                    // Check if the record with the same competitor_name and competitor_sku exists in the database
-                    $model = Mage::getModel('ccc_repricer/matching');
-                    $collection = $model->getCollectionData();
-                    $columns = [
-                        'product_id' => 'product_id',
-                        'competitor_id' => 'competitor_id',
-                        'repricer_id' => 'repricer_id',
-                    ];
-                    $collection->getSelect()->order('repricer_id ASC')->reset(Zend_Db_Select::COLUMNS)
-                        ->columns($columns);
-
-                    $existingRecord = $collection->addFieldToFilter('name', $rowData['competitor_name'])
-                        ->addFieldToFilter('competitor_sku', $rowData['competitor_sku'])->getData();
-                    // Update the existing record
-                    foreach ($existingRecord as $record) {
-                        $data = array_merge($record, $rowData);
-                        $model->setData($data);
-                        $model->save();
-                    }
+                    $mainData[] = $rowData;
                 }
                 fclose($handle);
             }
-            if ($model) {
+            $model = Mage::getModel('ccc_repricer/matching');
+            $competitorId = Mage::getModel('ccc_repricer/competitors')
+                ->load($rowData['competitor_name'], 'name')->getId();
+            $collection = $model->getCollection()
+                ->addFieldToFilter('competitor_sku', array('in' => array_column($mainData, 'competitor_sku')))
+                ->addFieldToFilter('competitor_id', $competitorId);
+
+            // Create an associative array to map competitor_sku to repricer_id
+            $skuToRepricerIdMap = array();
+            foreach ($collection as $item) {
+                $skuToRepricerIdMap[$item->getCompetitorSku()] = $item->getRepricerId();
+            }
+            foreach ($mainData as $saveData) {
+                if (isset($skuToRepricerIdMap[$saveData['competitor_sku']])) {
+                    $saveData['repricer_id'] = $skuToRepricerIdMap[$saveData['competitor_sku']];
+                } else {
+                    Mage::log("No repricer_id found for competitor_sku: " . $saveData['competitor_sku']);
+                }
+
+                $csvData[] = $saveData;
+            }
+            $model = Mage::getSingleton('core/resource')->getConnection('core_write');
+            $tableName = Mage::getSingleton('core/resource')->getTableName('ccc_repricer/matching');
+
+            $insertData = [];
+            foreach ($csvData as $data) {
+                unset($data['product_sku']);
+                unset($data['competitor_name']);
+                $insertData[] = $data;
+            }
+
+            $result = $model->insertOnDuplicate($tableName, $insertData);
+            if ($result) {
                 $oldName = $file;
                 $newName = str_replace("_pending", "_completed_" . time(), $oldName);
                 if (file_exists($oldName)) {

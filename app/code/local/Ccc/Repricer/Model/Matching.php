@@ -70,7 +70,6 @@ class Ccc_Repricer_Model_Matching extends Mage_Core_Model_Abstract
         );
         return $reason;
     }
-
 }
 
 ?>

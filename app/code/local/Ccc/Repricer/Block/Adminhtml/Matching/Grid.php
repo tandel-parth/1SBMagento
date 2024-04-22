@@ -3,12 +3,14 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
 {
     protected function _prepareCollection()
     {
+        // Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Productname::$renderedProductIds = [];
         $collection = Mage::getModel('ccc_repricer/matching')->getCollectionData();
         $columns = [
             'product_id' => 'product_id',
             'entity_type_id' => 'pro.entity_type_id',
             'attribute_id' => 'et.attribute_id',
             'product_name' => 'at.value',
+            'product_sku' => 'pro.sku',
             'competitor_id' => 'competitor_id',
             'competitor_name' => 'cpev.name',
             'repricer_id' => 'repricer_id',
@@ -18,7 +20,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
             'reason' => 'reason',
             'updated_date' => 'updated_date',
         ];
-        $collection->getSelect()->order('repricer_id ASC')->reset(Zend_Db_Select::COLUMNS)
+        $collection->getSelect()->order('product_id ASC')->reset(Zend_Db_Select::COLUMNS)
             ->columns($columns);
 
         $this->setCollection($collection);
@@ -41,6 +43,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'header' => Mage::helper('repricer')->__('Product Name'),
                     'align' => 'left',
                     'index' => 'product_name',
+                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_productname',
                     'filter_condition_callback' => array($this, '_filterProductName'),
                 ),
             'competitor_name' =>

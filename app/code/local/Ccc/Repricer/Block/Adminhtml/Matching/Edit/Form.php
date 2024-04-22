@@ -84,7 +84,6 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'label' => Mage::helper('repricer')->__('Competitor URL'),
                 'title' => Mage::helper('repricer')->__('Competitor URL'),
                 'id' => 'competitor_url',
-                'required' => true,
             )
         );
         $fieldset->addField(
@@ -95,7 +94,6 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'label' => Mage::helper('repricer')->__('Competitor SKU'),
                 'title' => Mage::helper('repricer')->__('Competitor SKU'),
                 'id' => 'competitor_sku',
-                'required' => true,
             )
         );
         $fieldset->addField(
@@ -106,7 +104,6 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'label' => Mage::helper('repricer')->__('Competitor Price'),
                 'title' => Mage::helper('repricer')->__('Competitor Price'),
                 'id' => 'competitor_price',
-                'required' => true,
             )
         );
 
@@ -118,7 +115,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'title' => Mage::helper('repricer')->__('reason'),
                 'name' => 'reason',
                 'id' => 'reason',
-                'required' => true,
+                'disabled' => true,
                 'options' => $model->getReason(),
             )
         );
