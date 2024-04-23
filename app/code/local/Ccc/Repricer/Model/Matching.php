@@ -59,7 +59,7 @@ class Ccc_Repricer_Model_Matching extends Mage_Core_Model_Abstract
             );
         return $collection;
     }
-    public function getReason()
+    public function getReasons()
     {
         $reason = array(
             '0' => 'no match',
