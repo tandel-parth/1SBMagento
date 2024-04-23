@@ -1,6 +1,9 @@
 <?php
 class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    // public function __construct(){
+    //     $this->setTemplate('repricer/matching/grid.phtml');
+    // }
     protected function _prepareCollection()
     {
         // Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Productname::$renderedProductIds = [];
@@ -20,9 +23,9 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
             'reason' => 'reason',
             'updated_date' => 'updated_date',
         ];
-        $collection->getSelect()->order('product_id ASC')->reset(Zend_Db_Select::COLUMNS)
+        $collection->getSelect()->order('product_id')->group('product_id')->reset(Zend_Db_Select::COLUMNS)
             ->columns($columns);
-
+        
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -30,18 +33,11 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
     {
         // Add columns for the grid
         $collumn = array(
-            'repricer_id' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Repricer ID'),
-                    'type' => 'number',
-                    'align' => 'right',
-                    'width' => '50px',
-                    'index' => 'repricer_id',
-                ),
             'product_name' =>
                 array(
                     'header' => Mage::helper('repricer')->__('Product Name'),
                     'align' => 'left',
+                    'width' => '400px',
                     'index' => 'product_name',
                     'renderer' => 'repricer/adminhtml_matching_grid_renderer_productname',
                     'filter_condition_callback' => array($this, '_filterProductName'),
@@ -52,24 +48,28 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'align' => 'left',
                     'index' => 'competitor_name',
                     'filindexter_condition_callback' => array($this, '_filterCompetitorName'),
+                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
                 ),
             'competitor_url' =>
                 array(
                     'header' => Mage::helper('repricer')->__('Competitor URL'),
                     'align' => 'left',
                     'index' => 'competitor_url',
+                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
                 ),
             'competitor_sku' =>
                 array(
                     'header' => Mage::helper('repricer')->__('Competitor Product SKU'),
                     'align' => 'left',
                     'index' => 'competitor_sku',
+                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
                 ),
             'competitor_price' =>
                 array(
                     'header' => Mage::helper('repricer')->__('Competitor Product Price'),
                     'align' => 'left',
                     'index' => 'competitor_price',
+                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
                 ),
             'reason' =>
                 array(
@@ -77,7 +77,8 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'align' => 'left',
                     'index' => 'reason',
                     'type' => 'options',
-                    'options' => Mage::getModel('ccc_repricer/matching')->getReason(),
+                    'options' => Mage::getModel('ccc_repricer/matching')->getReasons(),
+                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
                 ),
             'updated_date' =>
                 array(
@@ -85,7 +86,28 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'align' => 'left',
                     'type' => 'datetime',
                     'index' => 'updated_date',
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_datetime',
+                    // 'renderer' => 'repricer/adminhtml_matching_grid_renderer_datetime',
+                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+                ),
+                'edit' =>
+                array(
+                    'header' => Mage::helper('repricer')->__('Action'),
+                    'align' => 'left',
+                    'type' => 'action',
+                    'getter' => 'getId',
+                    'actions' => array(
+                        array(
+                            'caption' => Mage::helper('repricer')->__('Edit'),
+                            'url' => array(
+                                'base' => '*/*/edit',
+                            ),
+                            'field' => 'repricer_id'
+                        )
+                    ),
+                    'filter' => false,
+                    'sortable' => false,
+                    'index' => 'edit',
+                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
                 )
         );
 
@@ -95,10 +117,14 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
 
         return parent::_prepareColumns();
     }
-    public function getRowUrl($row)
-    {
-        return $this->getUrl('*/*/edit', array('repricer_id' => $row->getId()));
-    }
+    // public function getRowUrl($row)
+    // {
+    //     return $this->getUrl('*/*/edit', array('repricer_id' => $row->getId()));
+    // }
+    // public function getGridUrl()
+    // {
+    //     return $this->getUrl('*/*/grid', array('_current' => true));
+    // }
     protected function _filterProductName($collection, $column)
     {
         if (!$value = $column->getFilter()->getValue()) {
@@ -115,7 +141,6 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
         if (!$value = $column->getFilter()->getValue()) {
             return $this;
         }
-
         $this->getCollection()->getSelect()->where("cpev.name LIKE ?", "%$value%");
 
         return $this;
