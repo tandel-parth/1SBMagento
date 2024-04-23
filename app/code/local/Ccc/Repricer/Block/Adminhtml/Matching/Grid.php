@@ -47,8 +47,8 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                     'header' => Mage::helper('repricer')->__('Competitor Name'),
                     'align' => 'left',
                     'index' => 'competitor_name',
-                    'filindexter_condition_callback' => array($this, '_filterCompetitorName'),
                     'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+                    'filter_condition_callback' => array($this, '_filterCompetitorName'),
                 ),
             'competitor_url' =>
                 array(
