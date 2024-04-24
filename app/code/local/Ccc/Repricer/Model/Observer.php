@@ -2,8 +2,6 @@
 
 class Ccc_Repricer_Model_Observer
 {
-
-    const TIME_SPAN = 24 * 3600;
     public function setNewData()
     {
         $tmp = [];
@@ -72,11 +70,6 @@ class Ccc_Repricer_Model_Observer
             if (!in_array($competitorName, $matchingCompetitorName)) {
                 $matchingCompetitorName[] = $competitorName;
             }
-
-            // if (!isset($competitorData[$competitorName])) {
-            //     $competitorData[$competitorName] = array();
-            // }
-
             $competitorData[$competitorName][] = $data;
         } 
 

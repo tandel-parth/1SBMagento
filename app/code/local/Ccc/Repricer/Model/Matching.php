@@ -5,40 +5,39 @@ class Ccc_Repricer_Model_Matching extends Mage_Core_Model_Abstract
     {
         $this->_init('ccc_repricer/matching');
     }
-    protected function _beforeSave()
-    {
-        if ($this->getData('reason') == 0 || $this->getData('reason') == 3) {
-            $competitorUrl = $this->getData('competitor_url');
-            $competitorSku = $this->getData('competitor_sku');
-            $price = $this->getData('competitor_price');
+    // protected function _beforeSave()
+    // {
+    //     if ($this->getData('reason') == 0 || $this->getData('reason') == 3) {
+    //         $competitorUrl = $this->getData('competitor_url');
+    //         $competitorSku = $this->getData('competitor_sku');
+    //         $price = $this->getData('competitor_price');
 
-            if (!empty($competitorUrl) && !empty($competitorSku) && $price == 0) {
-                // Set reason to 3 (Not Available)
-                $this->setData('reason', 3);
-            } elseif (!empty($competitorUrl) && !empty($competitorSku) && $price != 0) {
-                // Set reason to 1 (Active)
-                $this->setData('reason', 1);
-            }
-        }
+    //         if (!empty($competitorUrl) && !empty($competitorSku) && $price == 0) {
+    //             // Set reason to 3 (Not Available)
+    //             $this->setData('reason', 3);
+    //         } elseif (!empty($competitorUrl) && !empty($competitorSku) && $price != 0) {
+    //             // Set reason to 1 (Active)
+    //             $this->setData('reason', 1);
+    //         }
+    //     }
 
-        return parent::_beforeSave();
-    }
+    //     return parent::_beforeSave();
+    // }
     public function getCollectionData()
     {
         $collection = $this->getCollection();
-        $collection->getSelect()
-            ->join(
-                array('cpev' => Mage::getSingleton('core/resource')->getTableName('ccc_repricer/competitors')),
-                'cpev.competitor_id = main_table.competitor_id',
-                ['']
-            );
-        // Add additional join
         $collection->getSelect()
             ->join(
                 array('pro' => Mage::getSingleton('core/resource')->getTableName('catalog/product')),
                 'main_table.product_id = pro.entity_id',
                 ['']
             );
+        $collection->getSelect()
+            ->join(
+                array('cpev' => Mage::getSingleton('core/resource')->getTableName('ccc_repricer/competitors')),
+                'main_table.competitor_id = cpev.competitor_id',
+                ['']
+            );        
         $collection->getSelect()
             ->join(
                 array('et' => Mage::getSingleton('core/resource')->getTableName('eav/attribute')),

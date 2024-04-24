@@ -116,7 +116,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Edit_Form extends Mage_Adminhtml_Blo
                 'name' => 'reason',
                 'id' => 'reason',
                 'disabled' => true,
-                'options' => $model->getReason(),
+                'options' => $model->getReasons(),
             )
         );
         
