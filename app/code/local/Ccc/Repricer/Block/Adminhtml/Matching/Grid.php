@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
@@ -7,6 +10,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
         $this->setId('matchingGrid');
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
+        $this->setTemplate('repricer/matching/grid.phtml');
     }
     protected function _prepareCollection()
     {
@@ -37,85 +41,106 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
     {
         // Add columns for the grid
         $collumn = array(
+            // 'massaction'=>array(
+            //     'type'   => 'checkbox',
+            //     'header' => 'Select',
+            //     'column_css_class' => 'massaction',
+            //     'header_css_class' => 'massaction',
+            //     'values' => [],
+            //     'index'  => 'product_id',
+            //     'width'  => '20px',
+            // ),
+
             'product_name' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Product Name'),
-                    'align' => 'left',
-                    'width' => '400px',
-                    'index' => 'product_name',
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_productname',
-                    'filter_condition_callback' => array($this, '_filterProductName'),
-                ),
+            array(
+                'header' => Mage::helper('repricer')->__('Product Name'),
+                'align' => 'left',
+                'width' => '400px',
+                'index' => 'product_name',
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_productname',
+                'filter_condition_callback' => array($this, '_filterProductName'),
+            ),
+            // 'pc_combine' =>
+            // array(
+            //     'header' => Mage::helper('repricer')->__('PC ID'),
+            //     'align' => 'left',
+            //     'width' => '400px',
+            //     'index' => 'pc_combine',
+            //     'column_css_class' => 'no-display',
+            //     'header_css_class' => 'no-display',
+            //     'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+            //     // 'filter_condition_callback' => array($this, '_filterProductName'),
+            // ),
             'competitor_name' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Competitor Name'),
-                    'align' => 'left',
-                    'index' => 'competitor_name',
-                    'type' => 'options',
-                    'options' => Mage::getModel('ccc_repricer/competitors')->getCompetitorArray(),
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
-                    'filter_condition_callback' => array($this, '_filterCompetitorName'),
-                ),
+            array(
+                'header' => Mage::helper('repricer')->__('Competitor Name'),
+                'align' => 'left',
+                'index' => 'competitor_name',
+                'type' => 'options',
+                'options' => Mage::getModel('ccc_repricer/competitors')->getCompetitorArray(),
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+                'filter_condition_callback' => array($this, '_filterCompetitorName'),
+            ),
             'competitor_url' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Competitor URL'),
-                    'align' => 'left',
-                    'index' => 'competitor_url',
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
-                ),
+            array(
+                'header' => Mage::helper('repricer')->__('Competitor URL'),
+                'align' => 'left',
+                'index' => 'competitor_url',
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+            ),
             'competitor_sku' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Competitor Product SKU'),
-                    'align' => 'left',
-                    'index' => 'competitor_sku',
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
-                ),
+            array(
+                'header' => Mage::helper('repricer')->__('Competitor Product SKU'),
+                'align' => 'left',
+                'index' => 'competitor_sku',
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+            ),
             'competitor_price' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Competitor Product Price'),
-                    'align' => 'left',
-                    'index' => 'competitor_price',
-                    'type' => 'number',
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
-                ),
+            array(
+                'header' => Mage::helper('repricer')->__('Competitor Product Price'),
+                'align' => 'left',
+                'index' => 'competitor_price',
+                'type' => 'number',
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+            ),
             'reason' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Competitor reason'),
-                    'align' => 'left',
-                    'index' => 'reason',
-                    'type' => 'options',
-                    'options' => Mage::getModel('ccc_repricer/matching')->getReasons(),
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
-                ),
+            array(
+                'header' => Mage::helper('repricer')->__('Competitor reason'),
+                'align' => 'left',
+                'index' => 'reason',
+                'type' => 'options',
+                'options' => Mage::getModel('ccc_repricer/matching')->getReasons(),
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+            ),
             'updated_date' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Competitor Updated Date'),
-                    'align' => 'left',
-                    'type' => 'date',
-                    'index' => 'updated_date',
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
-                    'filter_condition_callback' => array($this, '_filterUpdateDateCondition'),
-                ),
+            array(
+                'header' => Mage::helper('repricer')->__('Competitor Updated Date'),
+                'align' => 'left',
+                'type' => 'date',
+                'index' => 'updated_date',
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+                'filter_condition_callback' => array($this, '_filterUpdateDateCondition'),
+            ),
             'edit' =>
-                array(
-                    'header' => Mage::helper('repricer')->__('Action'),
-                    'align' => 'left',
-                    'type' => 'action',
-                    'getter' => 'getId',
-                    'actions' => array(
-                        array(
-                            'caption' => Mage::helper('repricer')->__('Edit'),
-                            'url' => array(
-                                'base' => '*/*/edit',
-                            ),
-                            'field' => 'repricer_id',
-                        )
-                    ),
-                    'filter' => false,
-                    'sortable' => false,
-                    'index' => 'edit',
-                    'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
-                )
+            array(
+                'header' => Mage::helper('repricer')->__('Action'),
+                'align' => 'left',
+                'type' => 'action',
+                'getter' => 'getId',
+                'actions' => array(
+                    array(
+                        'caption' => Mage::helper('repricer')->__('Edit'),
+                        'url' => array(
+                            'base' => '*/*/edit',
+                        ),
+                        'field' => 'repricer_id',
+                    )
+                ),
+                'filter' => false,
+                'sortable' => false,
+                'index' => 'edit',
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+            )
         );
 
         foreach ($collumn as $collumnName => $collumnKey) {
@@ -123,6 +148,33 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
         }
 
         return parent::_prepareColumns();
+    }
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('repricer_id');
+        $this->setMassactionIdFieldOnlyIndexValue(true);
+        $this->getMassactionBlock()->setFormFieldName('repricer_id'); 
+        $reasonArr = Mage::getModel('ccc_repricer/matching')->getReasons();
+
+        array_unshift($reasonArr, array('label' => '', 'value' => ''));
+        $this->getMassactionBlock()->addItem(
+            'reason',
+            array(
+                'label' => Mage::helper('repricer')->__('Change Reason'),
+                'url' => $this->getUrl('*/*/massReason', array('_current' => true)),
+                'additional' => array(
+                    'visibility' => array(
+                        'name' => 'reason',
+                        'type' => 'select',
+                        'class' => 'required-entry',
+                        'label' => Mage::helper('repricer')->__('Reason'),
+                        'values' => $reasonArr
+                    )
+                )
+            )
+        );
+    
+    return parent::_prepareMassaction();
     }
     public function getGridUrl()
     {
@@ -159,8 +211,6 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
         if (isset($value['orig_to'])) {
             $value['orig_to'] = date('Y-m-d 23:59:59', strtotime($value['orig_to']));
             $collection->addFieldToFilter('main_table.updated_date', array('to' => $value['orig_to'], 'datetime' => true));
-        }    
+        }
     }
 }
-
-?>

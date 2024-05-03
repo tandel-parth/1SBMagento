@@ -16,6 +16,20 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Competitordata extends
                 'cpev.competitor_id = main_table.competitor_id',
                 ['cpev.name AS competitor_name']
             );
+            $columns = [
+                'product_id' => 'product_id',
+                'competitor_id' => 'competitor_id',
+                'competitor_name' => 'cpev.name',
+                'repricer_id' => 'repricer_id',
+                'competitor_url' => 'competitor_url',
+                'competitor_sku' => 'competitor_sku',
+                'competitor_price' => 'competitor_price',
+                'reason' => 'reason',
+                'updated_date' => 'main_table.updated_date',
+                'pc_combine' => "CONCAT(product_id, '-', main_table.competitor_id)"
+            ];
+            $items->getSelect()->reset(Zend_Db_Select::COLUMNS)
+                ->columns($columns);
 
         $this->getFilter($items);
         $reasons = Mage::getModel('ccc_repricer/matching')->getReasons();
@@ -28,8 +42,18 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Competitordata extends
             $output .= "<tr id='$rowId' height='23vh'>";
 
             switch ($columnIndex) {
+
+                // case 'pc_combine':
+                //     $output .= "<td width='150px'>";
+                //     // $pcCombine= $item->getProductId()."-".$item->getCompetitorId();
+                //     // $item->addData(['pc_combine'=>$pcCombine]);
+                //     $output .= "<span><b>ID Combine: </b>". $item->getPcCombine() ."</span>";
+                //     $output .= "</td>";
+                //     break;
+
                 case 'competitor_name':
                     $output .= "<td width='150px'>";
+                    $output .= "<input type='checkbox' name='massaction' id='' class= 'massaction-checkbox' value='{$item->getPcCombine()}'> &nbsp;";
                     $output .= $item->getCompetitorName();
                     $output .= "</td>";
                     break;
@@ -129,5 +153,4 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Competitordata extends
             }
         }
     }
-
 }

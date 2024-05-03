@@ -8,8 +8,7 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
         $this->loadLayout()
             ->_setActiveMenu('catalog')
             ->_addBreadcrumb(Mage::helper('repricer')->__('REPRICER'), Mage::helper('repricer')->__('REPRICER'))
-            ->_addBreadcrumb(Mage::helper('repricer')->__('Manage Repricer'), Mage::helper('repricer')->__('Manage Repricer'))
-        ;
+            ->_addBreadcrumb(Mage::helper('repricer')->__('Manage Repricer'), Mage::helper('repricer')->__('Manage Repricer'));
         return $this;
     }
     public function indexAction()
@@ -32,21 +31,6 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
                 foreach ($editedData as $field => $value) {
                     $repricer->addData([$field => $value]);
                 }
-
-                // if (!empty($editedData['competitor_sku']) && !empty($editedData['competitor_url']))
-                // {
-                //     if ($editedData['competitor_price']>0){
-                //         if(!empty($editedData['reason']) && !is_null($editedData['reason'])){
-                //             $repricer->addData(['reason' => $repricer::CONST_REASON_NO_OUT_OF_STOCK]);
-                //         }else{
-                //             $repricer->addData(['reason' => $repricer::CONST_REASON_ACTIVE]);
-                //         }
-                //     } else {
-                //         $repricer->addData(['reason' => $repricer::CONST_REASON_NOT_AVAILABLE]);
-                //     }
-                // } else {
-                //     $repricer->addData(['reason' => $repricer::CONST_REASON_NO_MATCH]);
-                // }
                 switch ($repricer->getReason()) {
                     case $repricer::CONST_REASON_ACTIVE:
                         $this->_reasonCheck($repricer);
@@ -63,11 +47,13 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
                         $collection = Mage::getModel('ccc_repricer/matching')->load($repricerId);
                         $url = $repricer->getCompetitorUrl();
                         $sku = $repricer->getCompetitorSku();
-                        if (!empty($url) && !empty($sku) && ($collection->getReason() == $repricer::CONST_REASON_NO_WRONG_MATCH)) {
-                            if (($collection->getCompetitorUrl() != $repricer->getCompetitorUrl()) || ($collection->getCompetitorSku() != $repricer->getCompetitorSku())) {
+                        if (!empty($url) && !empty($sku)) {
+                            if (($collection->getReason() == $repricer::CONST_REASON_NO_WRONG_MATCH) &&(($collection->getCompetitorUrl() != $repricer->getCompetitorUrl()) || ($collection->getCompetitorSku() != $repricer->getCompetitorSku()))) {
                                 $repricer->addData(['competitor_price' => 0.0]);
                                 $repricer->addData(['reason' => $repricer::CONST_REASON_NOT_AVAILABLE]);
                             }
+                        }else{
+                            $repricer->addData(['reason' => $repricer::CONST_REASON_NO_MATCH]);
                         }
                         break;
                 }
@@ -80,8 +66,38 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
                 'message' => 'Data saved successfully'
             );
             $this->getResponse()->setHeader('Content-type', 'application/json');
-            $this->getResponse()->setBody(json_encode($collection->getReason()));
+            $this->getResponse()->setBody(json_encode($response));
         }
+    }
+    public function massReasonAction()
+    {
+        $repricerIds = $this->getRequest()->getParam('repricer_id');
+        $reason = $this->getRequest()->getParam('reason');
+        $matching = Mage::getModel('ccc_repricer/matching');
+        $count = 0;
+        echo "<pre>";
+        print_r($repricerIds);
+        print_r($reason);
+        die("done");
+        foreach($repricerIds as $value){
+            $arr = explode('-', $value,2);
+            $pId = $arr[0];
+            $cId = $arr[1];
+            $data = $matching->getCollection()
+                ->addFieldToFilter('product_id',$pId)
+                ->addFieldToFilter('competitor_id',$cId)
+                ->getfirstItem();
+            $matching->load($data->getRepricerId(),'repricer_id');
+            if ($data->getReason() != $reason) {
+                $matching->addData(['reason'=>$reason])->save();
+                $count++;
+            }
+
+        }
+        $this->_getSession()->addSuccess(
+            $this->__('Total of %d record(s) have been enabled.', $count)
+        );
+        $this->_redirect('*/*/index');
     }
     protected function _reasonCheck($model)
     {
@@ -105,7 +121,4 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
             $this->getLayout()->createBlock('repricer/adminhtml_matching/grid')->getGridHtml()
         );
     }
-
 }
-
-?>

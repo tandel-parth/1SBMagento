@@ -7,6 +7,7 @@ j(document).ready(function () {
     var formKey = null;
     var reasons = null;
     var isEditing = false;
+    var isMassActionEnabled = false;
 
     j("body").on("click", ".edit-row", function (e) {
         e.preventDefault();
@@ -75,9 +76,15 @@ j(document).ready(function () {
             if (editInput.length > 0) {
                 var value = editInput.val().trim();
                 editedData[field] = value;
-                j(this).text(value);
+                if (field === "reason") {
+                    console.log(123);
+                    j(this).text(reasons[value]);
+                } else {
+                    console.log(456);
+                    j(this).text(value);
+                }
             }
-            if(field =='reason' && editInput.length == 0) {
+            if (field == 'reason' && editInput.length == 0) {
                 editedData['reason'] = 1;
             }
         });
@@ -129,4 +136,50 @@ j(document).ready(function () {
         isEditing = false;
 
     });
+    // j(".headmassaction").addClass("massaction-header-class");
+    j("[name='massaction']").hide(); 
+    j(".massaction-checkbox").hide(); 
+    j(".massaction").hide(); 
+    j("body").on("click", ".enable_mass_update", function (e) {
+        e.preventDefault();
+        
+        var button = j(this);
+        isMassActionEnabled = !isMassActionEnabled;
+
+        
+        // Change the button label based on the state
+        if (isMassActionEnabled) {
+            j("[name='massaction']").show();
+            j(".massaction-checkbox").show();
+            j(".massaction").show();
+            button.text('Disable Mass Action');
+        } else {
+            j("[name='massaction']").hide();
+            j(".massaction-checkbox").hide();
+            j(".massaction").hide();
+            button.text('Enable Mass Action');
+        }
+
+    });
+
 });
+// var isMassActionEnabled = false;
+
+// function toggleMassAction() {
+//     var button = j('enable_mass_update'); // The "Enable Mass Update" button
+//     var checkboxes = j('.mass_select'); // Select all checkboxes in the grid
+
+//     isMassActionEnabled = !isMassActionEnabled; // Toggle the state
+//     console.log(button);
+//     checkboxes.each(function (checkbox) {
+//         console.log(123);
+//         checkbox.hide(); // Show or hide the checkboxes based on the state
+//     });
+
+//     // Change the button label based on the state
+//     if (isMassActionEnabled) {
+//         button.innerHTML = 'Disable Mass Update';
+//     } else {
+//         button.innerHTML = 'Enable Mass Update';
+//     }
+// }

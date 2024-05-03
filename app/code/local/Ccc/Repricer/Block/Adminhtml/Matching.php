@@ -8,5 +8,14 @@ class Ccc_Repricer_Block_Adminhtml_Matching extends Mage_Adminhtml_Block_Widget_
         $this->_headerText = Mage::helper('repricer')->__('Manage Matching');
         parent::__construct();
         $this->removeButton('add');
+        $this->addButton(
+            'enable_mass_update',
+            [
+                'label'   => Mage::helper('repricer')->__('Enable Mass Reason'),
+                // 'onclick' => "toggleMassAction()", 
+                'class'   => 'enable_mass_update',
+            ]
+        );
+
     }
 }
