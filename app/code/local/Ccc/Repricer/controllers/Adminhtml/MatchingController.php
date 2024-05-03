@@ -19,133 +19,91 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
         $this->_initAction();
         $this->renderLayout();
     }
+
     public function editAction()
     {
-        $this->_title($this->__('Manage Matching'));
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $repricerId = $this->getRequest()->getPost('itemId');
+            $editedData = $this->getRequest()->getPost('editedData');
+            $repricer = Mage::getModel('ccc_repricer/matching');
 
-        // 1. Get ID and create model
-        $id = $this->getRequest()->getParam('repricer_id');
-        $model = Mage::getModel('ccc_repricer/matching');
-        // 2. Initial checking
-        if ($id) {
-            $model->load($id);
-            if (!$model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('repriser')->__('This page no longer exists.')
-                );
-                $this->_redirect('*/*/');
-                return;
+            if ($repricerId) {
+                $repricer->addData(['repricer_id' => $repricerId]);
+                foreach ($editedData as $field => $value) {
+                    $repricer->addData([$field => $value]);
+                }
+
+                // if (!empty($editedData['competitor_sku']) && !empty($editedData['competitor_url']))
+                // {
+                //     if ($editedData['competitor_price']>0){
+                //         if(!empty($editedData['reason']) && !is_null($editedData['reason'])){
+                //             $repricer->addData(['reason' => $repricer::CONST_REASON_NO_OUT_OF_STOCK]);
+                //         }else{
+                //             $repricer->addData(['reason' => $repricer::CONST_REASON_ACTIVE]);
+                //         }
+                //     } else {
+                //         $repricer->addData(['reason' => $repricer::CONST_REASON_NOT_AVAILABLE]);
+                //     }
+                // } else {
+                //     $repricer->addData(['reason' => $repricer::CONST_REASON_NO_MATCH]);
+                // }
+                switch ($repricer->getReason()) {
+                    case $repricer::CONST_REASON_ACTIVE:
+                        $this->_reasonCheck($repricer);
+                        break;
+                    case $repricer::CONST_REASON_NOT_AVAILABLE:
+                        $repricer->addData(['competitor_price' => 0]);
+                        break;
+                    case $repricer::CONST_REASON_NO_OUT_OF_STOCK:
+                        break;
+                    case $repricer::CONST_REASON_NO_MATCH:
+                        $this->_reasonCheck($repricer);
+                        break;
+                    case $repricer::CONST_REASON_NO_WRONG_MATCH:
+                        $collection = Mage::getModel('ccc_repricer/matching')->load($repricerId);
+                        $url = $repricer->getCompetitorUrl();
+                        $sku = $repricer->getCompetitorSku();
+                        if (!empty($url) && !empty($sku) && ($collection->getReason() == $repricer::CONST_REASON_NO_WRONG_MATCH)) {
+                            if (($collection->getCompetitorUrl() != $repricer->getCompetitorUrl()) || ($collection->getCompetitorSku() != $repricer->getCompetitorSku())) {
+                                $repricer->addData(['competitor_price' => 0.0]);
+                                $repricer->addData(['reason' => $repricer::CONST_REASON_NOT_AVAILABLE]);
+                            }
+                        }
+                        break;
+                }
+
+                $repricer->save();
             }
-        }
-        $this->_title($model->getId() ? $this->__('Edit Page') : $this->__('New Page'));
-        // 3. Set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
-        if (!empty($data)) {
-            $model->setData($data);
-        }
 
-        Mage::register('ccc_repricer_matching', $model);
-        // 5. Build edit form
-        $this->_initAction()
-            // 4. Register model to use later in blocks
-            ->_addBreadcrumb(
-                $id ? Mage::helper('repricer')->__('Edit Page')
-                : Mage::helper('repricer')->__('New Page'),
-                $id ? Mage::helper('repricer')->__('Edit Page')
-                : Mage::helper('repricer')->__('New Page')
+            $response = array(
+                'success' => true,
+                'message' => 'Data saved successfully'
             );
-        $this->renderLayout();
+            $this->getResponse()->setHeader('Content-type', 'application/json');
+            $this->getResponse()->setBody(json_encode($collection->getReason()));
+        }
     }
-    public function saveAction()
+    protected function _reasonCheck($model)
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $url = $model->getCompetitorUrl();
+        $sku = $model->getCompetitorSku();
+        $price = $model->getCompetitorPrice();
 
-            $data = $this->_filterPostData($data);
-            if (!empty($data["competitor_url"]) && !empty($data["competitor_sku"])) {
-                if (!empty($data["competitor_price"]) && $data["competitor_price"] > 0) {
-                    $data["reason"] = 1;
-                } else {
-                    $data["reason"] = 3;
-                }
+        if (!empty($url) && !empty($sku)) {
+            if (!empty($price)) {
+                $model->addData(['reason' => $model::CONST_REASON_ACTIVE]);
             } else {
-                $data["reason"] = 0;
+                $model->addData(['reason' => $model::CONST_REASON_NOT_AVAILABLE]);
             }
-
-            $model = Mage::getModel('ccc_repricer/matching');
-
-            if ($id = $this->getRequest()->getParam('repricer_id')) {
-                $model->load($id);
-            }
-            $model->setData($data);
-
-            Mage::dispatchEvent('repricer_matching_form_prepare_save', array('repricer_matching' => $model, 'request' => $this->getRequest()));
-
-            //validating
-            if (!$this->_validatePostData($data)) {
-                $this->_redirect('*/*/edit', array('repricer_id' => $model->getId(), '_current' => true));
-                return;
-            }
-
-            // try to save it
-            try {
-                // save the data
-                $model->save();
-
-                // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('repricer')->__('The page has been saved.')
-                );
-                // clear previously saved data from session
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
-                // check if 'Save and Continue'
-                if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('repricer_id' => $model->getId(), '_current' => true));
-                    return;
-                }
-                // go to grid
-                $this->_redirect('*/*/');
-                return;
-
-            } catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
-                $this->_getSession()->addException(
-                    $e,
-                    Mage::helper('repricer')->__('An error occurred while saving the page.')
-                );
-            }
-
-            $this->_getSession()->setFormData($data);
-            $this->_redirect('*/*/edit', array('repricer_id' => $this->getRequest()->getParam('repricer_id')));
-            return;
+        } else {
+            $model->addData(['reason' => $model::CONST_REASON_NO_MATCH]);
         }
-        $this->_redirect('*/*/');
     }
-    protected function _filterPostData($data)
+    public function gridAction()
     {
-        $data = $this->_filterDates($data, array('custom_theme_from', 'custom_theme_to'));
-        return $data;
-    }
-    protected function _validatePostData($data)
-    {
-        $errorNo = true;
-        if (!empty($data['layout_update_xml']) || !empty($data['custom_layout_update_xml'])) {
-            /** @var $validatorCustomLayout Mage_Adminhtml_Model_LayoutUpdate_Validator */
-            $validatorCustomLayout = Mage::getModel('adminhtml/layoutUpdate_validator');
-            if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
-                $errorNo = false;
-            }
-            if (
-                !empty($data['custom_layout_update_xml'])
-                && !$validatorCustomLayout->isValid($data['custom_layout_update_xml'])
-            ) {
-                $errorNo = false;
-            }
-            foreach ($validatorCustomLayout->getMessages() as $message) {
-                $this->_getSession()->addError($message);
-            }
-        }
-        return $errorNo;
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('repricer/adminhtml_matching/grid')->getGridHtml()
+        );
     }
 
 }

@@ -17,6 +17,14 @@
         <update handle="adminhtml_matching_edit" />
     </adminhtml_matching_new>
     <adminhtml_matching_index>
+        <reference name="head">
+            <action method="addJs">
+                <script>lib/jquery/jquery-1.10.2.js</script>
+            </action>
+            <action method="addJs">
+                <script>repricer/match.js</script>
+            </action>
+        </reference>
         <reference name="content">
             <block type="repricer/adminhtml_matching" name="matching" />
         </reference>
@@ -24,11 +32,6 @@
     <adminhtml_matching_edit>
         <reference name="content">
             <block type="repricer/adminhtml_matching_edit" name="matching_edit" />
-            <reference name="head">
-                <action method="addJs">
-                    <script>repricer/form.js</script>
-                </action>
-            </reference>
         </reference>
     </adminhtml_matching_edit>
 </layout>
