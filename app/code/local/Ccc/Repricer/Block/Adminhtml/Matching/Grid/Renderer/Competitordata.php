@@ -7,6 +7,8 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Competitordata extends
     {
         // Render competitor information
         $productId = $row->getData('product_id');
+        $repricerId = $row->getData('repricer_id');
+        
         $items = Mage::getModel('ccc_repricer/matching')->getCollection()->addFieldToFilter('product_id', $productId);
         $columnIndex = $this->getColumn()->getIndex();
 
@@ -42,18 +44,9 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Competitordata extends
             $output .= "<tr id='$rowId' height='23vh'>";
 
             switch ($columnIndex) {
-
-                // case 'pc_combine':
-                //     $output .= "<td width='150px'>";
-                //     // $pcCombine= $item->getProductId()."-".$item->getCompetitorId();
-                //     // $item->addData(['pc_combine'=>$pcCombine]);
-                //     $output .= "<span><b>ID Combine: </b>". $item->getPcCombine() ."</span>";
-                //     $output .= "</td>";
-                //     break;
-
                 case 'competitor_name':
                     $output .= "<td width='150px'>";
-                    $output .= "<input type='checkbox' name='massaction' id='' class= 'massaction-checkbox' value='{$item->getPcCombine()}'> &nbsp;";
+                    $output .= "<input type='checkbox' name='massaction' class='competitor-checkbox' value='{$item->getPcCombine()}'> &nbsp;";
                     $output .= $item->getCompetitorName();
                     $output .= "</td>";
                     break;

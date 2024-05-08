@@ -30,6 +30,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
             'competitor_price' => 'competitor_price',
             'reason' => 'reason',
             'updated_date' => 'main_table.updated_date',
+            'pc_combine' => 'GROUP_CONCAT(CONCAT(product_id,"-",cpev.competitor_id) separator ",")',
         ];
         $collection->getSelect()->order('product_id')->group('product_id')->reset(Zend_Db_Select::COLUMNS)
             ->columns($columns);
@@ -151,9 +152,9 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
     }
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('repricer_id');
+        $this->setMassactionIdField('pc_combine');
         $this->setMassactionIdFieldOnlyIndexValue(true);
-        $this->getMassactionBlock()->setFormFieldName('repricer_id'); 
+        $this->getMassactionBlock()->setFormFieldName('pc_combine'); 
         $reasonArr = Mage::getModel('ccc_repricer/matching')->getReasons();
 
         array_unshift($reasonArr, array('label' => '', 'value' => ''));

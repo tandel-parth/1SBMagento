@@ -48,11 +48,11 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
                         $url = $repricer->getCompetitorUrl();
                         $sku = $repricer->getCompetitorSku();
                         if (!empty($url) && !empty($sku)) {
-                            if (($collection->getReason() == $repricer::CONST_REASON_NO_WRONG_MATCH) &&(($collection->getCompetitorUrl() != $repricer->getCompetitorUrl()) || ($collection->getCompetitorSku() != $repricer->getCompetitorSku()))) {
+                            if (($collection->getReason() == $repricer::CONST_REASON_NO_WRONG_MATCH) && (($collection->getCompetitorUrl() != $repricer->getCompetitorUrl()) || ($collection->getCompetitorSku() != $repricer->getCompetitorSku()))) {
                                 $repricer->addData(['competitor_price' => 0.0]);
                                 $repricer->addData(['reason' => $repricer::CONST_REASON_NOT_AVAILABLE]);
                             }
-                        }else{
+                        } else {
                             $repricer->addData(['reason' => $repricer::CONST_REASON_NO_MATCH]);
                         }
                         break;
@@ -71,28 +71,28 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
     }
     public function massReasonAction()
     {
-        $repricerIds = $this->getRequest()->getParam('repricer_id');
+        $pcCombine = $this->getRequest()->getParam('pc_combine');
+        echo "<pre>";
+        print_r($pcCombine);
+        die("done");
         $reason = $this->getRequest()->getParam('reason');
         $matching = Mage::getModel('ccc_repricer/matching');
         $count = 0;
-        echo "<pre>";
-        print_r($repricerIds);
-        print_r($reason);
-        die("done");
-        foreach($repricerIds as $value){
-            $arr = explode('-', $value,2);
-            $pId = $arr[0];
-            $cId = $arr[1];
-            $data = $matching->getCollection()
-                ->addFieldToFilter('product_id',$pId)
-                ->addFieldToFilter('competitor_id',$cId)
-                ->getfirstItem();
-            $matching->load($data->getRepricerId(),'repricer_id');
-            if ($data->getReason() != $reason) {
-                $matching->addData(['reason'=>$reason])->save();
-                $count++;
+        foreach ($pcCombine as $value) {
+            $arr = explode('-', $value, 2);
+            if (count($arr) > 1) {
+                $pId = $arr[0];
+                $cId = $arr[1];
+                $data = $matching->getCollection()
+                    ->addFieldToFilter('product_id', $pId)
+                    ->addFieldToFilter('competitor_id', $cId)
+                    ->getfirstItem();
+                $matching->load($data->getRepricerId(), 'repricer_id');
+                if ($data->getReason() != $reason) {
+                    $matching->addData(['reason' => $reason])->save();
+                    $count++;
+                }
             }
-
         }
         $this->_getSession()->addSuccess(
             $this->__('Total of %d record(s) have been enabled.', $count)
