@@ -61,17 +61,16 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                 'renderer' => 'repricer/adminhtml_matching_grid_renderer_productname',
                 'filter_condition_callback' => array($this, '_filterProductName'),
             ),
-            // 'pc_combine' =>
-            // array(
-            //     'header' => Mage::helper('repricer')->__('PC ID'),
-            //     'align' => 'left',
-            //     'width' => '400px',
-            //     'index' => 'pc_combine',
-            //     'column_css_class' => 'no-display',
-            //     'header_css_class' => 'no-display',
-            //     'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
-            //     // 'filter_condition_callback' => array($this, '_filterProductName'),
-            // ),
+            'pc_combine' =>
+            array(
+                'header' => Mage::helper('repricer')->__('PC ID'),
+                'align' => 'center',
+                'width' => '50px',
+                'index' => 'pc_combine',
+                'column_css_class' => 'pc_combine',
+                'header_css_class' => 'pc_combine',
+                'renderer' => 'repricer/adminhtml_matching_grid_renderer_competitordata',
+            ),
             'competitor_name' =>
             array(
                 'header' => Mage::helper('repricer')->__('Competitor Name'),

@@ -168,25 +168,31 @@ j(document).ready(function () {
     });
 
 
+    j(".pc_combine").hide();
     j("[name='massaction']").hide();
     j(".massaction-checkbox").hide();
     j(".massaction-competitor").hide();
     j(".massaction").hide();
+    j(".headings th:first-child, .filter th:first-child, .a-center").hide();
     j("body").on("click", ".enable_mass_update", function (e) {
         e.preventDefault();
         var button = j(this);
         isEnabled = !isEnabled;
         if (isEnabled) {
+            j(".pc_combine").show();
             j("[name='massaction']").show();
             j(".massaction-checkbox").show();
             j(".massaction-competitor").show();
             j(".massaction").show();
+            j(".headings th:first-child, .filter th:first-child, .a-center").show();
             button.text("Disable Mass Action")
         } else {
+            j(".pc_combine").hide();
             j("[name='massaction']").hide();
             j(".massaction-checkbox").hide();
             j(".massaction-competitor").hide();
             j(".massaction").hide();
+            j(".headings th:first-child, .filter th:first-child, .a-center").hide();
             button.text("Enable Mass Action");
             matchingGrid_massactionJsObject.unselectAll()
         }
