@@ -83,10 +83,6 @@
                     </ccc_banner>
                     <system>
                         <children>
-                            <!-- <banner>
-                                <title>Banner</title>
-                                <sort_order>15</sort_order>
-                            </banner> -->
                             <config>
                                 <children>
                                     <banner>

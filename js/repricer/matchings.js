@@ -12,7 +12,7 @@ j(document).ready(function () {
         var itemId = editButton.data("repricer-id");
         var formKey = editButton.data("form-key");
         reason = editButton.data("reason");
-
+        console.log(reason);
         var className = "editable-" + itemId;
         var selector = "td." + className;
 
@@ -152,7 +152,7 @@ j(document).ready(function () {
             }
         });
 
-        competitor_checkboxes.removeAttr("contenteditable");
+        // competitor_checkboxes.removeAttr("contenteditable");
         let newreason = JSON.stringify(reason);
 
         var cell = cancelButton.closest("td");
@@ -168,30 +168,24 @@ j(document).ready(function () {
     });
 
 
-    j(".pc_combine").hide();
-    j("[name='massaction']").hide();
-    j(".massaction-checkbox").hide();
-    j(".massaction-competitor").hide();
-    j(".massaction").hide();
+    j(".pc_combine, [name='massaction'], .massaction-checkbox, .massaction-competitor, .massaction").hide();
     j(".headings th:first-child, .filter th:first-child, .a-center").hide();
     j("body").on("click", ".enable_mass_update", function (e) {
         e.preventDefault();
         var button = j(this);
+        var buttonText = button.text();
         isEnabled = !isEnabled;
+        if (buttonText == "Enable Mass Action") {
+            isEnabled = true;
+        } else {
+            isEnabled = false;
+        }
         if (isEnabled) {
-            j(".pc_combine").show();
-            j("[name='massaction']").show();
-            j(".massaction-checkbox").show();
-            j(".massaction-competitor").show();
-            j(".massaction").show();
+            j(".pc_combine, [name='massaction'], .massaction-checkbox, .massaction-competitor, .massaction").show();
             j(".headings th:first-child, .filter th:first-child, .a-center").show();
             button.text("Disable Mass Action")
         } else {
-            j(".pc_combine").hide();
-            j("[name='massaction']").hide();
-            j(".massaction-checkbox").hide();
-            j(".massaction-competitor").hide();
-            j(".massaction").hide();
+            j(".pc_combine, [name='massaction'], .massaction-checkbox, .massaction-competitor, .massaction").hide();
             j(".headings th:first-child, .filter th:first-child, .a-center").hide();
             button.text("Enable Mass Action");
             matchingGrid_massactionJsObject.unselectAll()
@@ -212,18 +206,20 @@ j(document).ready(function () {
     });
 
     j("body").on("change", ".competitor-checkbox", function (e) {
-        var isChecked = j(this).prop("checked");
-        var row = j(this).closest("tr").parent().closest("tr");
-        var checkboxToCheck = row.find('.massaction-checkbox');
-        checkboxToCheck.prop("checked", isChecked);
-
-        // Check if there are any "massaction-checkboxes" checkboxes checked
-        var anyChecked = row.find('.competitor-checkbox:checked').length > 0;
-        checkboxToCheck.prop("checked", anyChecked);
+        selectMassCheckbox(this);
     });
-
-
 });
+
+function selectMassCheckbox(checkbox) {
+    var isChecked = j(checkbox).prop("checked");
+    var row = j(checkbox).closest("tr").parent().closest("tr");
+    var checkboxToCheck = row.find(".massaction-checkbox");
+    checkboxToCheck.prop("checked", isChecked);
+
+    // Check if there are any "competitor-checkbox" checkboxes checked
+    var anyChecked = row.find(".competitor-checkbox:checked").length > 0;
+    checkboxToCheck.prop("checked", anyChecked);
+}
 
 varienGridMassaction.prototype.findCheckbox = function (evt) {
     if (['a', 'input', 'select'].indexOf(Event.element(evt).tagName.toLowerCase()) !== -1) {
@@ -237,7 +233,6 @@ varienGridMassaction.prototype.findCheckbox = function (evt) {
     }.bind(this));
     return checkbox;
 },
-
     varienGridMassaction.prototype.getCheckboxes = function () {
         var result = [];
         this.grid.rows.each(function (row) {
@@ -254,7 +249,7 @@ varienGridMassaction.prototype.findCheckbox = function (evt) {
                 checkbox.value,
                 this.checkedString
             );
-            console.log(this.checkedString);
+            // console.log(this.checkedString);
         } else {
             let values = checkbox.value;
             const arrvalues = values.split(',');
@@ -267,4 +262,39 @@ varienGridMassaction.prototype.findCheckbox = function (evt) {
             }
         }
         this.updateCount();
+    },
+    varienGridMassaction.prototype.updateCount = function () {
+        let values = this.checkedString;
+        const arrvalues = values.split(',');
+        var pId = "";
+        var id = 1;
+        if (arrvalues[0] == "") {
+            id = 0;
+        }
+        for (let i = 0; i < arrvalues.length; i++) {
+            const arrvalue = arrvalues[i].split('-');
+            if (i == 0) {
+                pId = arrvalue[0];
+            }
+            else if (pId !== arrvalue[0]) {
+                pId = arrvalue[0];
+                id++;
+            }
+        }
+
+        this.count.update(id);
+        if (!this.grid.reloadParams) {
+            this.grid.reloadParams = {};
+        }
+        this.grid.reloadParams[this.formFieldNameInternal] = this.checkedString;
+    },
+    varienGridMassaction.prototype.getCheckboxesValues = function () {
+        var result = [];
+        this.getCheckboxes().each(function (checkbox) {
+            var arrValue = checkbox.value.split(',');
+            if (arrValue.length > 1) {
+                result.push(checkbox.value);
+            }
+        });
+        return result;
     };

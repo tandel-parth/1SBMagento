@@ -11,11 +11,10 @@ class Ccc_Repricer_Block_Adminhtml_Matching extends Mage_Adminhtml_Block_Widget_
         $this->addButton(
             'enable_mass_update',
             [
-                'label'   => Mage::helper('repricer')->__('Enable Mass Reason'),
-                // 'onclick' => "toggleMassAction()", 
+                'label'   => Mage::helper('repricer')->__('Enable Mass Action'),
                 'class'   => 'enable_mass_update',
             ]
         );
-
+        
     }
 }

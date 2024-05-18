@@ -63,6 +63,17 @@
                 <class>Ccc_Repricer_Helper</class>
             </repricer>
         </helpers>
+        <events>
+            <hide_massaction>
+                <observers>
+                    <ccc_repricer_massaction>
+                        <type>singleton</type>
+                        <class>ccc_repricer/observer</class>
+                        <method>hideMassactionClass</method>
+                    </ccc_repricer_massaction>
+                </observers>
+            </hide_massaction>
+        </events>
     </global>
     <crontab>
         <jobs>

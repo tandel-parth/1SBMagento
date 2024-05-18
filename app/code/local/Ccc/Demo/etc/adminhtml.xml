@@ -1,0 +1,13 @@
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <demo translate="title" module="demo">
+                    <title>Demo</title>
+                    <action>adminhtml/demo</action>
+                    <sort_order>105</sort_order>
+                </demo>
+            </children>
+         </catalog>
+    </menu>
+</config>

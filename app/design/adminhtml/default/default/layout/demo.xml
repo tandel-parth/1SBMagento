@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_demo_index>
+        <reference name="content">
+            <!-- <block type="banner/adminhtml_banner" name="banner" template="banner/grid/container.phtml" />
+            <reference name="head">
+                <action method="addJs">
+                    <script>banner/grid.js</script>
+                </action>
+            </reference> -->
+        </reference>
+    </adminhtml_demo_index>
+</layout>

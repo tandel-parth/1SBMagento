@@ -49,6 +49,7 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Competitordata extends
                     $output .= "<input type='checkbox' name='massaction' class='competitor-checkbox' value='{$item->getPcCombine()}'>";
                     $output .= "</td>";
                     break;
+                    
                 case 'competitor_name':
                     $output .= "<td width='150px'>";
                     $output .= $item->getCompetitorName();

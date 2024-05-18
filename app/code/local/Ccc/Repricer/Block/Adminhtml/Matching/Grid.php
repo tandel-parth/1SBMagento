@@ -4,6 +4,7 @@ use function PHPSTORM_META\type;
 
 class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    protected $_massactionBlockName = 'repricer/adminhtml_matching_massaction';
     public function __construct()
     {
         parent::__construct();
@@ -11,10 +12,10 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
         $this->setTemplate('repricer/matching/grid.phtml');
+
     }
     protected function _prepareCollection()
     {
-        // Ccc_Repricer_Block_Adminhtml_Matching_Grid_Renderer_Productname::$renderedProductIds = [];
         $collection = Mage::getModel('ccc_repricer/matching')->getCollectionData();
         $columns = [
             'product_id' => 'product_id',
@@ -30,11 +31,10 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
             'competitor_price' => 'competitor_price',
             'reason' => 'reason',
             'updated_date' => 'main_table.updated_date',
-            'pc_combine' => 'GROUP_CONCAT(CONCAT(product_id,"-",cpev.competitor_id) separator ",")',
+            'pc_combine' => new Zend_Db_Expr('GROUP_CONCAT(CONCAT(product_id,"-",cpev.competitor_id) ORDER BY cpev.competitor_id SEPARATOR ",")'),
         ];
         $collection->getSelect()->order('product_id')->group('product_id')->reset(Zend_Db_Select::COLUMNS)
             ->columns($columns);
-
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -42,16 +42,6 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
     {
         // Add columns for the grid
         $collumn = array(
-            // 'massaction'=>array(
-            //     'type'   => 'checkbox',
-            //     'header' => 'Select',
-            //     'column_css_class' => 'massaction',
-            //     'header_css_class' => 'massaction',
-            //     'values' => [],
-            //     'index'  => 'product_id',
-            //     'width'  => '20px',
-            // ),
-
             'product_name' =>
             array(
                 'header' => Mage::helper('repricer')->__('Product Name'),
@@ -146,14 +136,13 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
         foreach ($collumn as $collumnName => $collumnKey) {
             $this->addColumn($collumnName, $collumnKey);
         }
-
         return parent::_prepareColumns();
     }
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('pc_combine');
         $this->setMassactionIdFieldOnlyIndexValue(true);
-        $this->getMassactionBlock()->setFormFieldName('pc_combine'); 
+        $this->getMassactionBlock()->setFormFieldName('pc_combine');
         $reasonArr = Mage::getModel('ccc_repricer/matching')->getReasons();
 
         array_unshift($reasonArr, array('label' => '', 'value' => ''));
@@ -173,8 +162,8 @@ class Ccc_Repricer_Block_Adminhtml_Matching_Grid extends Mage_Adminhtml_Block_Wi
                 )
             )
         );
-    
-    return parent::_prepareMassaction();
+
+        return parent::_prepareMassaction();
     }
     public function getGridUrl()
     {

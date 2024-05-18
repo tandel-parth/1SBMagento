@@ -117,8 +117,10 @@ class Ccc_Repricer_Adminhtml_MatchingController extends Mage_Adminhtml_Controlle
     }
     public function gridAction()
     {
+        $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('repricer/adminhtml_matching/grid')->getGridHtml()
+            $this->getLayout()->createBlock('repricer/adminhtml_matching_grid')->toHtml()
         );
+        // Mage::dispatchEvent('hide_massaction', []);
     }
 }

@@ -1,0 +1,112 @@
+<config>
+    <menu>
+        <ccc_jethalal translate="title" module="jethalal">
+            <title>Jethalal</title>
+            <sort_order>100</sort_order>
+            <children>
+                <jalebi translate="title" module="jethalal">
+                    <title>Jalebi</title>
+                    <action>adminhtml/jalebi</action>
+                    <sort_order>10</sort_order>
+                </jalebi>
+                <fafda translate="title" module="jethalal">
+                    <title>Fafda</title>
+                    <action>adminhtml/jalebi/new</action>
+                    <sort_order>10</sort_order>
+                </fafda>
+            </children>
+        </ccc_jethalal>
+        <catalog>
+            <children>
+                <jethalal translate="title" module="jethalal">
+                    <title>Jethalal</title>
+                    <children>
+                        <index translate="title" module="jethalal">
+                            <title>Jalebi</title>
+                            <action>adminhtml/jalebi/index</action>
+                        </index>
+                        <new translate="title" module="jethalal">
+                            <title>Fafda</title>
+                            <action>adminhtml/jalebi/new</action>
+                        </new>
+                    </children>
+                </jethalal>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <ccc_jethalal translate="title" module="jethalal">
+                        <title>Jethalal</title>
+                        <children>
+                            <jalebi translate="title">
+                                <title>Manage Jalebi</title>
+                                <children>
+                                    <actions translate="title">
+                                        <title>Actions</title>
+                                        <children>
+                                            <index translate="title">
+                                                <title>Index</title>
+                                            </index>
+                                            <new translate="title">
+                                                <title>New</title>
+                                            </new>
+                                            <edit translate="title">
+                                                <title>Edit</title>
+                                            </edit>
+                                            <save translate="title">
+                                                <title>Save</title>
+                                            </save>
+                                            <delete translate="title">
+                                                <title>Delete</title>
+                                            </delete>
+                                        </children>
+                                    </actions>
+                                </children>
+                            </jalebi>
+                            <fafda translate="title">
+                                <title>Manage Fatada</title>
+                                <children>
+                                    <actions translate="title">
+                                        <title>Actions</title>
+                                        <children>
+                                            <index translate="title">
+                                                <title>Index</title>
+                                            </index>
+                                            <new translate="title">
+                                                <title>New</title>
+                                            </new>
+                                            <save translate="title">
+                                                <title>Save</title>
+                                            </save>
+                                            <edit translate="title">
+                                                <title>Edit</title>
+                                            </edit>
+                                            <delete translate="title">
+                                                <title>Delete</title>
+                                            </delete>
+                                        </children>
+                                    </actions>
+                                </children>
+                            </fafda>
+                        </children>
+                    </ccc_jethalal>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <jethalal module="jethalal" translate="title">
+                                        <title>Jethalal</title>
+                                        <sort_order>60</sort_order>
+                                    </jethalal>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

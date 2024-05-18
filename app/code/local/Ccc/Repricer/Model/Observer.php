@@ -20,8 +20,7 @@ class Ccc_Repricer_Model_Observer
                     "e.entity_id = CRM.product_id AND CRM.competitor_id = {$_competitorId}",
                     ['competitor_id']
                 )
-                ->where('CRM.competitor_id IS NULL')
-            ;
+                ->where('CRM.competitor_id IS NULL');
             $columns = [
                 'product_id' => 'e.entity_id',
             ];
@@ -71,7 +70,7 @@ class Ccc_Repricer_Model_Observer
                 $matchingCompetitorName[] = $competitorName;
             }
             $competitorData[$competitorName][] = $data;
-        } 
+        }
 
         $filePaths = [];
 
@@ -170,5 +169,16 @@ class Ccc_Repricer_Model_Observer
                 }
             }
         }
+    }
+    public function hideMassactionClass()
+    {
+        echo '<script src="lib/jquery/jquery-1.10.2.js" type="text/html"> var j = jQuery.noConflict(); jQuery(document).ready(function($) {j(".headings th:first-child, .filter th:first-child, .a-center").hide();
+        j("[name=\'massaction\']").hide(); // Use backslashes to escape inner quotes
+        j(".massaction-checkbox").hide();
+        j(".massaction").hide();
+        j(".pc_combine").hide();
+        document.querySelector(".pc-col").style.width = "0px"});</script>';
+        // echo "<script>console.log(255);
+        // </script>";
     }
 }

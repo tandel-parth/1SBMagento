@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_jalebi_index>
+        <reference name="content">
+            <block type="jethalal/adminhtml_jalebi" name="jalebi" />
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <script>lib/jquery/jquery-1.10.2.js</script>
+            </action>
+            <action method="addJs">
+                <script>jethalal/jalebi.js</script>
+            </action>
+        </reference>
+    </adminhtml_jalebi_index>
+    <adminhtml_jalebi_new>
+        <update handle="adminhtml_jalebi_edit" />
+    </adminhtml_jalebi_new>
+    <adminhtml_jalebi_edit>
+        <reference name="content">
+            <block type="jethalal/adminhtml_jalebi_edit" name="jalebi_edit" />
+        </reference>
+    </adminhtml_jalebi_edit>
+</layout>
