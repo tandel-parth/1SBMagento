@@ -10,7 +10,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Ccc_Jethalal after="Mage_Adminhtml">Ccc_Jethalal_Adminhtml</Ccc_Jethalal>
+                        <Ccc_Jethalal before="Mage_Adminhtml">Ccc_Jethalal_Adminhtml</Ccc_Jethalal>
                     </modules>
                 </args>
             </adminhtml>
@@ -25,6 +25,17 @@
             </updates>
         </layout>
     </adminhtml>
+    <frontend>
+        <routers>
+            <catalog>
+                <args>
+                    <modules>
+                        <Ccc_Jethalal before="Mage_Catalog">Ccc_Jethalal</Ccc_Jethalal>
+                    </modules>
+                </args>
+            </catalog>
+        </routers>
+    </frontend>
     <global>
         <helpers>
             <jethalal>
@@ -35,6 +46,11 @@
             <jethalal>
                 <class>Ccc_Jethalal_Block</class>
             </jethalal>
+            <catalog>
+                <rewrite>
+                    <product_list>Ccc_Jethalal_Block_List</product_list>
+                </rewrite>
+            </catalog>
         </blocks>
         <models>
             <ccc_jethalal>
@@ -49,6 +65,11 @@
                     </jalebi>
                 </entities>
             </jethalal_resource>
+            <catalog>
+                <rewrite>
+                    <product>Ccc_Jethalal_Model_Product</product>
+                </rewrite>
+            </catalog>
         </models>
         <resources>
             <jethalal_setup>
@@ -62,7 +83,7 @@
             </jethalal_setup>
         </resources>
         <events>
-            <jethalal_event>
+            <!-- <customer_login>
                 <observers>
                     <ccc_jethalal_jalebi>
                         <type>singleton</type>
@@ -70,7 +91,28 @@
                         <method>jalebiJethalal</method>
                     </ccc_jethalal_jalebi>
                 </observers>
+            </customer_login> -->
+            <jethalal_event>
+                <observers>
+                    <ccc_jethalal_jalebi>
+                        <type>singleton</type>
+                        <class>ccc_jethalal/observer</class>
+                        <method>setJalebi</method>
+                    </ccc_jethalal_jalebi>
+                </observers>
             </jethalal_event>
         </events>
     </global>
+    <crontab>
+        <jobs>
+            <cron_jethalal>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ccc_jethalal/observer::setJalebi</model>
+                </run>
+            </cron_jethalal>
+        </jobs>
+    </crontab>
 </config>

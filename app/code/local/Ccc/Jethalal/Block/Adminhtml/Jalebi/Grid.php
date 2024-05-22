@@ -4,7 +4,7 @@ class Ccc_Jethalal_Block_Adminhtml_Jalebi_Grid extends Mage_Adminhtml_Block_Widg
     public function __construct()
     {
         parent::__construct();
-        //    echo "<h1>Jalebi khao Maja karo</h1>";      
+        $this->setId('jalebiGrid');
     }
     protected function _prepareCollection()
     {
@@ -55,7 +55,7 @@ class Ccc_Jethalal_Block_Adminhtml_Jalebi_Grid extends Mage_Adminhtml_Block_Widg
                 'width' => '200px',
                 'type' => 'datetime',
                 'index' => 'created_date',
-                // 'renderer' => 'repricer/adminhtml_competitors_grid_renderer_datetime',
+                'renderer' => 'jethalal/adminhtml_jalebi_grid_renderer_datetime',
 
             ),
             'updated_date' =>
@@ -65,7 +65,7 @@ class Ccc_Jethalal_Block_Adminhtml_Jalebi_Grid extends Mage_Adminhtml_Block_Widg
                 'width' => '200px',
                 'type' => 'datetime',
                 'index' => 'updated_date',
-                // 'renderer' => 'repricer/adminhtml_competitors_grid_renderer_datetime',
+                'renderer' => 'jethalal/adminhtml_jalebi_grid_renderer_datetime',
             ),
             'edit' =>
             array(

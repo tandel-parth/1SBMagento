@@ -9,11 +9,6 @@
                     <action>adminhtml/jalebi</action>
                     <sort_order>10</sort_order>
                 </jalebi>
-                <fafda translate="title" module="jethalal">
-                    <title>Fafda</title>
-                    <action>adminhtml/jalebi/new</action>
-                    <sort_order>10</sort_order>
-                </fafda>
             </children>
         </ccc_jethalal>
         <catalog>
@@ -25,10 +20,6 @@
                             <title>Jalebi</title>
                             <action>adminhtml/jalebi/index</action>
                         </index>
-                        <new translate="title" module="jethalal">
-                            <title>Fafda</title>
-                            <action>adminhtml/jalebi/new</action>
-                        </new>
                     </children>
                 </jethalal>
             </children>

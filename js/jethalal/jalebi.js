@@ -51,6 +51,7 @@ j(document).ready(function () {
         var editUrl = saveButton.data("url");
         var jalebiId = saveButton.data("jalebi-id");
         var formKey = FORM_KEY;
+        // console.log("",FORM_KEY);
         var className = ".editable-" + jalebiId;
 
         var editedData = [];

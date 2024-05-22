@@ -32,6 +32,13 @@ class Ccc_Jethalal_Block_Adminhtml_Jalebi_Edit extends Mage_Adminhtml_Block_Widg
         }
         ";
     }
+    public function getHeaderText(){
+        if(Mage::registry('ccc_jethalal_jalebi')->getJalebiId()){
+            return Mage::helper('jethalal')->__('Edit Jalebi');
+        }else{
+            return Mage::helper('jethalal')->__('New Jalebi');
+        }
+    }
 }
 
 ?>

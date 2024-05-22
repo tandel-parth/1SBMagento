@@ -22,7 +22,7 @@
                 <script>lib/jquery/jquery-1.10.2.js</script>
             </action>
             <action method="addJs">
-                <script>repricer/matchings.js</script>
+                <script>repricer/matching.js</script>
             </action>
         </reference>
         <reference name="content">

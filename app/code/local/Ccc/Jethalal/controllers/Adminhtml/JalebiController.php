@@ -37,7 +37,7 @@ class Ccc_Jethalal_Adminhtml_JalebiController extends Mage_Adminhtml_Controller_
         $this->_title($this->__("Manage Jalebi"));
         $this->_initAction();
         $this->renderLayout();
-        Mage::dispatchEvent('jethalal_event', ['Jalebi','Fafda']);
+        Mage::dispatchEvent('jethalal_event', ['Jalebi', 'Fafda']);
     }
     public function newAction()
     {
@@ -80,13 +80,67 @@ class Ccc_Jethalal_Adminhtml_JalebiController extends Mage_Adminhtml_Controller_
             );
         $this->renderLayout();
     }
+    public function savenewAction()
+    {
+        if ($data = $this->getRequest()->getPost()) {
+
+            $data = $this->_filterPostData($data);
+            $model = Mage::getModel('ccc_jethalal/jalebi');
+
+            if ($id = $this->getRequest()->getParam('jalebi_id')) {
+                $model->load($id);
+            }
+            $model->setData($data);
+
+            Mage::dispatchEvent('jethalal_jalebi_form_prepare_save', array('jethalal_jalebi' => $model, 'request' => $this->getRequest()));
+
+            //validating
+            if (!$this->_validatePostData($data)) {
+                $this->_redirect('*/*/edit', array('jalebi_id' => $model->getId(), '_current' => true));
+                return;
+            }
+
+            // try to save it
+            try {
+                // save the data
+                $model->save();
+
+                // display success message
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('jethalal')->__('The page has been saved.')
+                );
+                // clear previously saved data from session
+                Mage::getSingleton('adminhtml/session')->setFormData(false);
+                // check if 'Save and Continue'
+                if ($this->getRequest()->getParam('back')) {
+                    $this->_redirect('*/*/edit', array('jalebi_id' => $model->getId(), '_current' => true));
+                    return;
+                }
+                // go to grid
+                $this->_redirect('*/*/');
+                return;
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addException(
+                    $e,
+                    Mage::helper('jethalal')->__('An error occurred while saving the page.')
+                );
+            }
+
+            $this->_getSession()->setFormData($data);
+            $this->_redirect('*/*/edit', array('jalebi_id' => $this->getRequest()->getParam('jalebi_id')));
+            return;
+        }
+        $this->_redirect('*/*/');
+    }
     public function saveAction()
     {
         if ($this->getRequest()->isXmlHttpRequest()) {
             $jalebiId = $this->getRequest()->getPost('jalebi_id');
             $jalebiType = $this->getRequest()->getPost('jalebi_type');
             $status = $this->getRequest()->getPost('status');
-            Mage::log($status,null,"save.log");
+            Mage::log($status, null, "save.log");
             $jethalal = Mage::getModel('ccc_jethalal/jalebi');
 
             if ($jalebiId) {

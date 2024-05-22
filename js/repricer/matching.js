@@ -6,6 +6,7 @@ j(document).ready(function () {
 
     j("body").on("click", ".edit-row", function (e) {
         e.preventDefault();
+        matchingGrid_massactionJsObject.getJalebi()
 
         var editButton = j(this);
         var editUrl = editButton.data("url");
@@ -297,4 +298,7 @@ varienGridMassaction.prototype.findCheckbox = function (evt) {
             }
         });
         return result;
+    };
+    varienGridMassaction.prototype.getJalebi = function () {
+        console.log("Jalebi");
     };

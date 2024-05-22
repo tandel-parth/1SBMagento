@@ -9,5 +9,21 @@
                 </demo>
             </children>
          </catalog>
+         <ccc_demo translate="title" module="demo">
+            <title>Demo</title>
+            <sort_order>100</sort_order>
+            <children>
+                <index translate="title" module="demo">
+                    <title>Demo Manage</title>
+                    <action>adminhtml/demo</action>
+                    <sort_order>10</sort_order>
+                </index>
+                <new translate="title" module="demo">
+                    <title>Demo New</title>
+                    <action>adminhtml/demo/new</action>
+                    <sort_order>10</sort_order>
+                </new>
+            </children>
+        </ccc_demo>
     </menu>
 </config>

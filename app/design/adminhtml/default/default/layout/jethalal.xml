@@ -20,5 +20,8 @@
         <reference name="content">
             <block type="jethalal/adminhtml_jalebi_edit" name="jalebi_edit" />
         </reference>
+        <reference name="left">
+            <block type="jethalal/adminhtml_jalebi_edit_tabs" name="jalebi_tabs" />
+        </reference>
     </adminhtml_jalebi_edit>
 </layout>
