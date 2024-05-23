@@ -58,9 +58,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </jethalal_text>
-                        <jethalal_title translate="label">
-                            <label>Jethalal Title</label>
-                        </jethalal_title>
                     </fields>
                 </general>
             </groups>

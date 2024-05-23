@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_productseller_index>
+        <reference name="content">
+            <block type="productseller/adminhtml_productseller" name="productseller"/>
+        </reference>
+    </adminhtml_productseller_index>
+    <adminhtml_productseller_new>
+        <update handle="adminhtml_productseller_edit" />
+    </adminhtml_productseller_new>
+    <adminhtml_productseller_edit>
+        <reference name="content">
+            <block type="productseller/adminhtml_productseller_edit" name="productseller_edit" />
+        </reference>
+    </adminhtml_productseller_edit>
+    <adminhtml_report_index>
+        <reference name="head">
+            <action method="addJs">
+                <script>lib/jquery/jquery-1.10.2.js</script>
+            </action>
+            <action method="addJs">
+                <script>productseller/seller.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="productseller/adminhtml_report" name="report"  template="productseller/container.phtml"/>
+        </reference>
+    </adminhtml_report_index>
+</layout>

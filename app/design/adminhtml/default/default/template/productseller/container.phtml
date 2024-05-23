@@ -1,0 +1,24 @@
+
+<select name="seller_name" id="seller" class="no-changes">
+    <option hidden>-----select-----</option>
+    <?php
+    $data = Mage::getModel('Ccc_Productseller/productseller')->getCollection();
+    foreach ($data->getData() as $data) {
+
+    ?>
+        <option value="<?php echo $data['seller_name'] ?>"><?php echo $data['seller_name'] ?></option>
+
+    <?php } ?>
+</select>
+
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
+<div>
+    <?php echo $this->getGridHtml() ?>
+</div>

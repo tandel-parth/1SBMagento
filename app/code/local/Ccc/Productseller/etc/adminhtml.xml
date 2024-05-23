@@ -1,0 +1,101 @@
+<config>
+    <menu>
+        <ccc_productseller translate="title" module="jethalal">
+            <title>Sellers</title>
+            <children>
+                <grid translate="title" module="productseller">
+                    <title>ProductSeller Grid</title>
+                    <action>adminhtml/productseller</action>
+                    <sort_order>105</sort_order>
+                </grid>
+                <report translate="title" module="productseller">
+                    <title>ProductSeller Report</title>
+                    <action>adminhtml/report</action>
+                    <sort_order>105</sort_order>
+                </report>
+            </children>
+        </ccc_productseller>
+        <customer>
+            <children>
+                <productseller translate="title" module="productseller">
+                    <title>Sellers</title>
+                    <children>
+                        <grid translate="title" module="productseller">
+                            <title>ProductSeller Grid</title>
+                            <action>adminhtml/productseller</action>
+                            <sort_order>105</sort_order>
+                        </grid>
+                        <report translate="title" module="productseller">
+                            <title>ProductSeller Report</title>
+                            <action>adminhtml/report</action>
+                            <sort_order>105</sort_order>
+                        </report>
+                    </children>
+                </productseller>
+            </children>
+        </customer>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <ccc_productseller translate="title" module="productseller">
+                        <title>Product Seller</title>
+                        <children>
+                            <grid translate="title">
+                                <title>Manage Grid</title>
+                                <children>
+                                    <actions translate="title">
+                                        <title>Actions</title>
+                                        <children>
+                                            <index translate="title">
+                                                <title>Index</title>
+                                            </index>
+                                            <new translate="title">
+                                                <title>New</title>
+                                            </new>
+                                            <edit translate="title">
+                                                <title>Edit</title>
+                                            </edit>
+                                            <save translate="title">
+                                                <title>Save</title>
+                                            </save>
+                                            <delete translate="title">
+                                                <title>Delete</title>
+                                            </delete>
+                                        </children>
+                                    </actions>
+                                </children>
+                            </grid>
+                            <report translate="title">
+                                <title>Manage Report</title>
+                                <children>
+                                    <actions translate="title">
+                                        <title>Actions</title>
+                                        <children>
+                                            <index translate="title">
+                                                <title>Index</title>
+                                            </index>
+                                        </children>
+                                    </actions>
+                                </children>
+                            </report>
+                        </children>
+                    </ccc_productseller>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <ccc_productseller module="productseller" translate="title">
+                                        <title>Product Seller</title>
+                                        <sort_order>60</sort_order>
+                                    </ccc_productseller>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
