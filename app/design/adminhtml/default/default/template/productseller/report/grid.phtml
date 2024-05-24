@@ -1,40 +1,4 @@
 <?php
-
-/**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magento.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magento.com for more information.
- *
- * @category    design
- * @package     default_default
- * @copyright   Copyright (c) 2006-2018 Magento, Inc. (http://www.magento.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
- */
-?>
-<?php
-/**
- * Template for Mage_Adminhtml_Block_Widget_Grid
- *
- *  getId()
- *  getCollection()
- *  getColumns()
- *  getPagerVisibility()
- *  getVarNamePage()
- */
 $numColumns = sizeof($this->getColumns());
 ?>
 
@@ -226,17 +190,34 @@ $numColumns = sizeof($this->getColumns());
                 <?php echo $this->getJsObjectName() ?>.initRowCallback = <?php echo $this->getRowInitCallback() ?>;
                 <?php echo $this->getJsObjectName() ?>.initGridRows();
             <?php endif; ?>
+            var j = jQuery.noConflict();
+            j(document).ready(function() {
+                j(".content-header, #reportGrid").hide();
+                var selectedValue = "default";
+
+                j("#seller").on("change", function(e) {
+                    selectedValue = j(this).val();
+                });
+
+                j("body").on("click", ".load_report", function(e) {
+                    if (selectedValue !== "default") {
+                        <?php echo $this->getJsObjectName() ?>.doFilter();
+                        j(".content-header, #reportGrid").show();
+                    } else {
+                        alert("Please select Seller Name ...");
+                    }
+                });
+            });
 
             function processButtonText() {
                 var button = j(".enable_seller");
                 var buttonText = button.eq(0).text();
-                console.log(buttonText);
-
                 if (buttonText == "Assign to seller") {
-                    j(".pc_combine, [name='massaction'], .massaction-checkbox, .massaction-competitor, .massaction").hide();
+                    j("[name='massaction'], .massaction-checkbox, .massaction-competitor, .massaction").hide();
                     j(".headings th:first-child, .filter th:first-child, .a-center").hide();
+
                 } else {
-                    j(".pc_combine, [name='massaction'], .massaction-checkbox, .massaction-competitor, .massaction").show();
+                    j("[name='massaction'], .massaction-checkbox, .massaction-competitor, .massaction").show();
                     j(".headings th:first-child, .filter th:first-child, .a-center").show();
                 }
             }

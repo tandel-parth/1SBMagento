@@ -26,4 +26,5 @@
             <block type="productseller/adminhtml_report" name="report"  template="productseller/container.phtml"/>
         </reference>
     </adminhtml_report_index>
+    
 </layout>

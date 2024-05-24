@@ -8,12 +8,14 @@ class Ccc_Productseller_Block_Adminhtml_Report extends Mage_Adminhtml_Block_Widg
         $this->_headerText = Mage::helper('productseller')->__('Manage Seller Report');
         parent::__construct();
         $this->removeButton('add');
-        $this->addButton(
-            'enable_seller',
-            [
-                'label'   => Mage::helper('productseller')->__('Assign to seller'),
-                'class'   => 'enable_seller',
-            ]
-        );
+        if (Mage::getStoreConfig('ccc_productseller/general/productseller_enabled')) {
+            $this->addButton(
+                'enable_seller',
+                [
+                    'label'   => Mage::helper('productseller')->__('Assign to seller'),
+                    'class'   => 'enable_seller',
+                ]
+            );
+        }
     }
 }

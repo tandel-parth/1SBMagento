@@ -25,6 +25,15 @@
             </updates>
         </layout>
     </adminhtml>
+    <frontend>
+        <layout>
+            <updates>
+                <productseller>
+                    <file>seller.xml</file>
+                </productseller>
+            </updates>
+        </layout>
+    </frontend>
     <global>
         <blocks>
             <productseller>

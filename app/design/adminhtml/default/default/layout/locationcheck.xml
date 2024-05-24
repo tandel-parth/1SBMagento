@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_locationcheck_index>
+        <reference name="content">
+            <block type="locationcheck/adminhtml_locationcheck" name="locationcheck" />
+        </reference>
+    </adminhtml_locationcheck_index>
+    <adminhtml_locationcheck_new>
+        <update handle="adminhtml_locationcheck_edit" />
+    </adminhtml_locationcheck_new>
+    <adminhtml_locationcheck_edit>
+        <reference name="content">
+            <block type="locationcheck/adminhtml_locationcheck_edit" name="locationcheck_edit" />
+        </reference>
+    </adminhtml_locationcheck_edit>
+    <adminhtml_loadreport_index>
+        <reference name="content">
+            <block type="locationcheck/adminhtml_loadreport" name="loadreport" template="loactioncheck/grid.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <script>lib/jquery/jquery-1.10.2.js</script>
+            </action>
+            <action method="addJs">
+                <script>locationcheck/loadreport.js</script>
+            </action>
+        </reference>
+    </adminhtml_loadreport_index>
+</layout>

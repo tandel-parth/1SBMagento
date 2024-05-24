@@ -9,27 +9,73 @@ class Ccc_Productseller_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block
         $this->setSaveParametersInSession(true);
         $this->setTemplate('productseller/report/grid.phtml');
     }
+    public function getFilterCollection()
+    {
+        $urlEncoded = $this->getRequest()->getParam('filter');
+        $decodedUrl = base64_decode($urlEncoded);
+        $decodedFilters = urldecode($decodedUrl);
+        // $url = str_replace('price[currency]=USD&', "", $decodedFilters);
+        $filtersArray = explode("&", $decodedFilters);
+        $mergeSameFilters = array();
+        foreach ($filtersArray as $data) {
+            $arr = explode("=", $data);
+            $mergeSameFilters[$arr[0]] = $arr[1];
+        }
+        unset($mergeSameFilters['price[currency]']);
+        $collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*');
+        if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+            $collection->joinField(
+                'qty',
+                'cataloginventory/stock_item',
+                'qty',
+                'product_id=entity_id',
+                '{{table}}.stock_id=1',
+                'left'
+            );
+        }
+        if (!empty($mergeSameFilters['entity_id[from]'])) {
+            if (!empty($mergeSameFilters['entity_id[to]'])) {
+                $collection->addFieldToFilter('entity_id', array('from' => $mergeSameFilters['entity_id[from]'], 'to' => $mergeSameFilters['entity_id[to]']));
+            } else {
+                $collection->addFieldToFilter('entity_id', ['gteq' => $mergeSameFilters['entity_id[from]']]);
+            }
+        }
+        if (!empty($mergeSameFilters['price[from]'])) {
+            if (!empty($mergeSameFilters['price[to]'])) {
+                $collection->addFieldToFilter('price', array('from' => $mergeSameFilters['price[from]'], 'to' => $mergeSameFilters['price[to]']));
+            } else {
+                $collection->addFieldToFilter('price', ['gteq' => $mergeSameFilters['price[from]']]);
+            }
+        }
+        if (!empty($mergeSameFilters['qty[from]'])) {
+            if (!empty($mergeSameFilters['qty[to]'])) {
+                $collection->addFieldToFilter('qty', array('from' => $mergeSameFilters['qty[from]'], 'to' => $mergeSameFilters['qty[to]']));
+            } else {
+                $collection->addFieldToFilter('qty', ['gteq' => $mergeSameFilters['qty[from]']]);
+            }
+        }
+        foreach ($mergeSameFilters as $key => $value) {
+            if ($key == "type") {
+                $collection->addFieldToFilter('type_id', array('like' => "%{$value}%"));
+            } else if ($key == "set_name") {
+                $collection->addAttributeToFilter('attribute_set_id', array('like' => "%{$value}%"));
+            } else if ($key == "price[from]" || $key == 'price[to]' || $key == "entity_id[from]" || $key == 'entity_id[to]' || $key == "qty[from]" || $key == 'qty[to]') {
+            } else {
+                $collection->addAttributeToFilter($key, array('like' => "%{$value}%"));
+            }
+        }
+        $this->setCollection($collection);
+        $this->getCollection()->addWebsiteNamesToResult();
+        return parent::_prepareCollection();
+    }
     protected function _prepareCollection()
     {
         if ($this->getRequest()->getParam('filter')) {
-            $urlEncoded = $this->getRequest()->getParam('filter');
-            $decodedUrl = base64_decode($urlEncoded);
-            $decodedFilters = urldecode($decodedUrl);
-            $url = str_replace('price[currency]=USD&', "", $decodedFilters);
-            $filtersArray = explode("=", $url);
-            $mergeSameFilters = array($filtersArray[0] => $filtersArray[1]);
-            if (key_exists('seller_name', $mergeSameFilters)) {
-                $collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*')->addAttributeToFilter('seller_id', array('eq' => $mergeSameFilters['seller_name']));
-                $this->setCollection($collection);
-                return parent::_prepareCollection();
-            } else {
-                $collection = Mage::getModel('catalog/product')->getCollection()->addFieldToFilter('entity_id', null);
-                $this->setCollection($collection);
-                return parent::_prepareCollection();
-            }
+            $this->getFilterCollection();
         } else {
             $collection = Mage::getModel('catalog/product')->getCollection()->addFieldToFilter('entity_id', null);
             $this->setCollection($collection);
+            $this->getCollection()->addWebsiteNamesToResult();
             return parent::_prepareCollection();
         }
     }
@@ -171,30 +217,6 @@ class Ccc_Productseller_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block
                 )
             );
         }
-
-        $this->addColumn(
-            'action',
-            array(
-                'header'    => Mage::helper('catalog')->__('Action'),
-                'width'     => '50px',
-                'type'      => 'action',
-                'getter'     => 'getId',
-                'actions'   => array(
-                    array(
-                        'caption' => Mage::helper('catalog')->__('Edit'),
-                        'url'     => array(
-                            'base' => '*/*/edit',
-                            'params' => array('store' => $this->getRequest()->getParam('store'))
-                        ),
-                        'field'   => 'id'
-                    )
-                ),
-                'filter'    => false,
-                'sortable'  => false,
-                'index'     => 'stores',
-            )
-        );
-
         if (Mage::helper('catalog')->isModuleEnabled('Mage_Rss')) {
             $this->addRssList('rss/catalog/notifystock', Mage::helper('catalog')->__('Notify Low Stock RSS'));
         }

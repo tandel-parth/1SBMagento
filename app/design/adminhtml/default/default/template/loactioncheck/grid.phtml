@@ -1,0 +1,38 @@
+<label>is_location_checked</label>&nbsp;
+<select name="is_location_checked" id="location-check">
+    <option value="1">Yes</option>
+    <option value="2">No</option>
+</select>
+<?php if (Mage::getStoreConfig('ccc_locationcheck/general/locationcheck_enabled')) { ?>
+    <br>
+    <br>
+    <label>product_excluded_location_check</label>&nbsp;
+    <select name="product_excluded_location_check" id="product-excluded">
+        <option value="1">Yes</option>
+        <option value="2">No</option>
+    </select>
+    <br>
+    <br>
+<?php } ?>
+<button class="load_report">Load Report</button>
+<br><br>
+<div id="report-container">
+
+</div>
+<style>
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .report-table th,
+    .report-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .report-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+</style>

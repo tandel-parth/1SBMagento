@@ -1,6 +1,6 @@
-
-<select name="seller_name" id="seller" class="no-changes">
-    <option hidden>-----select-----</option>
+<!-- Seller dropdown and Load Repoort button -->
+<select name="seller_id" id="seller" class="no-changes">
+    <option value="default">-----select-----</option>
     <?php
     $data = Mage::getModel('Ccc_Productseller/productseller')->getCollection();
     foreach ($data->getData() as $data) {
@@ -10,7 +10,9 @@
 
     <?php } ?>
 </select>
-
+<button class="load_report">Load Report</button>
+<br>
+<br>
 <div class="content-header">
     <table cellspacing="0">
         <tr>

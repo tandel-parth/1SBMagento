@@ -1,33 +1,33 @@
 <config>
     <menu>
-        <customer>
+        <sales>
             <children>
-                <productseller translate="title" module="productseller">
-                    <title>Sellers</title>
+                <locationcheck translate="title" module="locationcheck">
+                    <title> Location Check Orders </title>
                     <children>
-                        <grid translate="title" module="productseller">
-                            <title>ProductSeller Grid</title>
-                            <action>adminhtml/productseller</action>
+                        <grid translate="title" module="locationcheck">
+                            <title>Locationcheck Grid</title>
+                            <action>adminhtml/locationcheck</action>
                             <sort_order>105</sort_order>
                         </grid>
-                        <report translate="title" module="productseller">
-                            <title>ProductSeller Report</title>
-                            <action>adminhtml/report</action>
+                        <report translate="title" module="locationcheck">
+                            <title>Locationcheck Report</title>
+                            <action>adminhtml/loadreport</action>
                             <sort_order>105</sort_order>
                         </report>
                     </children>
-                </productseller>
+                </locationcheck>
             </children>
-        </customer>
+        </sales>
     </menu>
     <acl>
         <resources>
             <admin>
                 <children>
-                    <customer>
+                    <sales>
                         <children>
-                            <productseller translate="title" module="productseller">
-                                <title>Product Seller</title>
+                            <locationcheck translate="title" module="locationcheck">
+                                <title>Locationcheck Grid</title>
                                 <children>
                                     <grid translate="title">
                                         <title>Manage Grid</title>
@@ -71,17 +71,17 @@
                                         </children>
                                     </report>
                                 </children>
-                            </productseller>
+                            </locationcheck>
                         </children>
-                    </customer>
+                    </sales>
                     <system>
                         <children>
                             <config>
                                 <children>
-                                    <ccc_productseller module="productseller" translate="title">
-                                        <title>Product Seller</title>
+                                    <ccc_locationcheck module="locationcheck" translate="title">
+                                        <title>Locationcheck Grid</title>
                                         <sort_order>60</sort_order>
-                                    </ccc_productseller>
+                                    </ccc_locationcheck>
                                 </children>
                             </config>
                         </children>

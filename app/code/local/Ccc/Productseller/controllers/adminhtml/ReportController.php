@@ -10,13 +10,17 @@ class Ccc_Productseller_Adminhtml_ReportController extends Mage_Adminhtml_Contro
             ->_addBreadcrumb(Mage::helper('productseller')->__('Manage Seller Report'), Mage::helper('productseller')->__('Manage Seller Report'));
         return $this;
     }
+    
     protected function _isAllowed()
     {
-        $aclResource ='';
+        $aclResource = '';
         $action = strtolower($this->getRequest()->getActionName());
         switch ($action) {
             case 'index':
-                $aclResource = 'ccc_productseller/report/actions/index';
+                $aclResource = 'customer/productseller/report/actions/index';
+                break;
+            case 'grid':
+                $aclResource = 'customer/productseller/report/actions/grid';
                 break;
         }
         return Mage::getSingleton('admin/session')->isAllowed($aclResource);
@@ -58,7 +62,7 @@ class Ccc_Productseller_Adminhtml_ReportController extends Mage_Adminhtml_Contro
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d record(s) have been save.', count($Ids))
                 );
-            } 
+            }
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }

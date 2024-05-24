@@ -1,13 +1,14 @@
 <?php
 
-class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml_Controller_Action
+class Ccc_Locationcheck_Adminhtml_LocationcheckController extends Mage_Adminhtml_Controller_Action
 {
+    
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('customer')
-            ->_addBreadcrumb(Mage::helper('productseller')->__('PRODUCTSELLER'), Mage::helper('productseller')->__('PRODUCTSELLER'))
-            ->_addBreadcrumb(Mage::helper('productseller')->__('Manage Seller Grid'), Mage::helper('productseller')->__('Manage Seller Grid'));
+            ->_setActiveMenu('sales')
+            ->_addBreadcrumb(Mage::helper('locationcheck')->__('LOCATIONCHECK'), Mage::helper('locationcheck')->__('LOCATIONCHECK'))
+            ->_addBreadcrumb(Mage::helper('locationcheck')->__('Manage Locationcheck Grid'), Mage::helper('locationcheck')->__('Manage Locationcheck Grid'));
         return $this;
     }
     protected function _isAllowed()
@@ -15,29 +16,29 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
         $action = strtolower($this->getRequest()->getActionName());
         switch ($action) {
             case 'new':
-                $aclResource = 'customer/productseller/grid/actions/new';
+                $aclResource = 'sales/locationcheck/grid/actions/new';
                 break;
             case 'edit':
-                $aclResource = 'customer/productseller/grid/actions/edit';
+                $aclResource = 'sales/locationcheck/grid/actions/edit';
                 break;
             case 'save':
-                $aclResource = 'customer/productseller/grid/actions/save';
+                $aclResource = 'sales/locationcheck/grid/actions/save';
                 break;
             case 'delete':
-                $aclResource = 'customer/productseller/grid/actions/delete';
+                $aclResource = 'sales/locationcheck/grid/actions/delete';
                 break;
             default:
-                $aclResource = 'customer/productseller/grid/actions/index';
+                $aclResource = 'sales/locationcheck/grid/actions/index';
                 break;
         }
         return Mage::getSingleton('admin/session')->isAllowed($aclResource);
     }
     public function indexAction()
     {
-        $this->_title($this->__("Manage Seller Grid"));
+        $this->_title($this->__("Manage Locationcheck Grid"));
         $this->_initAction();
         $this->renderLayout();
-        Mage::dispatchEvent('productseller_event', []);
+        Mage::dispatchEvent('locationcheck_event', []);
     }
     public function newAction()
     {
@@ -45,17 +46,17 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
     }
     public function editAction()
     {
-        $this->_title($this->__('Manage Seller'));
+        $this->_title($this->__('Manage Location'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Ccc_Productseller/productseller');
+        $model = Mage::getModel('Ccc_Locationcheck/locationcheck');
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (!$model->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('productseller')->__('This page no longer exists.')
+                    Mage::helper('locationcheck')->__('This page no longer exists.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -68,15 +69,15 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
             $model->setData($data);
         }
 
-        Mage::register('ccc_seller', $model);
+        Mage::register('ccc_location_check', $model);
         // 5. Build edit form
         $this->_initAction()
             // 4. Register model to use later in blocks
             ->_addBreadcrumb(
-                $id ? Mage::helper('productseller')->__('Edit Page')
-                    : Mage::helper('productseller')->__('New Page'),
-                $id ? Mage::helper('productseller')->__('Edit Page')
-                    : Mage::helper('productseller')->__('New Page')
+                $id ? Mage::helper('locationcheck')->__('Edit Page')
+                    : Mage::helper('locationcheck')->__('New Page'),
+                $id ? Mage::helper('locationcheck')->__('Edit Page')
+                    : Mage::helper('locationcheck')->__('New Page')
             );
         $this->renderLayout();
     }
@@ -85,14 +86,14 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
         if ($data = $this->getRequest()->getPost()) {
 
             $data = $this->_filterPostData($data);
-            $model = Mage::getModel('Ccc_Productseller/productseller');
+            $model = Mage::getModel('Ccc_Locationcheck/locationcheck');
 
             if ($id = $this->getRequest()->getParam('id')) {
                 $model->load($id);
             }
             $model->setData($data);
 
-            Mage::dispatchEvent('productseller_productseller_form_prepare_save', array('productseller_productseller' => $model, 'request' => $this->getRequest()));
+            Mage::dispatchEvent('locationcheck_locationcheck_form_prepare_save', array('locationcheck_locationcheck' => $model, 'request' => $this->getRequest()));
 
             //validating
             if (!$this->_validatePostData($data)) {
@@ -107,7 +108,7 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
 
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('productseller')->__('The page has been saved.')
+                    Mage::helper('locationcheck')->__('The page has been saved.')
                 );
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
@@ -124,7 +125,7 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
             } catch (Exception $e) {
                 $this->_getSession()->addException(
                     $e,
-                    Mage::helper('productseller')->__('An error occurred while saving the page.')
+                    Mage::helper('locationcheck')->__('An error occurred while saving the page.')
                 );
             }
 
@@ -167,21 +168,21 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
             $title = "";
             try {
                 // init model and delete
-                $model = Mage::getModel('Ccc_Productseller/productseller');
+                $model = Mage::getModel('Ccc_Locationcheck/locationcheck');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('productseller')->__('The page has been deleted.')
+                    Mage::helper('locationcheck')->__('The page has been deleted.')
                 );
                 // go to grid
-                Mage::dispatchEvent('adminhtml_productseller_on_delete', array('title' => $title, 'status' => 'success'));
+                Mage::dispatchEvent('adminhtml_locationcheck_on_delete', array('title' => $title, 'status' => 'success'));
                 $this->_redirect('*/*/');
                 return;
 
             } catch (Exception $e) {
-                Mage::dispatchEvent('adminhtml_productseller_on_delete', array('title' => $title, 'status' => 'fail'));
+                Mage::dispatchEvent('adminhtml_locationcheck_on_delete', array('title' => $title, 'status' => 'fail'));
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // go back to edit form
@@ -190,7 +191,7 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('productseller')->__('Unable to find a page to delete.'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('locationcheck')->__('Unable to find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -203,8 +204,8 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
             if (!empty($Ids)) {
                 try {
                     foreach ($Ids as $Id) {
-                        $seller = Mage::getSingleton('Ccc_Productseller/productseller')->load($Id);
-                        $seller->delete();
+                        $location = Mage::getSingleton('Ccc_Locationcheck/locationcheck')->load($Id);
+                        $location->delete();
                     }
                     $this->_getSession()->addSuccess(
                         $this->__('Total of %d record(s) have been deleted.', count($Ids))
@@ -226,11 +227,11 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
 
         try {
             foreach ($Ids as $Id) {
-                $seller = Mage::getModel('Ccc_Productseller/productseller')->load($Id);
+                $location = Mage::getModel('Ccc_Locationcheck/locationcheck')->load($Id);
                 // Check if the status is different than the one being set
-                if ($seller->getIsActive() != $active) {
-                    $seller->addData(["is_active" => $active]);
-                    $seller->save();
+                if ($location->getIsActive() != $active) {
+                    $location->addData(["is_active" => $active]);
+                    $location->save();
                 }
             }
             // Use appropriate success message based on the status changed
