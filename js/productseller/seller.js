@@ -14,6 +14,7 @@ varienGrid.prototype.doFilter = function () {
 varienGrid.prototype.resetFilter = function () {
     this.reload(this.addVarToUrl(this.filterVar, ''));
     j('#seller').prop('selectedIndex', 0);
+    j(".content-header, #reportGrid").hide();
 };
 var j = jQuery.noConflict();
 j(document).ready(function () {

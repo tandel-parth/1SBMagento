@@ -208,3 +208,58 @@
  INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
 2024-04-16T09:04:21+00:00 DEBUG (7): SELECT `e`.*, `at_status`.`value` AS `status` FROM `catalog_product_entity` AS `e`
  INNER JOIN `catalog_product_entity_int` AS `at_status` ON (`at_status`.`entity_id` = `e`.`entity_id`) AND (`at_status`.`attribute_id` = '96') AND (`at_status`.`store_id` = 0) WHERE (at_status.value = '1')
+2024-05-20T04:40:27+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:40:27+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:41:10+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:41:10+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:41:24+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:41:24+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:42:40+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:42:40+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:42:42+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:42:42+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:43:36+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:43:36+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:43:49+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:43:49+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:43:58+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:43:58+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:44:45+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:44:45+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:44:48+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:44:48+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:44:50+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:44:50+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:45:48+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:45:48+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:45:51+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T04:45:51+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T10:10:43+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T10:10:43+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T10:10:45+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-20T10:10:45+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-21T04:00:05+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-21T04:00:05+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-23T05:00:50+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:01:06+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:03:15+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:03:24+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-23T05:03:24+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-23T05:03:39+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:04:25+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:05:29+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:05:33+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:06:12+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:07:52+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:08:19+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:09:21+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:10:27+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:11:25+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:14:10+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:14:46+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:15:12+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:23:19+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-23T05:23:39+00:00 CRIT (2): Not valid template file:frontend\base\default\template\productseller/view.phtml
+2024-05-24T10:22:09+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-24T10:22:09+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.
+2024-05-24T10:22:09+00:00 DEBUG (7): Security problem: cms/block has not been whitelisted.

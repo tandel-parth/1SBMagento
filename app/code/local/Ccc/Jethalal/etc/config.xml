@@ -5,7 +5,7 @@
             <version>0.1.4</version>
         </Ccc_Jethalal>
     </modules>
-    <!-- <admin>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -15,7 +15,7 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin> -->
+    </admin>
     <adminhtml>
         <layout>
             <updates>

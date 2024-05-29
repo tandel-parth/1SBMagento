@@ -5,6 +5,11 @@
             <action method="setTemplate">
                 <template>productseller/view.phtml</template>
             </action>
+            <block type='productseller/seller' name="productseller">
+                <action method="setTemplate">
+                    <template>productseller/seller.phtml</template>
+                </action>
+            </block>
         </reference>
     </catalog_product_view>
 </layout>

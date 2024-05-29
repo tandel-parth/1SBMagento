@@ -13,24 +13,28 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
     protected function _isAllowed()
     {
         $action = strtolower($this->getRequest()->getActionName());
-        switch ($action) {
-            case 'new':
-                $aclResource = 'customer/productseller/grid/actions/new';
-                break;
-            case 'edit':
-                $aclResource = 'customer/productseller/grid/actions/edit';
-                break;
-            case 'save':
-                $aclResource = 'customer/productseller/grid/actions/save';
-                break;
-            case 'delete':
-                $aclResource = 'customer/productseller/grid/actions/delete';
-                break;
-            default:
-                $aclResource = 'customer/productseller/grid/actions/index';
-                break;
+        $acl = 'customer/manage';
+        if (Mage::getSingleton('admin/session')->isAllowed($acl)) {
+            switch ($action) {
+                case 'new':
+                    $aclResource = 'customer/productseller/grid/actions/new';
+                    break;
+                case 'edit':
+                    $aclResource = 'customer/productseller/grid/actions/edit';
+                    break;
+                case 'save':
+                    $aclResource = 'customer/productseller/grid/actions/save';
+                    break;
+                case 'delete':
+                    $aclResource = 'customer/productseller/grid/actions/delete';
+                    break;
+                default:
+                    $aclResource = 'customer/productseller/grid/actions/index';
+                    break;
+            }
+            return Mage::getSingleton('admin/session')->isAllowed($aclResource);
         }
-        return Mage::getSingleton('admin/session')->isAllowed($aclResource);
+        return Mage::getSingleton('admin/session')->isAllowed($acl);
     }
     public function indexAction()
     {
@@ -179,7 +183,6 @@ class Ccc_Productseller_Adminhtml_ProductsellerController extends Mage_Adminhtml
                 Mage::dispatchEvent('adminhtml_productseller_on_delete', array('title' => $title, 'status' => 'success'));
                 $this->_redirect('*/*/');
                 return;
-
             } catch (Exception $e) {
                 Mage::dispatchEvent('adminhtml_productseller_on_delete', array('title' => $title, 'status' => 'fail'));
                 // display error message

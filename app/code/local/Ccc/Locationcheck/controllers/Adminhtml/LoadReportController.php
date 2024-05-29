@@ -37,6 +37,9 @@ class Ccc_Locationcheck_Adminhtml_LoadReportController extends Mage_Adminhtml_Co
         $locationCheck =  $this->getRequest()->getParam('is_location_checked');
         $productExcluded =  $this->getRequest()->getParam('product_excluded_location_check');
         $collection = Mage::getModel('sales/order')->getCollection();
+        // Mage::log($collection,null,'mage.log', true);
+        // $shippingAddress = $collection->getShippingAddress();
+        // die;
         if ($productExcluded !== 'khali') {
             $collection->addFieldToFilter('product_excluded_location_check', $productExcluded);
         }
