@@ -113,8 +113,5 @@ class Ccc_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block_Widget
 
 
 
-    public function getRowUrl($row)
-    {
-        return $this->getUrl('*/*/edit', array('banner_id' => $row->getId()));
-    }
+    
 }

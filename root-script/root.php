@@ -2,20 +2,25 @@
 require_once('../app/Mage.php'); //Path to Magento
 Mage::app();
 echo "<pre>";
-// $product = Mage::getModel('catalog/product')->load(900);
-// print_r($product->getData());
-$collection = Mage::getModel('sales/order')->getCollection();
-$collection->getSelect()
-    ->join(
-        array('SFOA' => Mage::getSingleton('core/resource')->getTableName('sales/order_address')),
-        'SFOA.parent_id = main_table.entity_id',
-        ['postcode As zipcode']
-    );
-    $data= $collection->getData();
-    foreach ($data as $arr){
-        echo "<b>Order Id:</b> ";
-        echo $arr['entity_id'];
-        echo "&nbsp;&nbsp;<b>Zipcode:</b> ";
-        echo $arr['zipcode'];
-        echo "<br>";    
-    }
+
+// FTP server details
+$ftp_server = "127.0.0.1";
+$ftp_username = "cccadmin";
+$ftp_password = "cccadmin123";
+$remote_file = "path/to/remote/file.txt";
+
+// Establish a connection
+$conn_id = ftp_connect($ftp_server);
+
+if (!$conn_id) {
+    die("Couldn't connect to FTP server");
+}
+
+// Login with username and password
+if (@ftp_login($conn_id, $ftp_username, $ftp_password)) {
+    echo "Connected as $ftp_username @$ftp_server\n";
+} else {
+    die("Couldn't connect as $ftp_username");
+}
+
+ftp_close($conn_id);

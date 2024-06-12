@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_configuration_index>
+        <reference name="content">
+            <block type="outlook/adminhtml_configuration" name="configuration"/>
+        </reference>
+    </adminhtml_configuration_index>
+    <adminhtml_configuration_new>
+        <update handle="adminhtml_configuration_edit" />
+    </adminhtml_configuration_new>
+    <adminhtml_configuration_edit>
+        <update handle="editor" />
+        <reference name="content">
+            <block type="outlook/adminhtml_configuration_edit" name="configuration_edit" />
+        </reference>
+        <reference name="left">
+            <block type="outlook/adminhtml_configuration_edit_tabs" name="configuration_tabs" >
+                <reference name="head">
+                    <action method="addJs">
+                        <script>lib/jquery/jquery-1.10.2.js</script>
+                    </action>
+                    <action method="addJs">
+                        <script>outlook/form.js</script>
+                    </action>
+                </reference>
+            </block>
+        </reference>
+    </adminhtml_configuration_edit>
+</layout>

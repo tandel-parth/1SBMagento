@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_filetransfer_index>
+        <reference name="content">
+            <block type="filetransfer/adminhtml_configuration" name="filetransfer_configuration" />
+        </reference>
+    </adminhtml_filetransfer_index>
+    <adminhtml_filetransfer_new>
+        <update handle="adminhtml_filetransfer_edit" />
+    </adminhtml_filetransfer_new>
+    <adminhtml_filetransfer_edit>
+        <reference name="content">
+            <block type="filetransfer/adminhtml_configuration_edit" name="filetransfer_configuration_edit" />
+        </reference>
+    </adminhtml_filetransfer_edit>
+    <adminhtml_ftp_index>
+        <reference name="content">
+            <block type="filetransfer/adminhtml_ftp" name="filetransfer_ftp" />
+        </reference>
+    </adminhtml_ftp_index>
+</layout>

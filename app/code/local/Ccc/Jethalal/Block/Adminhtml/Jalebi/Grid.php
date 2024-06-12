@@ -139,4 +139,8 @@ class Ccc_Jethalal_Block_Adminhtml_Jalebi_Grid extends Mage_Adminhtml_Block_Widg
         $primaryKey = $row->getId(); // Assuming 'jalebi_id' is the primary key
         return 'editable-' . $primaryKey;
     }
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/edit', array('jalebi_id' => $row->getId()));
+    }
 }

@@ -1,0 +1,333 @@
+Microsoft Windows [Version 10.0.22000.978]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Tandel Parth>C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe ---version
+'C:\Program' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\Tandel Parth>"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe" ---version
+Error parsing command line: unrecognised option '---version'
+try 'C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe --help' for more information
+
+C:\Users\Tandel Parth>"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe" --version
+db version v4.0.28
+git version: af1a9dc12adcfa83cc19571cb3faba26eeddac92
+allocator: tcmalloc
+modules: none
+build environment:
+    distmod: 2008plus-ssl
+    distarch: x86_64
+    target_arch: x86_64
+
+C:\Users\Tandel Parth>"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe"
+2022-09-26T16:52:47.703+0530 I CONTROL  [main] Automatically disabling TLS 1.0, to force-enable TLS 1.0 specify --sslDisabledProtocols 'none'
+2022-09-26T16:52:47.714+0530 I CONTROL  [initandlisten] MongoDB starting : pid=13948 port=27017 dbpath=C:\data\db\ 64-bit host=Parth
+2022-09-26T16:52:47.714+0530 I CONTROL  [initandlisten] targetMinOS: Windows 7/Windows Server 2008 R2
+2022-09-26T16:52:47.714+0530 I CONTROL  [initandlisten] db version v4.0.28
+2022-09-26T16:52:47.714+0530 I CONTROL  [initandlisten] git version: af1a9dc12adcfa83cc19571cb3faba26eeddac92
+2022-09-26T16:52:47.714+0530 I CONTROL  [initandlisten] allocator: tcmalloc
+2022-09-26T16:52:47.714+0530 I CONTROL  [initandlisten] modules: none
+2022-09-26T16:52:47.715+0530 I CONTROL  [initandlisten] build environment:
+2022-09-26T16:52:47.717+0530 I CONTROL  [initandlisten]     distmod: 2008plus-ssl
+2022-09-26T16:52:47.717+0530 I CONTROL  [initandlisten]     distarch: x86_64
+2022-09-26T16:52:47.718+0530 I CONTROL  [initandlisten]     target_arch: x86_64
+2022-09-26T16:52:47.719+0530 I CONTROL  [initandlisten] options: {}
+2022-09-26T16:52:47.722+0530 I STORAGE  [initandlisten] exception in initAndListen: NonExistentPath: Data directory C:\data\db\ not found. Create the missing directory or specify another path using (1) the --dbpath command line option, or (2) by adding the 'storage.dbPath' option in the configuration file., terminating
+2022-09-26T16:52:47.722+0530 I CONTROL  [initandlisten] Shutdown started
+2022-09-26T16:52:47.723+0530 I REPL     [initandlisten] Stepping down the ReplicationCoordinator for shutdown, waitTime: 10000ms
+2022-09-26T16:52:47.725+0530 I NETWORK  [initandlisten] shutdown: going to close listening sockets...
+2022-09-26T16:52:47.725+0530 I NETWORK  [initandlisten] Shutting down the global connection pool
+2022-09-26T16:52:47.726+0530 I -        [initandlisten] Killing all operations for shutdown
+2022-09-26T16:52:47.726+0530 I NETWORK  [initandlisten] Shutting down the ReplicaSetMonitor
+2022-09-26T16:52:47.727+0530 I CONTROL  [initandlisten] Shutting down free monitoring
+2022-09-26T16:52:47.728+0530 I FTDC     [initandlisten] Shutting down full-time data capture
+2022-09-26T16:52:47.728+0530 I STORAGE  [initandlisten] Shutting down the HealthLog
+2022-09-26T16:52:47.729+0530 I -        [initandlisten] Dropping the scope cache for shutdown
+2022-09-26T16:52:47.730+0530 I CONTROL  [initandlisten] now exiting
+2022-09-26T16:52:47.731+0530 I CONTROL  [initandlisten] shutting down with code:100
+
+C:\Users\Tandel Parth>show dbs
+'show' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\Tandel Parth>"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe"
+2022-09-26T16:54:13.713+0530 I CONTROL  [main] Automatically disabling TLS 1.0, to force-enable TLS 1.0 specify --sslDisabledProtocols 'none'
+2022-09-26T16:54:13.721+0530 I CONTROL  [initandlisten] MongoDB starting : pid=9408 port=27017 dbpath=C:\data\db\ 64-bit host=Parth
+2022-09-26T16:54:13.721+0530 I CONTROL  [initandlisten] targetMinOS: Windows 7/Windows Server 2008 R2
+2022-09-26T16:54:13.722+0530 I CONTROL  [initandlisten] db version v4.0.28
+2022-09-26T16:54:13.722+0530 I CONTROL  [initandlisten] git version: af1a9dc12adcfa83cc19571cb3faba26eeddac92
+2022-09-26T16:54:13.723+0530 I CONTROL  [initandlisten] allocator: tcmalloc
+2022-09-26T16:54:13.724+0530 I CONTROL  [initandlisten] modules: none
+2022-09-26T16:54:13.724+0530 I CONTROL  [initandlisten] build environment:
+2022-09-26T16:54:13.725+0530 I CONTROL  [initandlisten]     distmod: 2008plus-ssl
+2022-09-26T16:54:13.726+0530 I CONTROL  [initandlisten]     distarch: x86_64
+2022-09-26T16:54:13.726+0530 I CONTROL  [initandlisten]     target_arch: x86_64
+2022-09-26T16:54:13.727+0530 I CONTROL  [initandlisten] options: {}
+2022-09-26T16:54:13.729+0530 I STORAGE  [initandlisten] exception in initAndListen: NonExistentPath: Data directory C:\data\db\ not found. Create the missing directory or specify another path using (1) the --dbpath command line option, or (2) by adding the 'storage.dbPath' option in the configuration file., terminating
+2022-09-26T16:54:13.729+0530 I CONTROL  [initandlisten] Shutdown started
+2022-09-26T16:54:13.730+0530 I REPL     [initandlisten] Stepping down the ReplicationCoordinator for shutdown, waitTime: 10000ms
+2022-09-26T16:54:13.731+0530 I NETWORK  [initandlisten] shutdown: going to close listening sockets...
+2022-09-26T16:54:13.732+0530 I NETWORK  [initandlisten] Shutting down the global connection pool
+2022-09-26T16:54:13.732+0530 I -        [initandlisten] Killing all operations for shutdown
+2022-09-26T16:54:13.733+0530 I NETWORK  [initandlisten] Shutting down the ReplicaSetMonitor
+2022-09-26T16:54:13.734+0530 I CONTROL  [initandlisten] Shutting down free monitoring
+2022-09-26T16:54:13.734+0530 I FTDC     [initandlisten] Shutting down full-time data capture
+2022-09-26T16:54:13.735+0530 I STORAGE  [initandlisten] Shutting down the HealthLog
+2022-09-26T16:54:13.739+0530 I -        [initandlisten] Dropping the scope cache for shutdown
+2022-09-26T16:54:13.740+0530 I CONTROL  [initandlisten] now exiting
+2022-09-26T16:54:13.741+0530 I CONTROL  [initandlisten] shutting down with code:100
+
+C:\Users\Tandel Parth>"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe"show dbs
+'"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe"show' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\Tandel Parth>"C:\Program Files\MongoDB\Server\4.0\bin\mongo.exe"
+MongoDB shell version v4.0.28
+connecting to: mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("c7836ec6-95e8-4f98-98e1-4334a167f7c2") }
+MongoDB server version: 4.0.28
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+        http://docs.mongodb.org/
+Questions? Try the support group
+        http://groups.google.com/group/mongodb-user
+Server has startup warnings:
+2022-09-26T16:41:26.884+0530 I CONTROL  [initandlisten]
+2022-09-26T16:41:26.884+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2022-09-26T16:41:26.884+0530 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2022-09-26T16:41:26.885+0530 I CONTROL  [initandlisten]
+---
+Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+and anyone you share the URL with. MongoDB may use this information to make product
+improvements and to suggest MongoDB products and deployment options to you.
+
+To enable free monitoring, run the following command: db.enableFreeMonitoring()
+To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> ^C
+bye
+
+C:\Users\Tandel Parth>mongod --version
+'mongod' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\Tandel Parth>"C:\Program Files\MongoDB\Server\4.0\bin\mongo.exe"
+MongoDB shell version v4.0.28
+connecting to: mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("231768bf-462c-433f-a526-4bd42b2b7614") }
+MongoDB server version: 4.0.28
+Server has startup warnings:
+2022-09-26T16:41:26.884+0530 I CONTROL  [initandlisten]
+2022-09-26T16:41:26.884+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2022-09-26T16:41:26.884+0530 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2022-09-26T16:41:26.885+0530 I CONTROL  [initandlisten]
+---
+Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+and anyone you share the URL with. MongoDB may use this information to make product
+improvements and to suggest MongoDB products and deployment options to you.
+
+To enable free monitoring, run the following command: db.enableFreeMonitoring()
+To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use parth
+switched to db parth
+> db.parth.insertOne({name:"parth",type:"Database",video:5,active:true})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("63318ea7a25392d6afc0460f")
+}
+> db.parth.insertMany([{name:"nobita",type:"Database",video:25},{name:"doremon",type:"Database"},{name:"chaii"}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("63318fdfa25392d6afc04610"),
+                ObjectId("63318fdfa25392d6afc04611"),
+                ObjectId("63318fdfa25392d6afc04612")
+        ]
+}
+> db.parth.find()
+{ "_id" : ObjectId("63318ea7a25392d6afc0460f"), "name" : "parth", "type" : "Database", "video" : 5, "active" : true }
+{ "_id" : ObjectId("63318fdfa25392d6afc04610"), "name" : "nobita", "type" : "Database", "video" : 25 }
+{ "_id" : ObjectId("63318fdfa25392d6afc04611"), "name" : "doremon", "type" : "Database" }
+{ "_id" : ObjectId("63318fdfa25392d6afc04612"), "name" : "chaii" }
+> db.parth.find().pretty()
+{
+        "_id" : ObjectId("63318ea7a25392d6afc0460f"),
+        "name" : "parth",
+        "type" : "Database",
+        "video" : 5,
+        "active" : true
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04610"),
+        "name" : "nobita",
+        "type" : "Database",
+        "video" : 25
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04611"),
+        "name" : "doremon",
+        "type" : "Database"
+}
+{ "_id" : ObjectId("63318fdfa25392d6afc04612"), "name" : "chaii" }
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+parth   0.000GB
+> db.parth.find(name:"doremon")
+2022-09-26T17:13:41.273+0530 E QUERY    [js] SyntaxError: missing ) after argument list @(shell):1:18
+> db.parth.find({name:"doremon"})
+{ "_id" : ObjectId("63318fdfa25392d6afc04611"), "name" : "doremon", "type" : "Database" }
+> db.parth.find({name:"doremon"}).pretty()
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04611"),
+        "name" : "doremon",
+        "type" : "Database"
+}
+> db.parth.find({name:"doremon"},{name:"nobita"}).pretty()
+{ "_id" : ObjectId("63318fdfa25392d6afc04611"), "name" : "doremon" }
+> db.parth.find({name:"doremon"},{name:0}).pretty()
+{ "_id" : ObjectId("63318fdfa25392d6afc04611"), "type" : "Database" }
+> db.parth.find({name:"doremon"},{name:1}).pretty()
+{ "_id" : ObjectId("63318fdfa25392d6afc04611"), "name" : "doremon" }
+> db.parth.find({name:"doremon"},{_id:0,name:1}).pretty()
+{ "name" : "doremon" }
+> db.parth.find({name:"doremon"},{_id:0,name:0}).pretty()
+{ "type" : "Database" }
+> db.parth.updateOne({name:"doremon"},{$set:{name:"love"}}).pretty()
+2022-09-26T17:25:16.215+0530 E QUERY    [js] TypeError: db.parth.updateOne(...).pretty is not a function :
+@(shell):1:1
+> db.parth.updateOne({name:"doremon"},{$set:{name:"love"}})
+{ "acknowledged" : true, "matchedCount" : 0, "modifiedCount" : 0 }
+> db.parth.find().pretty()
+{
+        "_id" : ObjectId("63318ea7a25392d6afc0460f"),
+        "name" : "parth",
+        "type" : "Database",
+        "video" : 5,
+        "active" : true
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04610"),
+        "name" : "nobita",
+        "type" : "Database",
+        "video" : 25
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04611"),
+        "name" : "love",
+        "type" : "Database"
+}
+{ "_id" : ObjectId("63318fdfa25392d6afc04612"), "name" : "chaii" }
+> db.parth.updateMany({name:"chaii"},{$set:{active:true}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.parth.find().pretty()
+{
+        "_id" : ObjectId("63318ea7a25392d6afc0460f"),
+        "name" : "parth",
+        "type" : "Database",
+        "video" : 5,
+        "active" : true
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04610"),
+        "name" : "nobita",
+        "type" : "Database",
+        "video" : 25
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04611"),
+        "name" : "love",
+        "type" : "Database"
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04612"),
+        "name" : "chaii",
+        "active" : true
+}
+>
+> db.parth.find({active:true}).pretty()
+{
+        "_id" : ObjectId("63318ea7a25392d6afc0460f"),
+        "name" : "parth",
+        "type" : "Database",
+        "video" : 5,
+        "active" : true
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04612"),
+        "name" : "chaii",
+        "active" : true
+}
+> db.parth.find({active:true}).pretty().limit(1)
+{
+        "_id" : ObjectId("63318ea7a25392d6afc0460f"),
+        "name" : "parth",
+        "type" : "Database",
+        "video" : 5,
+        "active" : true
+}
+> db.parth.find({active:true}).pretty().limit(1).skip(1)
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04612"),
+        "name" : "chaii",
+        "active" : true
+}
+> db.parth.deleteMany({name:"chaii"})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.parth.find().pretty()
+{
+        "_id" : ObjectId("63318ea7a25392d6afc0460f"),
+        "name" : "parth",
+        "type" : "Database",
+        "video" : 5,
+        "active" : true
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04610"),
+        "name" : "nobita",
+        "type" : "Database",
+        "video" : 25
+}
+{
+        "_id" : ObjectId("63318fdfa25392d6afc04611"),
+        "name" : "love",
+        "type" : "Database"
+}
+> db.parth.deleteMany({})
+{ "acknowledged" : true, "deletedCount" : 3 }
+> db.parth.find().pretty()
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> quit()
+
+C:\Users\Tandel Parth>
+

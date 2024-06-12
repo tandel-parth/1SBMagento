@@ -1,0 +1,61 @@
+<?php $paths = $this->dropdownData(); ?>
+<?php $filterValue = $this->getRequest()->getParam('parent_folder_path', null); ?>
+<?php $formkey = Mage::getSingleton('core/session')->getFormKey(); ?>
+<?php $array = str_split($filterValue); ?>
+<?php if($filterValue !== $paths[count($paths)-1]){$array = array_slice($array, 0, -1);} ?>
+<?php $filterValue = implode("", $array); ?>
+
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td align="right">
+
+                <form id="filter_form" action="<?php echo $this->getUrl('*/*/index') ?>" method="post">
+                    <input type="text" name="form_key" value="<?php echo $formkey; ?>" hidden>
+                    <select name="parent_folder_path" onchange="this.form.submit()" class="no-changes path">
+                        <option hidden>-----select-----</option>
+                        <?php foreach ($paths as $path) { ?>
+                            <option value="<?php echo $path; ?>" <?php if ($filterValue == $path) {
+                                                                        echo 'selected';
+                                                                    } ?>><?php echo $path ?></option>
+                        <?php } ?>
+                    </select>
+                </form>
+            </td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
+<div>
+    <?php echo $this->getGridHtml() ?>
+</div>
+<style>
+    .path {
+        width: 30%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        /* Added border for select dropdown */
+        border-radius: 5px;
+        /* Rounded corners */
+        appearance: none;
+        /* Remove default arrow */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%231e88e5'%3E%3Cpath d='M10 12l-8-8H2l8 8 8-8h-1.1L10 12.9 3.1 5H2.1L10 13.1 17.9 5H16.9l-8 8z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position-x: calc(100% - 10px);
+        /* Position the arrow icon */
+        background-position-y: center;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        transition: border-color 0.3s ease;
+        /* Smooth transition for focus effect */
+    }
+
+    .path:focus {
+        border-color: #4CAF50;
+        outline: none;
+    }
+</style>

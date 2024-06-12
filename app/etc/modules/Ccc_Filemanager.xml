@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Ccc_Filemanager>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ccc_Filemanager> 
+    </modules>
+</config>

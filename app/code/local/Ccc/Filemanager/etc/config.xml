@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ccc_Filemanager>
+            <version>0.1.0</version>
+        </Ccc_Filemanager>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Ccc_Filemanager after="Mage_Adminhtml">Ccc_Filemanager_Adminhtml</Ccc_Filemanager>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <filemanager>
+                    <file>filemanager.xml</file>
+                </filemanager>
+            </updates>
+        </layout>
+    </adminhtml>
+    <global>
+        <blocks>
+            <filemanager>
+                <class>Ccc_Filemanager_Block</class>
+            </filemanager>
+        </blocks>
+        <models>
+            <ccc_filemanager>
+                <class>Ccc_Filemanager_Model</class>
+            </ccc_filemanager>
+        </models>
+        <helpers>
+            <filemanager>
+                <class>Ccc_Filemanager_Helper</class>
+            </filemanager>
+        </helpers>
+    </global>
+</config>

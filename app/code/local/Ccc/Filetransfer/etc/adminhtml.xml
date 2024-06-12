@@ -1,0 +1,20 @@
+<config>
+    <menu>
+         <ccc_filetransfer translate="title" module="filetransfer">
+            <title>File Transfer</title>
+            <sort_order>100</sort_order>
+            <children>
+                <index translate="title" module="filetransfer">
+                    <title>User Config</title>
+                    <action>adminhtml/filetransfer</action>
+                    <sort_order>10</sort_order>
+                </index>
+                <new translate="title" module="filetransfer">
+                    <title>File Management</title>
+                    <action>adminhtml/ftp</action>
+                    <sort_order>10</sort_order>
+                </new>
+            </children>
+        </ccc_filetransfer>
+    </menu>
+</config>
