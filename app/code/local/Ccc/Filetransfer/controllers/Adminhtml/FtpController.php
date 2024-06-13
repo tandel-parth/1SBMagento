@@ -65,9 +65,6 @@ class Ccc_Filetransfer_Adminhtml_FtpController extends Mage_Adminhtml_Controller
             $this->buildHeadersAndData($item, 'items_item', $headers, $row);
             $dataRows[] = $row;
         }
-        echo "<pre>";
-        print_r($dataRows);
-        die("done");
 
         $headers = array_unique($headers);
 
@@ -94,20 +91,6 @@ class Ccc_Filetransfer_Adminhtml_FtpController extends Mage_Adminhtml_Controller
         }
     }
 
-    protected function generateCsv($filePath, $headers, $dataRows)
-    {
-        $fp = fopen($filePath, 'w');
-        fputcsv($fp, $headers);
-        foreach ($dataRows as $row) {
-            $csvRow = array();
-            foreach ($headers as $header) {
-                $csvRow[] = isset($row[$header]) ? $row[$header] : '';
-            }
-            fputcsv($fp, $csvRow);
-        }
-
-        fclose($fp);
-    }
     public function csvAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -149,22 +132,44 @@ class Ccc_Filetransfer_Adminhtml_FtpController extends Mage_Adminhtml_Controller
     }
     protected function getValueFromPath($xml, $path)
     {
+        $values = [];
         $segments = explode(':', $path);
         $attribute = null;
         $segment = $segments[0];
         $attribute = $segments[1];
         $segments = explode('.', $segment);
-        foreach ($segments as $segment) {
-            if (isset($xml->$segment)) {
-                $xml = $xml->$segment;
+
+        // Recursive function to traverse and collect values
+        $this->collectValues($xml, $segments, $attribute, $values);
+
+        return implode(', ', $values); // Concatenate multiple values as a single string
+    }
+    protected function collectValues($xml, $segments, $attribute, &$values)
+    {
+        $segment = array_shift($segments);
+
+        // Traverse XML according to path
+        if ($segment && isset($xml->$segment)) {
+            if (empty($segments)) {
+                // If no more segments, collect the values
+                foreach ($xml->$segment as $item) {
+                    $values[] = $attribute ? (string)$item[$attribute] : (string)$item;
+                }
             } else {
-                return ''; 
+                // Continue traversing
+                foreach ($xml->$segment as $item) {
+                    $this->collectValues($item, $segments, $attribute, $values);
+                }
             }
         }
-        if ($attribute) {
-            return (string)$xml[$attribute];
-        } else {
-            return (string)$xml;
+    }
+    protected function generateCsv($filePath, $headers, $dataRows)
+    {
+        $fp = fopen($filePath, 'w');
+        fputcsv($fp, $headers);
+        foreach ($dataRows as $row) {
+            fputcsv($fp, $row);
         }
+        fclose($fp);
     }
 }
