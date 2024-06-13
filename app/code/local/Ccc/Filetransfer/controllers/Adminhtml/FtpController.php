@@ -65,6 +65,9 @@ class Ccc_Filetransfer_Adminhtml_FtpController extends Mage_Adminhtml_Controller
             $this->buildHeadersAndData($item, 'items_item', $headers, $row);
             $dataRows[] = $row;
         }
+        echo "<pre>";
+        print_r($dataRows);
+        die("done");
 
         $headers = array_unique($headers);
 
@@ -104,5 +107,64 @@ class Ccc_Filetransfer_Adminhtml_FtpController extends Mage_Adminhtml_Controller
         }
 
         fclose($fp);
+    }
+    public function csvAction()
+    {
+        $id = $this->getRequest()->getParam('id');
+        $model = Mage::getModel('ccc_filetransfer/filetransfer')->load($id);
+        $xmlFile = $model->getFilepath() . DS . $model->getFilename();
+
+        libxml_use_internal_errors(true); // Enable user error handling for libxml
+
+        $xml = simplexml_load_file($xmlFile);
+
+        if ($xml === false) {
+            $errors = libxml_get_errors();
+            foreach ($errors as $error) {
+                Mage::getSingleton('adminhtml/session')->addError("XML Error: " . $error->message);
+            }
+            libxml_clear_errors();
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        // Define the mapping array
+        $data = Mage::helper('filetransfer')->csvData();
+
+        $headers = array_keys($data);
+        $dataRows = array();
+
+        foreach ($xml->items->item as $item) {
+            $row = array();
+            foreach ($data as $header => $path) {
+                $row[$header] = $this->getValueFromPath($item, $path);
+            }
+            $dataRows[] = $row;
+        }
+        $csvFile = $model->getFilepath() . DS . pathinfo($model->getFilename(), PATHINFO_FILENAME) . '.csv';
+        $this->generateCsv($csvFile, $headers, $dataRows);
+
+        Mage::getSingleton('adminhtml/session')->addSuccess("Conversion from XML to CSV complete!");
+        $this->_redirect('*/*/');
+    }
+    protected function getValueFromPath($xml, $path)
+    {
+        $segments = explode(':', $path);
+        $attribute = null;
+        $segment = $segments[0];
+        $attribute = $segments[1];
+        $segments = explode('.', $segment);
+        foreach ($segments as $segment) {
+            if (isset($xml->$segment)) {
+                $xml = $xml->$segment;
+            } else {
+                return ''; 
+            }
+        }
+        if ($attribute) {
+            return (string)$xml[$attribute];
+        } else {
+            return (string)$xml;
+        }
     }
 }

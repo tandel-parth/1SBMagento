@@ -8,7 +8,7 @@ class Ccc_Filetransfer_Block_Adminhtml_Ftp_Grid_Renderer_Buttons extends Mage_Ad
         $fileName = $row->getFilename();
         $fileInfo  = pathinfo($fileName);
         $zipUrl = $this->getUrl('*/*/extractZip',array('id' => $id));
-        $xmlToCsvUrl = $this->getUrl('*/*/convertToCsv',array('id' => $id));
+        $xmlToCsvUrl = $this->getUrl('*/*/csv',array('id' => $id));
         $button = "";
         if ($fileInfo['extension'] == 'zip') {
             $button .= sprintf('<a href="%s"><button type="button" onclick="this.preventDefault();">Extract Zip</button></a>', $zipUrl);
