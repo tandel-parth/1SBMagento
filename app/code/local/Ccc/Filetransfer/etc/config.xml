@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Ccc_Filetransfer>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
         </Ccc_Filetransfer>
     </modules>
     <admin>
@@ -50,6 +50,9 @@
                     <filetransfer>
                         <table>ccc_filetransfer_ftp</table>
                     </filetransfer>
+                    <allpart>
+                        <table>ccc_allpart</table>
+                    </allpart>
                 </entities>
             </filetransfer_resource>
         </models>
@@ -74,6 +77,14 @@
                     <model>ccc_filetransfer/observer::readfile</model>
                 </run>
             </cron_filetransfer>
+            <cron_xmlread>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ccc_filetransfer/observer::saveXmlData</model>
+                </run>
+            </cron_xmlread>
         </jobs>
     </crontab>
 </config>

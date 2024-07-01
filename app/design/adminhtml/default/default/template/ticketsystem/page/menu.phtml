@@ -1,0 +1,194 @@
+<?php
+
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2006-2018 Magento, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<div class="nav-bar">
+    <!-- menu start -->
+    <?php echo $this->getMenuLevel($this->getMenuArray()); ?>
+    <!-- menu end -->
+    <button type="button" class="create_ticket">Create Ticket</button>
+</div>
+
+<!-- Modal Structure -->
+<div id="popup-form" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="popup-form-content" action="<?php echo Mage::getUrl('*/ticketsystem/save'); ?>" method="post">
+            <h2>Create Ticket</h2>
+            <?php echo $this->getBlockHtml('formkey'); ?>
+            <div class="form-group">
+                <label for="title"><b>Ticket Title:</b></label>
+                <input type="text" id="title" name="data[title]" placeholder="Enter Title" required>
+            </div>
+            <div class="form-group">
+                <label for="descreption"><b>Description:</b></label>
+                <textarea id="descreption" name="data[descreption]" rows="4" placeholder="Enter Descreption" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="priority"><b>Priority:</b></label>
+                <input type="text" id="priority" name="data[priority]" placeholder="Enter Priority" required>
+            </div>
+            <div class="form-group">
+                <label for="assign_by"><b>Assign By:</b></label>
+                <select name="data[assign_by]" id="assign_by">
+                    <option value="" hidden>----Select User----</option>
+                    <?php foreach ($this->adminUsers() as $admin) { ?>
+                        <option value="<?php echo $admin['user_id'] ?>"><?php echo $admin['username'] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="assign_to"><b>Assign To:</b></label>
+                <select name="data[assign_to]" id="assign_to">
+                    <option value="" hidden>----Select User----</option>
+                    <?php foreach ($this->adminUsers() as $admin) { ?>
+                        <option value="<?php echo $admin['user_id'] ?>"><?php echo $admin['username'] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status"><b>Status:</b></label>
+                <select name="data[status]" id="status">
+                    <option value="" hidden>----Select User----</option>
+                    <?php foreach ($this->statusData() as $status) { ?>
+                        <option value="<?php echo $status['status_id'] ?>"><?php echo $status['label'] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn-primary" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Include the CKEditor JavaScript file from CDN -->
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fff;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 100%;
+        max-width: 650px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        text-align: center;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    /* Form Styling */
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group select,
+    .form-group input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-group input[type="submit"] {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    /* Button Styling */
+    .btn-primary {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>

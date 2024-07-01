@@ -1,0 +1,43 @@
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <mostsellingrelateditems translate="title" module="mostsellingrelateditems">
+                    <title>Most Selleing related Items</title>
+                    <children>
+                        <grid translate="title" module="mostsellingrelateditems">
+                            <title>Most Selling Grid</title>
+                            <action>adminhtml/mostselling</action>
+                            <sort_order>105</sort_order>
+                        </grid>
+                        <report translate="title" module="locationcheck">
+                            <title>Most Selling Report</title>
+                            <action>adminhtml/mostsellingreport</action>
+                            <sort_order>105</sort_order>
+                        </report>
+                    </children>
+                </mostsellingrelateditems>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <mostsellingrelateditems module="mostsellingrelateditems" translate="title">
+                                        <title>MostSelling Grid</title>
+                                        <sort_order>60</sort_order>
+                                    </mostsellingrelateditems>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

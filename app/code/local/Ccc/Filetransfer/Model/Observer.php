@@ -13,4 +13,14 @@ class Ccc_Filetransfer_Model_Observer
             Mage::log('Error reading emails: ' . $e->getMessage(), null, 'filetransfer.log');
         }
     }
+    public function saveXmlData()
+    {
+        try {
+            $allpartCollection = Mage::getModel('ccc_filetransfer/allpart')
+                ->getCollection();
+        } catch (Exception $e) {
+            Mage::log('Error reading xml: ' . $e->getMessage(), null, 'xmlread.log');
+        }
+    }
 }
+

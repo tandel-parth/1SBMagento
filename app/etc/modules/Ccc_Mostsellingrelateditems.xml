@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Ccc_Mostsellingrelateditems>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ccc_Mostsellingrelateditems> 
+    </modules>
+</config>

@@ -1,0 +1,150 @@
+<div id="popup-filter" class="modal-filter" style="display: none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="popup-form-content" action="<?php echo Mage::getUrl('*/*/saveFilter');
+                                                ?>" method="post">
+            <h2>Filters</h2>
+            <?php echo $this->getBlockHtml('formkey'); ?>
+            <div class="form-group">
+                <label for="status"><b>Status:</b></label>
+                <select name="data[status][]" id="status" multiple required>
+                    <?php foreach ($this->statusData() as $status) { ?>
+                        <option value="<?php echo $status['status_id'] ?>"><?php echo $status['label'] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="assign_to"><b>Assign To:</b></label>
+                <select name="data[assign_to][]" id="assign_to" multiple required>
+                    <?php foreach ($this->adminUsers() as $admin) { ?>
+                        <option value="<?php echo $admin['user_id'] ?>"><?php echo $admin['username'] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="created_at"><b>Created Date:</b></label>
+                <input type="number" id="created_at" name="data[created_at]" placeholder="Enter Created Date" required>
+            </div>
+            <div class="form-group">
+                <label for="user"><b>User's Comment:</b></label>
+                <select name="data[user]" id="user">
+                    <option value="" hidden>----Select User----</option>
+                    <?php foreach ($this->adminUsers() as $admin) { ?>
+                        <option value="<?php echo $admin['user_id'] ?>"><?php echo $admin['username'] ?></option>
+                    <?php }
+                    ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="filter_name"><b>Filter Name:</b></label>
+                <input type="text" id="filter_name" name="filter_name" placeholder="Enter Filter Name" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn-primary" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* The Modal (background) */
+    .modal-filter {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fff;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 100%;
+        max-width: 650px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        text-align: center;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    /* Form Styling */
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select{
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-group input[type="submit"] {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    /* Button Styling */
+    .btn-primary {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>

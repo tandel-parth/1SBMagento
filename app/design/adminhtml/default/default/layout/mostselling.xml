@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_mostselling_index>
+        <reference name="content">
+            <block type="mostsellingrelateditems/adminhtml_mostselling" name="mostselling" />
+        </reference>
+    </adminhtml_mostselling_index>
+    <adminhtml_mostselling_new>
+        <update handle="adminhtml_mostselling_edit" />
+    </adminhtml_mostselling_new>
+    <adminhtml_mostselling_edit>
+        <reference name="content">
+            <block type="mostsellingrelateditems/adminhtml_mostselling_edit" name="mostselling.edit" />
+        </reference>
+    </adminhtml_mostselling_edit>
+    <adminhtml_mostselling_view>
+        <reference name="content">
+            <block type="mostsellingrelateditems/adminhtml_mostselling_view" name="mostselling.view" />
+        </reference>
+    </adminhtml_mostselling_view>
+    <adminhtml_mostsellingreport_index>
+        <reference name="content">
+            <block type="mostsellingrelateditems/adminhtml_loadreport" name="mostselling.report" template="mostsellingrelateditems/grid.phtml">
+                <block type="mostsellingrelateditems/adminhtml_mostselling_productdata" name="mostselling.productdata" />
+                <block type="mostsellingrelateditems/adminhtml_mostselling_relatedgrid" name="mostselling.relatedgrid" />
+            </block>
+            <reference name="head">
+                <action method="addJs">
+                    <script>lib/jquery/jquery-1.10.2.js</script>
+                </action>
+                <action method="addJs">
+                    <script>mostsellingrelateditems/loadreports.js</script>
+                </action>
+            </reference>
+        </reference>
+    </adminhtml_mostsellingreport_index>
+</layout>

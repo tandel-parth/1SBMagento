@@ -1,0 +1,247 @@
+<div class="container-1">
+    <div class="ticket-card">
+        <h2>Ticket Info </h2>
+        <div class="ticket-field">
+            <span class="field-label">Title:</span>
+            <span class="field-value editable" data-field="title" data-url="<?php echo $this->urlAction($this->getTicketData()->getTicketId()); ?>"><?php echo $this->getTicketData()->getTitle(); ?></span>
+        </div>
+        <div class="ticket-field">
+            <span class="field-label">Description:</span>
+            <span class="field-value editable" data-field="descreption" data-url="<?php echo $this->urlAction($this->getTicketData()->getTicketId()); ?>"><?php echo html_entity_decode(strip_tags($this->getTicketData()->getDescreption())); ?></span>
+        </div>
+        <div class="ticket-field">
+            <span class="field-label">Priority:</span>
+            <span class="field-value editable" data-field="priority" data-url="<?php echo $this->urlAction($this->getTicketData()->getTicketId()); ?>"><?php echo $this->getTicketData()->getPriority(); ?></span>
+        </div>
+        <div class="ticket-field">
+            <span class="field-label">Assign By:</span>
+            <span class="field-value editable" data-field="assign_by" data-array='<?php echo json_encode($this->getAdminArray()) ?>' data-url="<?php echo $this->urlAction($this->getTicketData()->getTicketId()); ?>"><?php echo $this->getAdminName($this->getTicketData()->getAssignBy()); ?></span>
+        </div>
+        <div class="ticket-field">
+            <span class="field-label">Assign To:</span>
+            <span class="field-value editable" data-field="assign_to" data-array='<?php echo json_encode($this->getAdminArray()) ?>' data-url="<?php echo $this->urlAction($this->getTicketData()->getTicketId()); ?>"><?php echo $this->getAdminName($this->getTicketData()->getAssignTo()); ?></span>
+        </div>
+        <div class="ticket-field">
+            <span class="field-label">Status:</span>
+            <span class="field-value editable" data-field="status" data-array='<?php echo json_encode($this->getStatusArray()) ?>' data-url="<?php echo $this->urlAction($this->getTicketData()->getTicketId()); ?>"><?php echo $this->getStatusName($this->getTicketData()->getStatus()) ?></span>
+        </div>
+        <div class="ticket-field">
+            <span class="field-label">Created At:</span>
+            <span class="field-value"><?php echo $this->getTicketData()->getCreatedAt(); ?></span>
+        </div>
+        <div class="ticket-field">
+            <span class="field-label">Updated At:</span>
+            <span class="field-value"><?php echo $this->getTicketData()->getUpdatedDate(); ?></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="comment-container">
+    <?php echo $this->getChildHtml('ticketsystem.commentdata'); ?>
+</div>
+
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+<style>
+    .ticket-field {
+        display: flex;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+    .ticket-field:last-child {
+        border-bottom: none;
+    }
+
+    .field-label {
+        font-weight: bold;
+        margin-right: 10px;
+        color: #333;
+        min-width: 120px;
+    }
+
+    .field-value {
+        color: #666;
+        flex: 1;
+    }
+
+    .view-ticket {
+        align-self: flex-end;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .view-ticket:hover {
+        background-color: #0056b3;
+    }
+
+    .button-space {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .container-1 {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .ticket-card {
+        flex: 1;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .ticket-form {
+        flex: 1;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+    }
+
+    .ticket-form h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .edit-input {
+        width: 80%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .btn {
+        color: #fff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .report-table th,
+    .report-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .report-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    #container {
+        width: 60%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .comment-section,
+    .comment {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .comment-section textarea {
+        width: calc(100% - 22px);
+        height: 60px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+        font-size: 14px;
+    }
+
+    .comment-section button {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 15px;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .comment {
+        border-left: 2px solid #007BFF;
+        padding-left: 20px;
+    }
+
+    .comment p {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+    }
+
+    .comment button {
+        margin-right: 10px;
+        padding: 5px 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .comment button.reply {
+        color: #007BFF;
+    }
+
+    .comment button.completed {
+        color: #28a745;
+    }
+
+    .comment.completed {
+        color: #6c757d;
+        border-left-color: #6c757d;
+    }
+</style>

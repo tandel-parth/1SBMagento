@@ -60,6 +60,9 @@ class Ccc_Filetransfer_Model_Ftp extends Varien_Io_Ftp
                     }
                     // Append the basename of the remote directory to the local directory
                     $this->downloadDirectory($remoteFile, $localDir . DS . basename($remoteFile), $configurationId);
+                    if ($this->isDirectoryEmpty($remoteFile)) {
+                        ftp_rmdir($this->_conn, $remoteFile);
+                    }
                 } else {
                     // Download the file
                     if (ftp_mdtm($this->_conn, $remoteFile) == -1) {
@@ -82,13 +85,20 @@ class Ccc_Filetransfer_Model_Ftp extends Varien_Io_Ftp
                         $fptData->setData($data)->save();
 
                         $filenewpath = 'temp/' . $remoteFile;
-                        $fol = $this->mv($remoteFile, $filenewpath);
+                        $this->mv($remoteFile, $filenewpath);
                     }
                 }
             }
-        }
+        }           
     }
-
+    private function isDirectoryEmpty($remoteDir)
+    {
+        $fileList = ftp_nlist($this->_conn, $remoteDir);
+        if ($fileList === false || count($fileList) == 0) {
+            return true;
+        }
+        return false;
+    }
 
     private function isDirectory($remoteFile)
     {

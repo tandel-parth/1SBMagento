@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Ccc_Ticketsystem>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ccc_Ticketsystem> 
+    </modules>
+</config>

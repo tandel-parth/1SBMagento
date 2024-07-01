@@ -1,0 +1,38 @@
+<div class="product-item">
+    <h2>Product details</h2>
+    <?php foreach ($this->getProductData() as $mostSellingProduct) { ?>
+        <p><b>Most selling Product Name:</b> <?php echo $mostSellingProduct->getMostSellingProductName(); ?></p>
+        <p><b>Related Product Name:</b> <?php echo $mostSellingProduct->getRelatedProductName(); ?></p>
+    <?php } ?>
+</div>
+<style>
+    .product-item {
+        background-color: #eaeaea;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-item h2 {
+        margin: 0 0 10px;
+        font-size: 20px;
+        color: #333;
+    }
+
+    .product-item p {
+        margin-top: 5px;
+        font-size: 16px;
+        color: #666;
+    }
+
+    .show-product {
+        color: #fff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+</style>

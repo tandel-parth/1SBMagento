@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            margin-right: 30px;
+        }
+
+        .box {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .box>div {
+            flex: 1;
+        }
+
+        .path {
+            width: 30%;
+            height: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%231e88e5'%3E%3Cpath d='M10 12l-8-8H2l8 8 8-8h-1.1L10 12.9 3.1 5H2.1L10 13.1 17.9 5H16.9l-8 8z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position-x: calc(100% - 10px);
+            background-position-y: center;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .path:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .load-btn {
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        #product-container {
+            margin-top: 10px;
+            margin-right: 20px;
+        }
+
+        #report-container {
+            margin-top: 10px;
+            border-left: 1px solid black;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <select name="product_id" class="product-load path">
+                <option hidden>-----Select-----</option>
+                <?php foreach ($this->getProductData() as $product) { ?>
+                    <option value="<?php echo $product['entity_id'] ?>"> <?php echo $product['name'] ?></option>
+                <?php } ?>
+            </select>
+            <button class="load-btn" onclick="filterChanges(this,'<?php echo $this->getUrl('*/*/productData') ?>')" data-related='<?php echo Mage::getStoreConfig('mostsellingrelateditems/general/mostsellingrelateditems_enabled') ?>'>Load Product</button>
+        </div>
+        <div class="box">
+            <div id="product-container">
+                <?php echo $this->getChildHtml('mostselling.productdata') ?>
+            </div>
+            <div id="report-container">
+                <?php echo $this->getChildHtml('mostselling.relatedgrid') ?>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

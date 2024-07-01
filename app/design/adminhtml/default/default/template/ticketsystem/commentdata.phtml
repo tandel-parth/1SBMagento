@@ -1,0 +1,120 @@
+<?php $status = $this->getRequest()->getParam('status') ? $this->getRequest()->getParam('status') : 'pending'; ?>
+<?php $comments = $this->getComments($this->getTicket(), $status); ?>
+<?php $nestedComments = $this->organizeComments($comments, 0); ?>
+<?php $maxLevel = $this->getMaxLastLevel($nestedComments); ?>
+<?php $this->setMaxLevel($maxLevel);?>
+<?php $formkey = Mage::getSingleton('core/session')->getFormKey(); ?>
+<h1 class="container-h1">Comments</h1>
+<div class="container-title">
+    <form id="filter_form" action="" method="post">
+        <select name="status" onchange="filterChanges(this)" data-ticket="<?php echo $this->getTicket() ?>" data-url="<?php echo $this->getUrl('*/*/commentdata') ?>" class="no-changes path">
+            <option hidden>-----select-----</option>
+            <option value="all" <?php if ($status == 'all') echo 'selected'; ?>>Show All</option>
+            <option value="pending" <?php if ($status == 'pending') echo 'selected'; ?>>Show Pending</option>
+        </select>
+    </form>
+</div>
+<?php if (empty($comments)) { ?>
+    <div class="container-box">
+        <div>
+            <textarea class="description" data-ticket="<?php echo $this->getTicket() ?>" data-url="<?php echo $this->getUrl('*/*/saveComment') ?>" placeholder="Enter your comment"></textarea>
+            <button class="submit-comment-btn">Submit</button>
+        </div>
+    </div>
+<?php } else { ?>
+    <table class="comment-table">
+        <tbody>
+            <?php echo $this->generateCommentTable($nestedComments, $maxLevel); ?>
+        </tbody>
+    </table>
+<?php } ?>
+
+
+
+<style>
+    .comment-container {
+        margin: 20px;
+    }
+
+    .description {
+        flex: 1;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .submit-comment-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    button {
+        margin-left: 5px;
+        padding: 10px 20px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    /* Styles for the comment table */
+    table.comment-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .comment-table td,
+    .comment-table tr {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .container-title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .container-title h1 {
+        flex: 8;
+    }
+
+    .container-title form {
+        flex: 2;
+    }
+
+    .comment-table {
+        font-family: Arial, sans-serif;
+    }
+
+    .path {
+        width: 20%;
+        height: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%231e88e5'%3E%3Cpath d='M10 12l-8-8H2l8 8 8-8h-1.1L10 12.9 3.1 5H2.1L10 13.1 17.9 5H16.9l-8 8z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position-x: calc(100% - 10px);
+        background-position-y: center;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        transition: border-color 0.3s ease;
+    }
+
+    .path:focus {
+        border-color: #4CAF50;
+        outline: none;
+    }
+</style>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_ticketsystem_index>
+        <reference name="content">
+            <block type="ticketsystem/adminhtml_ticketsystem" name="ticketsystem_container" />
+            <block type="ticketsystem/adminhtml_filter" name="ticketsystem.popupform"/>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <script>ticketsystem/filter.js</script>
+            </action>
+        </reference>
+    </adminhtml_ticketsystem_index>
+    <adminhtml_ticketsystem_view>
+        <reference name="content">
+            <block type="ticketsystem/adminhtml_comment" name="ticketsystem_comment" />
+            <block type="ticketsystem/adminhtml_commentdata" name="ticketsystem.commentdata" />
+            <reference name="head">
+                <action method="addJs">
+                    <script>lib/jquery/jquery-1.10.2.js</script>
+                </action>
+                <action method="addJs">
+                    <script>lib/jquery/noconflict.js</script>
+                </action>
+                <action method="addJs">
+                    <script>ticketsystem/comments.js</script>
+                </action>
+            </reference>
+        </reference>
+    </adminhtml_ticketsystem_view>
+    <default>
+        <reference name="head">
+            <action method="addJs">
+                <script>lib/jquery/jquery-1.10.2.js</script>
+            </action>
+            <action method="addJs">
+                <script>lib/jquery/noconflict.js</script>
+            </action>
+            <action method="addJs">
+                <script>ticketsystem/ticket.js</script>
+            </action>
+        </reference>
+    </default>
+</layout>

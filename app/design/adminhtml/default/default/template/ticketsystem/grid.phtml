@@ -1,0 +1,125 @@
+<?php
+$current_page = (int)$this->getRequest()->getParam('p', 1);
+$page_size = 2;
+// Fetch the table data without any filters
+$tableData = $this->getTableData($current_page, $page_size);
+echo $this->getChildHtml('ticketsystem.popupform');
+?>
+<div class="table-container">
+    <div class="button-container">
+        <div class="filters">
+        <?php
+        $filters = Mage::getModel('ccc_ticketsystem/filter')->getCollection();
+        if ($filters) {
+            foreach ($filters as $filter) {
+                $filterDataJson = json_encode($filter->getFilterData());
+        ?>
+                <button type="button" class="apply-<?php echo $filter->getId() ?>" onclick='applyFilters(<?php echo $filter->getId() ?>, "<?php echo Mage::getUrl("*/*/applyFilters") ?>")'>
+                    <?php echo Mage::helper('ticketsystem')->__($filter->getFilterName()); ?>
+                </button>
+
+        <?php }
+        } ?>
+        </div>
+        <div class="filter-buttons">
+            <button class="enable_filters">Add Filter</button>
+            <button class="reset_filters"><a href="<?php echo $this->getUrl('*/*/index') ?>" style="color:#fff; text-decoration: none;">Reset Filter</a></button>
+        </div>
+    </div>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Assign By</th>
+                <th>Assign To</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($tableData as $data) { ?>
+                <tr>
+                    <td><?php echo $data['title'] ?></td>
+                    <td><?php echo html_entity_decode(strip_tags($data['descreption'])) ?></td>
+                    <td><?php echo $data['priority'] ?></td>
+                    <td><?php echo $this->getAdminName($data['assign_by'])->getUsername() ?></td>
+                    <td><?php echo $this->getAdminName($data['assign_to'])->getUsername() ?></td>
+                    <td bgcolor="<?php echo $this->getStatusName($data['status'])->getColorCode() ?>"><?php echo $this->getStatusName($data['status'])->getLabel() ?></td>
+                    <td><?php echo $data['created_at'] ?></td>
+                    <td><?php echo $data['updated_date'] ?></td>
+                    <td><a href="<?php echo $this->getUrl('*/*/view', array('id' => $data['ticket_id'])); ?>">View</a></td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+    </form>
+
+
+    <?php
+    $totalRecords = count($this->getTableData(1, 0)); // Get total number of records without filters
+    $totalPages = ceil($totalRecords / $page_size); // Calculate total pages
+
+    if ($totalPages > 1) {
+        echo '<div class="pagination">';
+        for ($i = 1; $i <= $totalPages; $i++) {
+            $isActive = ($i == $current_page) ? 'active' : '';
+            $urlParams = array('p' => $i, 'filter_id' => $this->getRequest()->getParam('filter_id'));
+            echo '<a class="' . $isActive . '" href="' . $this->getUrl('*/*/index', $urlParams) . '">' . $i . '</a>';
+        }
+        echo '</div>';
+    }
+    ?>
+</div>
+<style>
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .report-table th,
+    .report-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .report-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .pagination a {
+        display: inline-block;
+        padding: 8px 16px;
+        margin-right: 5px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        text-decoration: none;
+        color: #333;
+        transition: background-color 0.3s;
+    }
+
+    .pagination a.active {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+
+    .pagination a:hover {
+        background-color: #ddd;
+    }
+    .button-container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+</style>

@@ -1,0 +1,44 @@
+<div class="product-item">
+    <?php if (!empty($this->getProductData())) { ?>
+        <?php $config = $this->getRequest()->getParam('config') ?>
+        <h2>Product details</h2>
+        <p>Name: <?php echo ($this->getProductData()['name']); ?></p>
+        <p>SKU: <?php echo ($this->getProductData()['sku']); ?></p>
+        <?php if ($config == 1 && $this->relatedProduct()) { ?>
+            <button class="show-product" data-url="<?php echo $this->getUrl('*/*/showData') ?>" data-id="<?php echo ($this->getProductData()['product_id']); ?>" onclick="showData(this)">Show Related Product</button>
+        <?php } ?>
+    <?php } else { ?>
+        <h2>Please select Product</h2>
+    <?php } ?>
+</div>
+<style>
+    .product-item {
+        background-color: #eaeaea;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-item h2 {
+        margin: 0 0 10px;
+        font-size: 20px;
+        color: #333;
+    }
+
+    .product-item p {
+        margin-top: 5px;
+        font-size: 16px;
+        color: #666;
+    }
+
+    .show-product {
+        color: #fff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+</style>

@@ -139,10 +139,14 @@ class Ccc_Filetransfer_Adminhtml_FtpController extends Mage_Adminhtml_Controller
         $attribute = $segments[1];
         $segments = explode('.', $segment);
 
+        foreach ($segments as $segment){
+            $xml = $xml->$segment;
+        }
+        return $attribute ? (string)$xml[$attribute] : (string)$xml;
         // Recursive function to traverse and collect values
-        $this->collectValues($xml, $segments, $attribute, $values);
+        // $this->collectValues($xml, $segments, $attribute, $values);
 
-        return implode(', ', $values); // Concatenate multiple values as a single string
+        // return implode(', ', $values);
     }
     protected function collectValues($xml, $segments, $attribute, &$values)
     {
@@ -151,12 +155,10 @@ class Ccc_Filetransfer_Adminhtml_FtpController extends Mage_Adminhtml_Controller
         // Traverse XML according to path
         if ($segment && isset($xml->$segment)) {
             if (empty($segments)) {
-                // If no more segments, collect the values
                 foreach ($xml->$segment as $item) {
                     $values[] = $attribute ? (string)$item[$attribute] : (string)$item;
                 }
             } else {
-                // Continue traversing
                 foreach ($xml->$segment as $item) {
                     $this->collectValues($item, $segments, $attribute, $values);
                 }
@@ -168,8 +170,13 @@ class Ccc_Filetransfer_Adminhtml_FtpController extends Mage_Adminhtml_Controller
         $fp = fopen($filePath, 'w');
         fputcsv($fp, $headers);
         foreach ($dataRows as $row) {
-            fputcsv($fp, $row);
+            $csvRow = array();
+            foreach ($headers as $header) {
+                $csvRow[] = isset($row[$header]) ? $row[$header] : '';
+            }
+            fputcsv($fp, $csvRow);
         }
+
         fclose($fp);
     }
 }
